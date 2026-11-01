@@ -694,6 +694,15 @@ html.locked{overflow:hidden}
 .sw[aria-pressed="true"]{box-shadow:inset 0 0 0 1px rgba(0,0,0,.2),0 0 0 2px var(--card),0 0 0 4px var(--ink)}
 .clashes{list-style:none;margin:0 0 10px;padding:8px 12px;border-radius:9px;background:var(--warn-soft);color:var(--warn);font-size:13px;font-weight:500;display:grid;gap:4px}
 .upitem.clash{box-shadow:inset 3px 0 0 var(--warn)}
+.att .attl.pl{border:0;background:none;padding:2px 6px;margin-left:-6px;border-radius:6px;font:inherit;font-size:12px;color:var(--muted);text-align:left;cursor:pointer;justify-self:start}
+.att .attl.pl[aria-pressed=true]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.att .attl.pl:disabled{cursor:default;text-decoration:line-through}
+.attleft{font-size:11.5px;color:var(--muted);font-weight:400;margin-right:6px}
+.tline{list-style:none;margin:12px 0 0;padding:0 0 0 14px;border-left:2px solid var(--line);display:grid;gap:8px;font-size:13.5px}
+.tline li{position:relative;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.tline li::before{content:"";position:absolute;left:-20px;top:5px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.tline .prep{color:var(--muted);font-size:12.5px}
+.tline .prep.tight{color:var(--warn);font-weight:600}
 .modal.srch{place-items:start center;padding-top:12vh}
 .sres{list-style:none;margin:0;padding:0;display:grid;gap:4px}
 .sres button{width:100%;display:flex;gap:10px;align-items:baseline;text-align:left;padding:8px 10px;border:1px solid transparent;border-radius:8px;background:none;cursor:pointer;font-size:14px}
@@ -1266,6 +1275,11 @@ Object.assign(T.en,{
   trRecvT:"Enter a code",trRecvHow:"Paste the code from the other device. Everything here is replaced with its data.",trPh:"FSI1.…",trCopy:"Copy code",trShare:"Send code",shareT:"My Hulko data",shareText:"Open this link on your other device to load my Hulko data.",shareFail:"The share sheet couldn't open. Use Copy code.",
   accT:"Colour",acc:{mono:"Original",red:"Red",yellow:"Yellow",blue:"Blue",green:"Green",orange:"Orange",purple:"Purple"},
   welNew:"I'm new here",welOldB:"I've used Hulko before",welOldH:"Bring your data over",welOldD:"Load a backup file, or enter the code from your other device. Your settings come with it.",welBk:"Load backup file",welCode:"Enter code",
+  planT:"Exam plan",planTip:"Plan this term",prepD:n=>n?`${n} prep day${n>1?"s":""}`:"no prep day",planNoDate:c=>`Planned term without a date yet: ${c}`,
+  regL:"Registration opens",regWhat:"Studis registration opens",termsLeft:n=>n?`${n}/3 terms left`:"no terms left",
+  budget:(n,c,s)=>`<b>Resit budget:</b> ${n} exam term${n===1?"":"s"} left in ${c} course${c===1?"":"s"} · ${s} more failed course${s===1?"":"s"} would end your studies`,
+  safeYes:(s,tgt,c)=>`<b>Am I safe?</b> Yes: you can lose up to ${s} credits and still reach ${tgt}, for example by failing ${c.includes(",")?"any one of "+c:c}, if the rest pass.`,
+  safeNo:tgt=>`<b>Am I safe?</b> Not yet: every open course has to pass to reach ${tgt}.`,safe3:" One more failed compulsory course would end your studies, though.",
   clashT:"Exam clashes",clSame:(a,b,d)=>`${a} and ${b} exams are on the same day (${d})`,clNext:(a,b,d)=>`${a} and ${b} exams are on back-to-back days (from ${d})`,clClass:(a,c,d,tm)=>`${a} exam (${d}, ${tm}) overlaps a ${c} class`,
   srchT:"Find a course",srchPh:"Course code or name",srchNone:"No course matches.",srchBtn:"Search",srchHint:"/ search · ↑ ↓ choose · Enter open · [ ] change semester",trLoad:"Load",
   trCopied:"Code copied.",trCopyHand:"Select the code and copy it.",trBad:"That isn't a code from this tracker, or it's incomplete.",trFrom:"another device",trQr:"Scan with the phone's camera",
@@ -1325,6 +1339,11 @@ Object.assign(T.sk,{
   trRecvT:"Zadať kód",trRecvHow:"Vlož kód z druhého zariadenia. Všetko tu sa nahradí jeho údajmi.",trPh:"FSI1.…",trCopy:"Kopírovať kód",trShare:"Poslať kód",shareT:"Moje údaje z Hulka",shareText:"Otvor tento odkaz na druhom zariadení a nahrajú sa moje údaje z Hulka.",shareFail:"Ponuku zdieľania sa nepodarilo otvoriť. Použi Kopírovať kód.",
   accT:"Farba",acc:{mono:"Pôvodná",red:"Červená",yellow:"Žltá",blue:"Modrá",green:"Zelená",orange:"Oranžová",purple:"Fialová"},
   welNew:"Som tu nový",welOldB:"Hulko som už používal(a)",welOldH:"Prenes svoje údaje",welOldD:"Nahraj záložný súbor alebo zadaj kód z druhého zariadenia. Prenesú sa aj tvoje nastavenia.",welBk:"Nahrať zálohu",welCode:"Zadať kód",
+  planT:"Plán skúšok",planTip:"Naplánovať tento termín",prepD:n=>n?`${n} ${n===1?"deň":n<5?"dni":"dní"} na prípravu`:"žiadny deň na prípravu",planNoDate:c=>`Plánovaný termín zatiaľ bez dátumu: ${c}`,
+  regL:"Prihlasovanie od",regWhat:"Otvára sa prihlasovanie v Studise",termsLeft:n=>n?`zostáva ${n}/3 termínov`:"žiadny termín",
+  budget:(n,c,s)=>`<b>Rezerva termínov:</b> zostávajúce termíny skúšok: ${n} (predmety: ${c}) · ešte ${s} ${s===1?"neúspešný predmet by ukončil":"neúspešné predmety by ukončili"} štúdium`,
+  safeYes:(s,tgt,c)=>`<b>Som v bezpečí?</b> Áno: môžeš prísť až o ${s} kreditov a stále máš ${tgt}, napríklad ak neurobíš ${c.includes(",")?"ktorýkoľvek z "+c:c}, keď ostatné urobíš.`,
+  safeNo:tgt=>`<b>Som v bezpečí?</b> Zatiaľ nie: na ${tgt} musíš urobiť každý otvorený predmet.`,safe3:" Ďalší neúspešný povinný predmet by ti však ukončil štúdium.",
   clashT:"Kolízie skúšok",clSame:(a,b,d)=>`Skúšky ${a} a ${b} sú v ten istý deň (${d})`,clNext:(a,b,d)=>`Skúšky ${a} a ${b} sú dva dni po sebe (od ${d})`,clClass:(a,c,d,tm)=>`Skúška ${a} (${d}, ${tm}) sa prekrýva s hodinou ${c}`,
   srchT:"Nájsť predmet",srchPh:"Kód alebo názov predmetu",srchNone:"Nič sa nenašlo.",srchBtn:"Hľadať",srchHint:"/ hľadať · ↑ ↓ vybrať · Enter otvoriť · [ ] zmeniť semester",trLoad:"Nahrať",
   trCopied:"Kód skopírovaný.",trCopyHand:"Označ kód a skopíruj ho.",trBad:"Toto nie je kód z tohto trackera alebo nie je celý.",trFrom:"iného zariadenia",trQr:"Naskenuj fotoaparátom mobilu",
@@ -1389,7 +1408,7 @@ const TYPE={en:{"Cr+Ex":"Course credit + exam","Ex":"Exam","Cr":"Course credit",
 /* ---------- App version: the newest entry of the version log (data auto-saves do not count) ---------- */
 // like an app release: small fixes go into the current version, a new feature set gets the next number (3.5 → 3.6),
 // a big change starts a new major (3.x → 4.0)
-const APP_VER="4.3",APP_DATE="2026-10-31";
+const APP_VER="4.4",APP_DATE="2026-11-01";
 // every major version is named after a Brno landmark, the way macOS versions are named after places in California:
 // its x.0 opens with the name in big letters, and the updates after it (x.1, x.2 …) wear the same colours, quieter
 const CODENAMES={4:{n:"Orloj",why:["Named after the astronomical clock on Brno's Freedom Square, because version 4 is all about time: exam dates, deadlines and countdowns.","Pomenovaná podľa orloja na náměstí Svobody v Brne, lebo verzia 4 je celá o čase: termíny skúšok, odovzdania a odpočty."]}};
@@ -1399,6 +1418,14 @@ const codeOf=e=>CODENAMES[parseInt(e.v,10)];
    v = version; major = a major update (glows in the list and opens with its codename); n / i / f = new / improved /
    fixed, each item [English, Slovak] */
 const CHANGELOG=[
+ {v:"4.4",d:"2026-11-01",t:["Exam plan","Plán skúšok"],
+  n:[["Exam plan: in a course card, tap Regular, 1st resit or 2nd resit to pick the term you plan to take. The Dates window shows your exam period as a timeline with the prep days before each exam","Plán skúšok: v karte predmetu ťukni na Riadny, 1. opravný alebo 2. opravný a vyber termín, na ktorý pôjdeš. Okno Dátumy ukáže skúškové obdobie ako časovú os s dňami na prípravu pred každou skúškou"],
+     ["Studis registration date: a Registration opens row under the exam terms; it is in Dates and in Add all to calendar, with reminders","Dátum prihlasovania v Studise: riadok Prihlasovanie od pod termínmi skúšky; je v Dátumoch aj v Pridať všetko do kalendára, s pripomienkami"],
+     ["Am I safe?: under the credits verdict, how many credits you can still lose and which courses you could fail and still reach the minimum","Som v bezpečí?: pod hodnotením kreditov, koľko kreditov môžeš ešte stratiť a ktoré predmety by si mohol neurobiť a minimum aj tak splniť"],
+     ["Resit budget: exam terms left in each course and across the semester or year, and how many more failed courses would end your studies","Rezerva termínov: koľko termínov skúšok zostáva v každom predmete a za semester alebo ročník, a koľko ďalších neúspešných predmetov by ukončilo štúdium"]],
+  i:[["Clash warnings only compare the terms you plan to take, so alternative terms no longer clash","Kolízie porovnávajú len termíny, na ktoré pôjdeš, takže náhradné termíny sa už neprekrývajú"]],
+  f:[["Settings: the selected layout preset keeps its coloured marker when Settings open","Nastavenia: vybraná predvoľba rozloženia má pri otvorení Nastavení svoju farebnú značku"],
+     ["Settings reopened right after closing them no longer vanish","Nastavenia otvorené hneď po zatvorení už nezmiznú"]]},
  {v:"4.3",d:"2026-10-31",t:["Sync & reminders","Synchronizácia a pripomienky"],
   n:[["Cloud sync, off unless you turn it on (Settings → Your data): every change reaches your other devices on its own. Your data is encrypted on the device with a code only your devices have; moving it by code or QR code still works without the cloud","Synchronizácia v cloude, vypnutá, kým ju nezapneš (Nastavenia → Tvoje údaje): každá zmena sa sama dostane na ostatné zariadenia. Údaje sa šifrujú v zariadení kódom, ktorý majú len tvoje zariadenia; presun kódom alebo QR kódom funguje aj bez cloudu"],
      ["Calendar reminders: Add all to calendar now rings a day and an hour before each exam and deadline (a date without a time: 9:00 the day before and 7:00 that morning)","Pripomienky v kalendári: Pridať všetko do kalendára teraz zazvoní deň a hodinu pred každou skúškou a odovzdaním (dátum bez času: o 9:00 deň predtým a o 7:00 v ten deň)"],
@@ -1934,9 +1961,9 @@ function nextStep(d,k,r,vs){
   }
   if(d.exam){
     const passedNow=k.lastExam!=null&&k.examOk&&k.total>=50;if(passedNow)return t.done(grade(k.total));
-    const need=fmt(Math.min(d.exam.max,Math.max(k.exMin,50-k.semPts))),left=3-k.used;
+    const need=fmt(Math.min(d.exam.max,Math.max(k.exMin,50-k.semPts))),left=3-planOf(k,k.r);
     if(left<=0)return t.retake;
-    return k.used===0?t.exam(need):left===1?t.lastTry(need):t.resits(need,left);
+    return left===3?t.exam(need):left===1?t.lastTry(need):t.resits(need,left);
   }
   if(cc){const n=50-k.semPts;return n>0?t.toPass(fmt(n)):t.done(grade(k.semPts))}
   if(d.t==="Cr")return k.parts.length&&k.creditOk?t.done(""):t.waitCr;
@@ -2008,8 +2035,8 @@ function courseCard(d){
   // exam
   if(d.exam){
     const lbls=[t.regular,t.resit1,t.resit2];
-    h+=`<div><div class="row" style="justify-content:space-between"><b style="font-size:13px">${t.exam} <span class="mono" style="color:var(--muted);font-weight:400">/ ${d.exam.max}${d.exam.min?` · ${t.min} ${d.exam.min}`:""}</span></b><span class="strikes" data-x="exam-${id}"${lock||k.fails?` data-heat="${lock?3:Math.min(3,k.fails)}"`:""} role="img" aria-label="${t.examAttempts}: ${k.fails} ✕">${(lock?["x","x","x"]:k.marks).map((m,i)=>`<i class="sb ${m}"${tip((k.tries[i]!=null?t.tipTaken(lbls[i],fmt(k.tries[i]),m==="ok"):lock?t.tipLocked:t.tipOpen(lbls[i]))+((r.examDate||[])[i]?" · "+fmtDate(r.examDate[i]):""))}>${m==="x"?"✕":m==="ok"?"✓":""}</i>`).join("")}</span></div>
-    <div class="attempts${S.noDates?" nodate":""}"><div class="att atth" aria-hidden="true"><span></span><span>${t.attPts}</span>${S.noDates?"":`<span>${t.edate}</span><span></span>`}</div>${lbls.map((l,i)=>{const iso=(r.examDate||[])[i]||"",ed=!lock&&dtEdit==="ex|"+id+"|"+i;return `<div class="att"><label class="attl" for="ex-${id}-${i}">${l}</label><input type="text" inputmode="decimal" id="ex-${id}-${i}" data-f="exam" data-c="${id}" data-k="${i}" value="${esc(r.exam[i])}"${dis} aria-label="${l}">${S.noDates?"":`<span class="edc${ed?" wide":""}">${dtField("ex|"+id+"|"+i,l,lock)}</span>${ed?"":iso&&!lock?`<a class="gcal" href="${gcalUrl(d,l,iso)}" target="_blank" rel="noopener" title="${t.gcal}" aria-label="${t.gcal}">${SVG_GCAL}</a>`:"<span></span>"}`}</div>`}).join("")}</div></div>`;
+    h+=`<div><div class="row" style="justify-content:space-between"><b style="font-size:13px">${t.exam} <span class="mono" style="color:var(--muted);font-weight:400">/ ${d.exam.max}${d.exam.min?` · ${t.min} ${d.exam.min}`:""}</span></b><span class="strikes" data-x="exam-${id}"${lock||k.fails?` data-heat="${lock?3:Math.min(3,k.fails)}"`:""} role="img" aria-label="${t.examAttempts}: ${k.fails} ✕">${lock||r.status==="passed"?"":`<span class="attleft">${t.termsLeft(Math.max(0,3-planOf(k,r)))}</span>`}${(lock?["x","x","x"]:k.marks).map((m,i)=>`<i class="sb ${m}"${tip((k.tries[i]!=null?t.tipTaken(lbls[i],fmt(k.tries[i]),m==="ok"):lock?t.tipLocked:t.tipOpen(lbls[i]))+((r.examDate||[])[i]?" · "+fmtDate(r.examDate[i]):""))}>${m==="x"?"✕":m==="ok"?"✓":""}</i>`).join("")}</span></div>
+    <div class="attempts${S.noDates?" nodate":""}"><div class="att atth" aria-hidden="true"><span></span><span>${t.attPts}</span>${S.noDates?"":`<span>${t.edate}</span><span></span>`}</div>${lbls.map((l,i)=>{const iso=(r.examDate||[])[i]||"",ed=!lock&&dtEdit==="ex|"+id+"|"+i;return `<div class="att">${lock||r.status==="passed"?`<label class="attl" for="ex-${id}-${i}">${l}</label>`:`<button type="button" class="attl pl" data-plan="${id}|${i}" aria-pressed="${planOf(k,r)===i}" title="${t.planTip}"${i<nextTerm(k)?" disabled":""}>${l}</button>`}<input type="text" inputmode="decimal" id="ex-${id}-${i}" data-f="exam" data-c="${id}" data-k="${i}" value="${esc(r.exam[i])}"${dis} aria-label="${l}">${S.noDates?"":`<span class="edc${ed?" wide":""}">${dtField("ex|"+id+"|"+i,l,lock)}</span>${ed?"":iso&&!lock?`<a class="gcal" href="${gcalUrl(d,l,iso)}" target="_blank" rel="noopener" title="${t.gcal}" aria-label="${t.gcal}">${SVG_GCAL}</a>`:"<span></span>"}`}</div>`}).join("")}${S.noDates||lock?"":`<div class="att"><span class="attl">${t.regL}</span><span></span><span class="edc${dtEdit==="rg|"+id+"|0"?" wide":""}">${dtField("rg|"+id+"|0",t.regL,lock)}</span>${dtEdit==="rg|"+id+"|0"?"":"<span></span>"}</div>`}</div></div>`;
     const need=Math.max(k.exMin,50-k.semPts);
     if(k.lastExam==null){ if(r.status!=="failed"&&(!d.free||k.anyPts)) h+=`<div class="verdict info">${t.needExam(fmt(Math.min(need,d.exam.max)),k.exMin)}</div>`; }
     else{
@@ -2066,7 +2093,7 @@ const preSnap=r=>JSON.stringify({status:r.status,auto:r.auto,pts:r.pts,extra:r.e
 document.addEventListener("focusin",e=>{const el=e.target,c=el.dataset&&el.dataset.c;if(c&&el.dataset.f&&el.id&&!(el.id in PRE)&&S.courses[c]&&S.courses[c].status!=="failed")PRE[el.id]=preSnap(S.courses[c])});
 // the nearest open date of a course: the next exam term, or the deadline of a points row that has no points yet
 function nextDue(d,k,r){
-  const ex=dueOf(d,k,r),exIso=ex!=null?r.examDate[k.used]:null;let best=ex!=null?{n:ex,name:"",iso:exIso,m:ttTime(d.c,exIso,true)}:null;
+  const ex=dueOf(d,k,r),exIso=ex!=null?r.examDate[planOf(k,r)]:null;let best=ex!=null?{n:ex,name:"",iso:exIso,m:ttTime(d.c,exIso,true)}:null;
   if(S.noDates||r.status==="failed"||r.status==="passed")return best;
   for(const p of k.parts){const iso=(r.due||{})[p.key];if(!iso||num(p.val)!=null)continue;const n=daysTo(iso);if(n>=0&&(!best||n<best.n))best={n,name:p.n,iso,m:ttTime(d.c,iso,false)}}
   return best;
@@ -2074,9 +2101,14 @@ function nextDue(d,k,r){
 // exam dates: one optional date per term; the next term without a score that has a date drives the countdown
 function daysTo(iso){const [y,m,d]=iso.split("-").map(Number);const a=new Date(y,m-1,d),n=new Date();n.setHours(0,0,0,0);return Math.round((a-n)/864e5)}
 const fmtDate=iso=>{const [y,m,d]=iso.split("-").map(Number);return new Date(y,m-1,d).toLocaleDateString(S.lang==="sk"?"sk-SK":"en-GB",{day:"numeric",month:"short"})};
+// the exam term you plan to take (0 regular, 1-2 resits): your pick while it is still open, else the next open term
+// (one past the last term with points, so a skipped term stays gone).
+// shortcut: a skipped term counts as used in the budget, but autoStatus still fails a course only on 3 failed terms; count skips there if that matters
+const nextTerm=k=>k.tries.reduce((a,x,i)=>x!=null?i+1:a,0);
+const planOf=(k,r)=>Math.max(nextTerm(k),r.plan||0);
 function dueOf(d,k,r){
-  if(!d.exam||r.status==="failed"||r.status==="passed"||k.used>2)return null;
-  const iso=!S.noDates&&(r.examDate||[])[k.used];if(!iso)return null;
+  if(!d.exam||r.status==="failed"||r.status==="passed"||planOf(k,r)>2)return null;
+  const iso=!S.noDates&&(r.examDate||[])[planOf(k,r)];if(!iso)return null;
   const n=daysTo(iso);return n>=0?n:null;
 }
 function gcalUrl(d,lbl,iso){
@@ -2091,10 +2123,11 @@ function gcalUrl(d,lbl,iso){
 let dtEdit=null;
 const dtId=key=>"dt-"+key.replace(/\|/g,"-");
 const dtOk=v=>/^\d{4}-\d{2}-\d{2}$/.test(v)&&+v.slice(0,4)>=2000&&+v.slice(0,4)<=2100;
-function dtGet(key){const [k,c,x]=key.split("|"),r=cs(c);return k==="du"?((r.due||{})[x]||""):((r.examDate||[])[+x]||"")}
+function dtGet(key){const [k,c,x]=key.split("|"),r=cs(c);return k==="du"?((r.due||{})[x]||""):k==="rg"?(r.reg||""):((r.examDate||[])[+x]||"")}
 function dtSet(key,v){
   const [k,c,x]=key.split("|"),r=cs(c),old=dtGet(key);if(old===v)return;
   if(k==="du"){r.due=r.due||{};if(v)r.due[x]=v;else delete r.due[x];logIt({c,f:"due",k:x,n:partName(c,x),a:old,b:v})}
+  else if(k==="rg"){if(v)r.reg=v;else delete r.reg;logIt({c,f:"reg",a:old,b:v})}
   else{r.examDate=r.examDate||["","",""];r.examDate[+x]=v;logIt({c,f:"edate",k:+x,a:old,b:v})}
   changed();
 }
@@ -2298,6 +2331,15 @@ function creditsHtml(){
   else if(P+G+N<tgt)vd=["bad",t.crCant(tgt,P+G+N)];
   else vd=["warn",t.crNeed(tgt-P,G+N)];
   h+=`<div class="verdict ${vd[0]}">${vd[1]}</div>`;
+  // am I safe: the credits you could still lose and reach the minimum; a failed course that is not an optional one
+  // counts toward the 3 that end the study (failList), so with 2 already only optional courses are safe to fail
+  const sl=rows.map(x=>x.sl),open=allCourses().filter(d=>{const r=cs(d.c);return sl.includes(r.taken)&&["enrolled","credit","planned"].includes(r.status)});
+  const yr=tgt==null?[slotSum(y+"W"),slotSum(y+"S")]:rows,st=tgt??yearTarget(y),sum=f=>yr.reduce((a,x)=>a+f(x),0),sP=sum(x=>x.p),sO=sum(x=>x.g+x.n);
+  if(fl<3&&sP<st&&sP+sO>=st){const s=sP+sO-st,ok=allCourses().filter(d=>{const r=cs(d.c);return yr.some(x=>x.sl===r.taken)&&["enrolled","credit","planned"].includes(r.status)&&d.cr<=s&&(d.k==="E"||fl<2)}).map(d=>d.c);
+    h+=`<p class="pmut">${ok.length?t.safeYes(s,st,ok.join(", "))+(fl===2?t.safe3:""):t.safeNo(st)}</p>`}
+  // resit budget: exam terms still open from the planned one on, in the courses running now
+  const ex=open.filter(d=>d.exam&&cs(d.c).status!=="planned").map(d=>3-planOf(calc(d),cs(d.c))).filter(n=>n>0);
+  if(fl<3&&ex.length)h+=`<p class="pmut">${t.budget(ex.reduce((a,n)=>a+n,0),ex.length,3-fl)}</p>`;
   if(v==="year"&&fl<3){const e=yearCr(y);if(e>0&&e<60)h+=`<p class="pmut">${t.crHalf(e,Math.ceil(e/2))}</p>`}
   if(v==="year"&&P+G+N+F>65)h+=`<div class="verdict bad">${t.cr65(P+G+N+F)}</div>`;
   return h+`</div>`;
@@ -2405,7 +2447,8 @@ function syncSegs(){
     el.style.setProperty("--n",bs.length);
     // nothing chosen (a layout that matches no preset): the marker fades out where it was
     el.classList.toggle("none",on<0);if(on<0)return;
-    if(prev!=null&&prev!==idx&&!still){el.style.setProperty("--pos",prev);getComputedStyle(th).transform;el.style.setProperty("--pos",idx)}
+    // a hidden switch (Settings closed) jumps: a slide started under display:none can leave the marker stuck when it shows
+    if(prev!=null&&prev!==idx&&!still&&el.offsetParent){el.style.setProperty("--pos",prev);getComputedStyle(th).transform;el.style.setProperty("--pos",idx)}
     else el.style.setProperty("--pos",idx);
     segPrev[key]=idx;
   });
@@ -2700,7 +2743,8 @@ function closeSettings(now){
   m.dataset.closing=1;
   m.animate([{opacity:1},{opacity:0}],{duration:220,easing:"ease-out",fill:"forwards"});
   m.querySelector(".setwrap").animate([{transform:"none"},{transform:"translateY(10px) scale(.96)"}],{duration:220,easing:"ease-out",fill:"forwards"});
-  setTimeout(end,240);
+  // reopened during the fade: openSettings clears closing, so this late timer leaves it open
+  setTimeout(()=>{if(m.dataset.closing)end()},240);
 }
 document.getElementById("settings").addEventListener("click",e=>{if(e.target.id==="settings")closeSettings()});
 /* ---------- Install as an app: only on the public site, which has the app files (manifest, offline worker) ---------- */
@@ -2879,7 +2923,7 @@ function slimState(){
   st.courses={};
   for(const [c,r0] of Object.entries(S.courses)){const r={...r0},def=allCourses().find(x=>x.c===c);
     if(!Object.keys(r.pts||{}).length)delete r.pts;if(!(r.extra||[]).length)delete r.extra;if(!Object.keys(r.maxOv||{}).length)delete r.maxOv;
-    if(!(r.exam||[]).some(v=>v!==""))delete r.exam;if(!(r.examDate||[]).some(Boolean))delete r.examDate;if(!Object.keys(r.due||{}).length)delete r.due;
+    if(!(r.exam||[]).some(v=>v!==""))delete r.exam;if(!(r.examDate||[]).some(Boolean))delete r.examDate;if(!Object.keys(r.due||{}).length)delete r.due;if(!r.plan)delete r.plan;if(!r.reg)delete r.reg;
     if(r.credit==null)delete r.credit;if(r.enroll===1)delete r.enroll;if(!r.note)delete r.note;if(def&&r.taken===def.s)delete r.taken;delete r.unfail;
     // an untouched planned course is rebuilt the same way on the other device (only outside the open semester)
     if(Object.keys(r).length===1&&r.status==="planned"&&def&&def.s!==S.current)continue;
@@ -3265,7 +3309,7 @@ function histLabel(e){
   const t=L(),lb=[t.regular,t.resit1,t.resit2],d=allCourses().find(x=>x.c===e.c);
   const pn=()=>(d&&partsOf(d).find(p=>p.key===e.k)||{}).n||e.n||"";
   switch(e.f){
-    case "pt":return pn();case "max":return pn()+" · "+t.max;case "exam":return lb[e.k];case "edate":return lb[e.k]+" · "+t.edate;case "due":return pn()+" · "+t.dueLbl;
+    case "pt":return pn();case "max":return pn()+" · "+t.max;case "exam":return lb[e.k];case "edate":return lb[e.k]+" · "+t.edate;case "due":return pn()+" · "+t.dueLbl;case "reg":return t.regL;
     case "credit":return t.creditSet;case "status":return t.status+(e.auto?" ("+t.auto+")":"");
     case "retake":return t.hRetake(slotName(e.b));case "unretake":return t.hUnretake;
     case "additem":return t.hAddItem+": "+e.n;case "delitem":return t.hDelItem+": "+e.n;case "addc":return t.hAddC;case "rmc":return t.hRmC;
@@ -3275,7 +3319,7 @@ function histLabel(e){
 function histVal(e,v){
   if(v==null||v==="")return "–";
   if(e.f==="status")return L().st[v]||v;
-  if(e.f==="edate"||e.f==="due")return fmtDate(v);
+  if(e.f==="edate"||e.f==="due"||e.f==="reg")return fmtDate(v);
   return String(v);
 }
 function renderHistory(){
@@ -3637,7 +3681,10 @@ let datesAll=false;
 function allDates(){
   const t=L(),lb=[t.regular,t.resit1,t.resit2],out=[];if(S.noDates)return out;
   for(const d of allCourses()){const r=cs(d.c);if(r.status==="passed"||r.status==="failed")continue;
-    if(d.exam)(r.examDate||[]).forEach((iso,i)=>{if(iso&&num(r.exam[i])==null)out.push({iso,d,what:`${t.examCap} · ${lb[i]}`,uid:"exam"+i,m:ttTime(d.c,iso,true)})});
+    if(d.exam){const pl=planOf(calc(d),r);
+      let on=false;
+      (r.examDate||[]).forEach((iso,i)=>{if(!iso||i<pl||num(r.exam[i])!=null||daysTo(iso)<0)return;out.push({iso,d,what:`${t.examCap} · ${lb[i]}`,uid:"exam"+i,plan:!on,m:ttTime(d.c,iso,true)});on=true});
+      if(r.reg)out.push({iso:r.reg,d,what:t.regWhat,uid:"reg",m:null})}
     const ps=partsOf(d);
     for(const [key,iso] of Object.entries(r.due||{})){const p=ps.find(x=>x.key===key);if(iso&&p&&num(p.val)==null)out.push({iso,d,what:p.n,uid:key,m:ttTime(d.c,iso,false)})}
   }
@@ -3650,7 +3697,7 @@ function allDates(){
 // end 90 minutes (the timetable has no exam length); change if a course's exam is longer
 const EXAM_MIN=120;
 function clashes(list){
-  const t=L(),ex=list.filter(x=>x.uid.startsWith("exam")),out=[],hit=new Set(),key=x=>x.d.c+"|"+x.uid;
+  const t=L(),ex=list.filter(x=>x.plan),out=[],hit=new Set(),key=x=>x.d.c+"|"+x.uid;
   for(let i=0;i<ex.length;i++)for(let j=i+1;j<ex.length;j++){const a=ex[i],b=ex[j],gap=Math.abs(a.n-b.n);
     if(a.d.c===b.d.c||gap>1)continue;
     out.push(gap?t.clNext(a.d.c,b.d.c,fmtDay(a.iso)):t.clSame(a.d.c,b.d.c,fmtDay(a.iso)));hit.add(key(a));hit.add(key(b))}
@@ -3667,7 +3714,17 @@ function renderDates(){
   box.innerHTML=`<div class="dhead"><h2 class="uptitle">${t.datesT}</h2>${list.length?`<button type="button" class="btn plain icsb" data-ics="1">${SVG_CAL}<span>${t.icsBtn}</span></button>`:""}</div>`
     +(cl.out.length?`<ul class="clashes" role="status" aria-label="${t.clashT}">${cl.out.map(x=>`<li>⚠ ${esc(x)}</li>`).join("")}</ul>`:"")
     +(list.length?`<ol class="uplist">${shown.map(x=>`<li><button type="button" class="upitem${x.n<=3?" hot":""}${cl.hit.has(cl.key(x))?" clash":""}" data-goto="${x.d.c}"><span class="dday">${fmtDay(x.iso)}${x.m!=null?` · ${hhmm(x.m)}`:""}</span><span class="code">${esc(x.d.c)}</span><span class="uptext">${esc(x.what)}</span><span class="updue${x.n<=3?" soon":""}">${cdText(x.iso,x.m)}</span></button></li>`).join("")}</ol>`
-      +(list.length>6?`<button type="button" class="linkbtn upmore" data-datesmore="1">${datesAll?t.upLess:t.upMore(list.length)}</button>`:""):`<p class="emptyopt">${t.datesEmpty}</p>`);
+      +(list.length>6?`<button type="button" class="linkbtn upmore" data-datesmore="1">${datesAll?t.upLess:t.upMore(list.length)}</button>`:""):`<p class="emptyopt">${t.datesEmpty}</p>`)
+    +planHtml(list);
+}
+// the exam period as a timeline of the terms you plan to take. Prep days = whole days free before the exam: from today for
+// the first, and after the previous planned exam for the rest (back-to-back days = 0, like the clash warning)
+function planHtml(list){
+  const t=L(),pl=list.filter(x=>x.plan),lb=[t.regular,t.resit1,t.resit2];
+  const none=allCourses().filter(d=>{const r=cs(d.c);if(!d.exam||(r.status!=="enrolled"&&r.status!=="credit"))return false;return planOf(calc(d),r)<3&&!pl.some(x=>x.d.c===d.c)}).map(d=>d.c);
+  if(!pl.length&&!none.length)return "";
+  return `<h3 class="grouph">${t.planT}</h3>${pl.length?`<ol class="tline">${pl.map((x,i)=>`<li><b>${fmtDay(x.iso)}</b><span class="code">${esc(x.d.c)}</span><span>${esc(x.what.split(" · ").pop())}</span><span class="prep${(i?x.n-pl[i-1].n-1:x.n)<2?" tight":""}">${t.prepD(Math.max(0,i?x.n-pl[i-1].n-1:x.n))}</span></li>`).join("")}</ol>`:""}`
+    +(none.length?`<p class="pmut">${esc(t.planNoDate(none.join(", ")))}</p>`:"");
 }
 // one .ics file with every date ahead as an all-day event; the same course + item keeps its id, so importing
 // the file again updates those events in calendars that support it
@@ -4041,6 +4098,7 @@ document.addEventListener("click",e=>{
     const i=ys.indexOf(c),j=v==="sem"?i+d:i+2*d;if(j<0||j>=ys.length)return;S.current=ys[j];stay("#planbox",render);changed();return}
   if(b.dataset.datesmore){datesAll=!datesAll;renderDates();return}
   if(b.dataset.ics){exportIcs();return}
+  if(b.dataset.plan){const [c,i]=b.dataset.plan.split("|"),r=cs(c);if(+i)r.plan=+i;else delete r.plan;rerender();changed();return}
   if(b.dataset.dtedit){if(dtEdit!==b.dataset.dtedit)dtOpen(b.dataset.dtedit);return}
   if(b.dataset.reorder){const key=b.dataset.reorder;delete S.order[key];glide();changed();return}
   if(b.id==="reset-btn"){closeSettings(true);openReset(1);return}
@@ -4077,9 +4135,9 @@ document.addEventListener("click",e=>{
   if(b.dataset.view){S.view=b.dataset.view;stay("#summary",render);changed();return}
   if(b.dataset.year||b.dataset.half){const c=cur();toSlot((b.dataset.year||c[0])+(b.dataset.half||c[1]));return}
   // retake keeps a copy of the first attempt, so "Undo" (toast now, or the button on the moved card later) can put it back
-  if(b.dataset.retake){const c=b.dataset.retake,r=cs(c);r.prev={taken:r.taken,status:r.status,auto:r.auto,pts:r.pts,extra:r.extra,exam:r.exam,examDate:r.examDate,due:r.due};
+  if(b.dataset.retake){const c=b.dataset.retake,r=cs(c);r.prev={taken:r.taken,status:r.status,auto:r.auto,pts:r.pts,extra:r.extra,exam:r.exam,examDate:r.examDate,due:r.due,plan:r.plan,reg:r.reg};
     logIt({c,f:"retake",b:SLOTS[SLOTS.indexOf(r.taken)+2]});
-    r.taken=SLOTS[SLOTS.indexOf(r.taken)+2];r.enroll=2;r.status="planned";r.exam=["","",""];r.examDate=["","",""];r.pts={};r.extra=[];r.due={};delete r.auto;glide(c);changed();
+    r.taken=SLOTS[SLOTS.indexOf(r.taken)+2];r.enroll=2;r.status="planned";r.exam=["","",""];r.examDate=["","",""];r.pts={};r.extra=[];r.due={};delete r.auto;delete r.plan;delete r.reg;glide(c);changed();
     undoToast(L().movedTo(c,slotName(r.taken)),()=>unretake(c,false));return}
   if(b.dataset.unretake){unretake(b.dataset.unretake,true);return}
   if(b.dataset.isimp){openImport(b.dataset.isimp);return}
