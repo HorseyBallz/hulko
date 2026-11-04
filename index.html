@@ -860,6 +860,15 @@ a.btn{display:inline-block;text-decoration:none}
 .pvreq{display:flex;flex-wrap:wrap;gap:6px}
 .pvchip{font-size:12px;font-weight:600;padding:3px 10px;border-radius:99px;background:var(--paper);border:1px solid var(--line);color:var(--muted)}
 .pvchip.ok{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+.endh{margin:14px 0 6px;font-size:14px}
+.sch{display:flex;align-items:center;gap:6px;margin:0}
+.schm{font-style:normal;font-weight:700;width:18px;height:18px;border-radius:50%;display:inline-grid;place-items:center;font-size:11px;background:var(--paper);border:1px solid var(--line)}
+.schm.ok{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.schm.bad{background:var(--bad-soft);color:var(--bad);border-color:transparent}
+.endl{margin:8px 0 4px;padding-left:18px;display:grid;gap:3px;font-size:13px}
+.notelinks:empty{display:none}
+.notelinks{display:flex;flex-wrap:wrap;gap:4px 10px;margin:0;font-size:12.5px}
+.notelinks a{color:var(--blue);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pvchip.warn{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
 input.optq{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13.5px}
 .optlist{list-style:none;margin:0;padding:0;display:grid;gap:12px;max-height:380px;overflow:auto;overscroll-behavior:contain}
@@ -1390,7 +1399,14 @@ Object.assign(T.en,{
   syncOnHow:"On another device, scan the QR code with the camera or paste this code in Settings → Cloud sync. Keep it private: anyone with the code can see and change your data.",
   syncHave:"Sync code from another device",syncNew:"Start sync here",syncJoin:"Link with code",syncStop:"Turn off",syncDel:"Also delete the copy in the cloud (your other devices stop syncing too)",
   syncQr:"Scan with the other device's camera",syncFrom:"your synced devices",syncNone:"There is no synced data for this code.",syncFail:"Could not reach the cloud. Try again in a moment.",
-  syncGone:"Cloud sync was turned off on another device. Your data stays here.",syncResetNote:"Cloud sync is on, so your other devices are reset too."
+  syncGone:"Cloud sync was turned off on another device. Your data stays here.",syncResetNote:"Cloud sync is on, so your other devices are reset too.",
+  schH:"Scholarship",schFail:"failed course",schCant:n=>`only ${n}/20 graded credits`,schNeed:n=>`${n}/20 graded credits so far`,schOk:"eligible",
+  schTip:"Merit scholarship: 20+ credits from graded courses in the semester and every course passed. FIT pays the best 5% of the year by average (the best 2% get more), so there is no fixed cut-off.",
+  endH:"Thesis and state exam",endFrom:"Dates follow the FIT calendar for 2026/27, moved to your 3rd year (approximate).",
+  endM:["Thesis topic selection","State exam registration","Thesis submission","State exam"],
+  endIn:n=>n<=1?"tomorrow":`in ${n} days`,endNow:"now",endPast:"done",
+  rdComp:(n,m)=>`Compulsory ${n}/${m}`,rdCr:n=>`Credits ${n}/180`,rdIBT:"Thesis (IBT)",
+  y65:(y,n)=>`Year ${y}: ${n}/65 credits`,over65:"over 65",noteLinks:"Links in notes"
 });
 Object.assign(T.sk,{
   cardBtn:"Zdieľať postup",cardSub:"Bakalársky program Informačné technológie · FIT VUT",cardOf:n=>`${n} zo 180 kreditov`,cardProg:n=>`+ ${n} kreditov prebieha`,
@@ -1401,14 +1417,21 @@ Object.assign(T.sk,{
   syncOnHow:"Na druhom zariadení naskenuj QR kód fotoaparátom alebo vlož tento kód v Nastavenia → Synchronizácia v cloude. Nikomu ho nedávaj: kto má kód, vidí a mení tvoje údaje.",
   syncHave:"Synchronizačný kód z iného zariadenia",syncNew:"Zapnúť tu",syncJoin:"Pripojiť kódom",syncStop:"Vypnúť",syncDel:"Vymazať aj kópiu v cloude (ostatné zariadenia sa tiež prestanú synchronizovať)",
   syncQr:"Naskenuj fotoaparátom druhého zariadenia",syncFrom:"tvojich synchronizovaných zariadení",syncNone:"Pre tento kód nie sú v cloude žiadne údaje.",syncFail:"Cloud nie je dostupný. Skús to o chvíľu.",
-  syncGone:"Synchronizácia bola vypnutá na inom zariadení. Tvoje údaje tu ostávajú.",syncResetNote:"Synchronizácia je zapnutá, takže sa vymažú aj tvoje ostatné zariadenia."
+  syncGone:"Synchronizácia bola vypnutá na inom zariadení. Tvoje údaje tu ostávajú.",syncResetNote:"Synchronizácia je zapnutá, takže sa vymažú aj tvoje ostatné zariadenia.",
+  schH:"Štipendium",schFail:"neúspešný predmet",schCant:n=>`len ${n}/20 kreditov s hodnotením`,schNeed:n=>`zatiaľ ${n}/20 kreditov s hodnotením`,schOk:"máš nárok",
+  schTip:"Prospechové štipendium: 20+ kreditov z predmetov s hodnotením v semestri a všetko urobené. FIT ho dáva 5 % najlepších v ročníku podľa priemeru (2 % najlepších dostanú viac), pevná hranica teda nie je.",
+  endH:"Bakalárka a štátnica",endFrom:"Dátumy podľa kalendára FIT 2026/27, posunuté na tvoj 3. ročník (približne).",
+  endM:["Výber témy bakalárky","Prihlasovanie na štátnicu","Odovzdanie bakalárky","Štátnica"],
+  endIn:n=>n<=1?"zajtra":`o ${n} dní`,endNow:"práve teraz",endPast:"hotovo",
+  rdComp:(n,m)=>`Povinné ${n}/${m}`,rdCr:n=>`Kredity ${n}/180`,rdIBT:"Bakalárka (IBT)",
+  y65:(y,n)=>`${y}. ročník: ${n}/65 kreditov`,over65:"nad 65",noteLinks:"Odkazy v poznámkach"
 });
 const TYPE={en:{"Cr+Ex":"Course credit + exam","Ex":"Exam","Cr":"Course credit","ClCr":"Graded course credit"},sk:{"Cr+Ex":"Zápočet + skúška","Ex":"Skúška","Cr":"Zápočet","ClCr":"Klasifikovaný zápočet"}};
 
 /* ---------- App version: the newest entry of the version log (data auto-saves do not count) ---------- */
 // like an app release: small fixes go into the current version, a new feature set gets the next number (3.5 → 3.6),
 // a big change starts a new major (3.x → 4.0)
-const APP_VER="4.4",APP_DATE="2026-11-01";
+const APP_VER="4.5",APP_DATE="2026-11-04";
 // every major version is named after a Brno landmark, the way macOS versions are named after places in California:
 // its x.0 opens with the name in big letters, and the updates after it (x.1, x.2 …) wear the same colours, quieter
 const CODENAMES={4:{n:"Orloj",why:["Named after the astronomical clock on Brno's Freedom Square, because version 4 is all about time: exam dates, deadlines and countdowns.","Pomenovaná podľa orloja na náměstí Svobody v Brne, lebo verzia 4 je celá o čase: termíny skúšok, odovzdania a odpočty."]}};
@@ -1418,6 +1441,12 @@ const codeOf=e=>CODENAMES[parseInt(e.v,10)];
    v = version; major = a major update (glows in the list and opens with its codename); n / i / f = new / improved /
    fixed, each item [English, Slovak] */
 const CHANGELOG=[
+ {v:"4.5",d:"2026-11-04",t:["Scholarship & thesis","Štipendium a bakalárka"],
+  n:[["Merit scholarship in Credits: for each semester, whether you have the 20 graded credits and every course passed, with your average. FIT pays the best 5% of the year, so there is no fixed cut-off","Prospechové štipendium v Kreditoch: za každý semester, či máš 20 kreditov s hodnotením a všetko urobené, s priemerom. FIT ho dáva 5 % najlepších v ročníku, pevná hranica teda nie je"],
+     ["Thesis and state exam in Year 3: what is done (compulsory courses, PVA, PVT, thesis, 180 credits) and the dates for the thesis topic, state exam registration, thesis submission and the state exam, with a countdown","Bakalárka a štátnica v 3. ročníku: čo máš splnené (povinné predmety, PVA, PVT, bakalárka, 180 kreditov) a termíny výberu témy, prihlasovania na štátnicu, odovzdania bakalárky a štátnice s odpočtom"],
+     ["Beta site: Hulko now has its own beta site where new versions are tested before they reach everyone. It isn't open yet; later a limited number of testers will get access to try upcoming versions early","Beta stránka: Hulko má teraz vlastnú beta stránku, kde sa nové verzie testujú skôr, než prídu ku všetkým. Zatiaľ nie je otvorená; neskôr k nej dostane prístup obmedzený počet testerov, ktorí si budúce verzie vyskúšajú vopred"]],
+  i:[["Optional courses: the year's credits against the 65 limit next to PVA and PVT, and courses that would go over 65 are marked","Voliteľné predmety: kredity ročníka voči limitu 65 pri PVA a PVT a predmety, ktoré by limit prekročili, sú označené"],
+     ["Notes: links and e-mail addresses in a course's notes can be clicked","Poznámky: odkazy a e-mailové adresy v poznámkach predmetu sa dajú kliknúť"]]},
  {v:"4.4",d:"2026-11-01",t:["Exam plan","Plán skúšok"],
   n:[["Exam plan: in a course card, tap Regular, 1st resit or 2nd resit to pick the term you plan to take. The Dates window shows your exam period as a timeline with the prep days before each exam","Plán skúšok: v karte predmetu ťukni na Riadny, 1. opravný alebo 2. opravný a vyber termín, na ktorý pôjdeš. Okno Dátumy ukáže skúškové obdobie ako časovú os s dňami na prípravu pred každou skúškou"],
      ["Studis registration date: a Registration opens row under the exam terms; it is in Dates and in Add all to calendar, with reminders","Dátum prihlasovania v Studise: riadok Prihlasovanie od pod termínmi skúšky; je v Dátumoch aj v Pridať všetko do kalendára, s pripomienkami"],
@@ -2051,7 +2080,7 @@ function courseCard(d){
     const g=grade(k.semPts);
     h+=`<div class="totline"><span>${t.totalLbl}: <b class="mono">${fmt(k.semPts)}</b> / 100</span><span>${t.gradeLbl} <span class="grade" style="color:var(--g-${g})">${g}</span></span></div>`;
   }
-  h+=`<label class="notef"><span>${t.noteLbl}</span><textarea id="nt-${id}" data-note="${id}" rows="2" placeholder="${t.notePh}">${esc(r.note||"")}</textarea></label>`;
+  h+=`<label class="notef"><span>${t.noteLbl}</span><textarea id="nt-${id}" data-note="${id}" rows="2" placeholder="${t.notePh}">${esc(r.note||"")}</textarea></label><p class="notelinks" id="nl-${id}" aria-label="${t.noteLinks}">${noteLinks(r.note)}</p>`;
   h+=`<div class="row" style="justify-content:space-between">`;
   if(d.id) h+=`<span class="src">${t.src} <a href="https://www.fit.vut.cz/study/course/${d.id}/${S.lang==="sk"?"":".en"}" target="_blank" rel="noopener">${t.fitPage}</a></span>`;
   if(d.opt) h+=`<button class="linkbtn" type="button" data-rmel="${id}" style="color:var(--bad)">${t.remove}</button>`;
@@ -2245,7 +2274,13 @@ document.addEventListener("input",e=>{
 document.addEventListener("input",e=>{
   const c=e.target.dataset&&e.target.dataset.note;if(!c)return;
   cs(c).note=e.target.value;changed();
+  const nl=document.getElementById("nl-"+c);if(nl)nl.innerHTML=noteLinks(e.target.value);
 });
+// notes come from backups and cloud sync too, so only http(s) links and e-mail addresses become links, escaped
+function noteLinks(s){
+  return (String(s||"").match(/https?:\/\/[^\s<>"']+|[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g)||[]).map(m=>m.replace(/[.,;:!?)\]]+$/,"")).map(m=>{
+    const web=/^https?:/.test(m);return `<a href="${esc(web?m:"mailto:"+m)}"${web?' target="_blank" rel="noopener"':""}>${esc(web?m.replace(/^https?:\/\/(www\.)?/,""):m)}</a>`}).join("");
+}
 document.addEventListener("input",e=>{
   const id=e.target.dataset&&e.target.dataset.wi;if(!id)return;
   const d=allCourses().find(x=>x.c===id);if(!d)return;
@@ -2342,7 +2377,34 @@ function creditsHtml(){
   if(fl<3&&ex.length)h+=`<p class="pmut">${t.budget(ex.reduce((a,n)=>a+n,0),ex.length,3-fl)}</p>`;
   if(v==="year"&&fl<3){const e=yearCr(y);if(e>0&&e<60)h+=`<p class="pmut">${t.crHalf(e,Math.ceil(e/2))}</p>`}
   if(v==="year"&&P+G+N+F>65)h+=`<div class="verdict bad">${t.cr65(P+G+N+F)}</div>`;
+  if(fl<3)h+=rows.map(x=>scholarLine(x.sl)).join("");
+  if(v==="year"&&y==="3")h+=endHtml();
   return h+`</div>`;
+}
+// FIT directive no. 1/2022 (full text of 21 Apr 2026), art. 2: the merit scholarship goes to the best 5% of a year by the
+// semester's weighted average (cut, not rounded, after the 2nd decimal; the best 2% get more), with 20+ credits from graded
+// courses in the semester and every enrolled course passed, so there is no fixed average to aim at
+const avgCut=v=>Math.floor(v*100+1e-9)/100;
+function scholarLine(sl){
+  const t=L(),ds=allCourses().filter(d=>cs(d.c).taken===sl),a=avgOf(ds);if(!ds.length)return "";
+  const gr=ds.filter(d=>d.t!=="Cr"),sum=f=>gr.filter(d=>f(cs(d.c).status)).reduce((x,d)=>x+d.cr,0);
+  const gP=sum(x=>x==="passed"),gO=sum(x=>["enrolled","credit","planned"].includes(x));
+  // ✓ eligible, ✕ out for this semester, ○ still open
+  const [k,m]=ds.some(d=>cs(d.c).status==="failed")?["bad",t.schFail]:gP>=20?["ok",t.schOk]:gP+gO>=20?["",t.schNeed(gP)]:["bad",t.schCant(gP+gO)];
+  return `<p class="pmut sch" title="${t.schTip}"><i class="schm ${k}" aria-hidden="true">${k==="ok"?"✓":k==="bad"?"✕":"○"}</i><span><b>${t.schH} · ${t.semCap[sl[1]]}</b> · ${m}${a?` · ⌀ ${avgFmt(avgCut(a.v))}`:""}</span></p>`;
+}
+// 3BIT dates in the FIT calendar 2026/27 (fit.vut.cz/study/calendar/2026): thesis topic selection 23-30 Sep 2026, state
+// exam registration 2-14 Feb 2027, thesis submission 12 May 2027, state exam 14-18 Jun 2027; a student in year 1 or 2
+// now sees them moved ahead to their 3rd year (same weekdays, like calOf)
+const END0=[["2026-09-23","2026-09-30"],["2027-02-02","2027-02-14"],["2027-05-12"],["2027-06-14","2027-06-18"]];
+function endHtml(){
+  const t=L(),sh=Math.max(0,3-+cur()[0])*364*864e5,now=Date.now(),day=864e5,st=stats(),cm=COURSES.filter(d=>d.k==="C").reduce((a,d)=>a+d.cr,0);
+  const f=ms=>new Date(ms).toLocaleDateString(S.lang==="sk"?"sk-SK":"en-GB",{day:"numeric",month:"short",year:"numeric"});
+  const li=END0.map((r,i)=>{const a=Date.parse(r[0]+"T00:00:00")+sh,b=Date.parse(r[r.length-1]+"T00:00:00")+sh+day;
+    return `<li><b>${t.endM[i]}</b> · ${f(a)}${r[1]?` – ${f(b-day)}`:""} · <span class="mono">${now>=b?t.endPast:now>=a?t.endNow:t.endIn(Math.ceil((a-now)/day))}</span></li>`}).join("");
+  const chip=(ok,s)=>`<span class="pvchip${ok?" ok":""}">${ok?"✓ ":""}${s}</span>`;
+  return `<h4 class="endh">${t.endH}</h4><div class="pvreq">${chip(st.comp>=cm,t.rdComp(st.comp,cm))}${chip(pvState("A").k==="ok",t.pvA)}${chip(pvState("T").k==="ok",t.pvT)}${chip(cs("IBT").status==="passed",t.rdIBT)}${chip(st.passed>=180,t.rdCr(st.passed))}</div>
+    <ul class="endl">${li}</ul>${sh?`<p class="pmut">${t.endFrom}</p>`:""}`;
 }
 // the whole-study view only adds the game-over line; the year and semester verdicts already say it
 function failNote(){return failList().length>=3?`<div class="verdict bad">${L().crOver}</div>`:""}
@@ -2411,16 +2473,16 @@ function render(){
     const inSlot=list.filter(d=>cs(d.c).taken===s);
     const tot=inSlot.reduce((a,d)=>a+d.cr,0);
     const comp=inSlot.filter(d=>d.k==="C"),opt=inSlot.filter(d=>d.k!=="C");
-    const have=new Set(list.map(d=>d.c)),avail=(CAT[s]||[]).filter(x=>!have.has(x[0]));
+    const have=new Set(list.map(d=>d.c)),avail=(CAT[s]||[]).filter(x=>!have.has(x[0])),yc=yearCr(s[0]);
     const row=x=>{const b1=x[5]==="A"?(PVA_B1.has(x[0])?`<i class="ob ok">B1+</i>`:`<i class="ob">${t.pvBelow}</i>`):x[5]==="T"?`<i class="ob ok">PVT</i>`:"";
-      return `<li class="optrow" data-q="${esc(fold(x[0]+" "+x[1]+" "+x[2]))}"><span class="code">${esc(x[0])}</span><span class="optn">${esc(S.lang==="sk"?x[2]:x[1])}<small>${x[3]} ${t.cr} · ${TYPE[S.lang][x[4]]||x[4]}${b1?" ":""}${b1}</small></span><button class="btn plain" type="button" data-addopt="${s}" data-c="${esc(x[0])}">${t.add}</button></li>`};
+      return `<li class="optrow" data-q="${esc(fold(x[0]+" "+x[1]+" "+x[2]))}"><span class="code">${esc(x[0])}</span><span class="optn">${esc(S.lang==="sk"?x[2]:x[1])}<small>${x[3]} ${t.cr} · ${TYPE[S.lang][x[4]]||x[4]}${b1?" ":""}${b1}${yc+x[3]>65?` <i class="ob">${t.over65}</i>`:""}</small></span><button class="btn plain" type="button" data-addopt="${s}" data-c="${esc(x[0])}">${t.add}</button></li>`};
     const grp=(g,lbl)=>{const xs=avail.filter(x=>x[5]===g);return xs.length?`<li class="optg"><h4>${lbl}</h4><ol>${xs.map(row).join("")}</ol></li>`:""};
     // FIT: without every compulsory course of the semester enrolled, at most one elective may be enrolled in it
     const started=inSlot.some(d=>cs(d.c).status!=="planned"),compOut=comp.filter(d=>!["ITT","IBT"].includes(d.c)&&cs(d.c).status==="planned"),elecN=opt.filter(d=>d.k==="E").length;
     const pa=pvState("A"),pt=pvState("T"),chip=(p,lbl,need)=>`<span class="pvchip ${p.k==="ok"?"ok":p.k==="low"?"warn":""}">${lbl}: ${p.k==="ok"?`✓ ${p.c}`:p.k==="on"?`${p.c} · ${t.st[p.s]}`:p.k==="low"?`${p.c} · ${t.pvLow}`:need}</span>`;
     h+=`<section class="sem" id="sem-${s}"><h3 class="grouph">${t.compH}${reorderLink(s+":C")}</h3>${cardCols(comp,s+":C")}
       <h3 class="grouph">${t.optH}${opt.length?reorderLink(s+":O"):""}</h3>
-      <div class="pvreq">${chip(pa,t.pvA,t.pvANeed)}${chip(pt,t.pvT,t.pvTNeed(offered(PVT).map(sl=>sl[0]+t.semAb[sl[1]]).join(", ")))}</div>
+      <div class="pvreq">${chip(pa,t.pvA,t.pvANeed)}${chip(pt,t.pvT,t.pvTNeed(offered(PVT).map(sl=>sl[0]+t.semAb[sl[1]]).join(", ")))}<span class="pvchip${yc>65?" warn":""}">${t.y65(s[0],yc)}</span></div>
       ${started&&compOut.length&&elecN>1?`<div class="verdict warn">${t.oneElective(compOut.map(d=>d.c).join(", "))}</div>`:""}
       ${opt.length?cardCols(opt,s+":O"):`<p class="emptyopt">${t.optEmpty}</p>`}
       <details class="addel" id="more-${s}"><summary class="addbtn">+ ${t.addOpt}</summary><div class="cbody addbody">
