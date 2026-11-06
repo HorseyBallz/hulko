@@ -2288,6 +2288,14 @@ document.addEventListener("input",e=>{
   out.textContent=o.txt;out.className="wiout g-"+o.g;e.target.className="g-"+o.g;
   e.target.parentNode.querySelectorAll(".witicks button").forEach(s=>s.classList.toggle("on",s.dataset.g===o.g));
 });
+// easter egg: in November, tapping "Made by" in a footer shows a No Nut November countdown
+document.addEventListener("click",e=>{
+  const now=new Date();if(now.getMonth()!==10||!(e.target.closest&&e.target.closest(".madeby"))||document.querySelector(".toast.nnn"))return;
+  const end=new Date(now.getFullYear(),11,1),toast=document.createElement("div");toast.className="toast nnn";toast.setAttribute("role","status");document.body.append(toast);
+  const tick=()=>{const s=Math.max(0,Math.floor((end-Date.now())/1000)),d=Math.floor(s/86400),hms=[s/3600%24,s/60%60,s%60].map(x=>String(Math.floor(x)).padStart(2,"0")).join(":");
+    toast.textContent=S.lang==="sk"?`🥜 No Nut November: vydrž ešte ${d} d ${hms}`:`🥜 No Nut November: hold on for ${d}d ${hms}`};
+  tick();const iv=setInterval(tick,1000);setTimeout(()=>{clearInterval(iv);toast.remove()},5000);
+});
 // a grade under the slider is the exam score that grade needs: tapping it moves the slider there
 document.addEventListener("click",e=>{
   const b=e.target.closest&&e.target.closest("[data-wit]");if(!b)return;
