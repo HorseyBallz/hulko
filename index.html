@@ -40,11 +40,11 @@
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 .sumhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
-.sumtitle{font-size:24px;font-weight:700;color:var(--ink)}
+.sumtitle{font-size:24px;font-weight:600;color:var(--ink)}
 .note{margin:0;font-size:13px;color:var(--muted);max-width:70ch}
 body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.5}
 .wrap{max-width:1080px;margin:0 auto;padding-block:20px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:28px}
-h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1,h2,h3{font-family:var(--f-display);font-weight:600;margin:0;text-wrap:balance;letter-spacing:-.01em}
 .mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
 button,select,input{font:inherit;color:inherit}
 :focus-visible{outline:2px solid var(--blue);outline-offset:2px}
@@ -97,7 +97,7 @@ button,select,input{font:inherit;color:inherit}
 .seg.slide.none .thumb{opacity:0}
 .seg.slide button[aria-pressed="true"]{color:var(--on-pri)}
 @media (prefers-reduced-motion:no-preference){
-  .seg.slide .thumb{transition:transform .32s cubic-bezier(.3,.7,.25,1.15),background-color .3s,opacity .25s}
+  .seg.slide .thumb{transition:background-color .3s,opacity .25s}
   .seg.slide button{transition:color .25s}
   .seg button:active{transform:scale(.96)}
 }
@@ -139,7 +139,7 @@ button,select,input{font:inherit;color:inherit}
 @keyframes fadein{from{opacity:0}}
 @keyframes pop{from{opacity:0;transform:scale(.88)}}
 @keyframes glow{50%{box-shadow:0 0 0 2px rgba(255,77,100,.7),0 0 80px rgba(255,40,60,.85),0 0 160px rgba(255,40,60,.45)}}
-.grouph{font-family:var(--f-body);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:6px 0 0}
+.grouph{font-family:var(--f-body);font-size:13px;font-weight:600;color:var(--muted);margin:6px 0 0}
 /* windows and the edit-layout mode */
 .win{position:relative;min-width:0;display:grid;gap:12px}
 .win.off,.win.empty{display:none}
@@ -198,36 +198,28 @@ body.inlog .mbox.sets{max-width:460px;grid-template-columns:1fr}
 .logtitle{font-size:30px;line-height:1.15}
 .logtitle .mono{color:var(--blue);font-size:.8em;margin-right:6px}
 .logcat h3{margin:0 0 8px}
-/* a major update: its list item glows softly and its page opens with a big gradient tag */
-.logitem.major{border-color:color-mix(in srgb,var(--accent) 45%,var(--line));background:color-mix(in srgb,var(--accent) 6%,var(--card));box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 22%,transparent),0 0 14px color-mix(in srgb,var(--accent) 26%,transparent)}
-.logitem.major.on{border-color:var(--accent)}
-.logitem.major .lv{color:#fff;background:linear-gradient(135deg,#d0102b,#7c3aed)}
-.lmaj{display:inline-block;margin-left:4px;padding:1px 7px;border-radius:99px;font-size:9.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:linear-gradient(90deg,#d0102b,#7c3aed,#2563eb);vertical-align:1px;white-space:nowrap}
-.logmain.major{border-color:color-mix(in srgb,var(--accent) 40%,var(--line));box-shadow:0 0 44px color-mix(in srgb,var(--accent) 14%,transparent)}
-.logmajor{position:relative;overflow:hidden;margin:0;padding:18px 20px 14px;border-radius:14px;background:linear-gradient(110deg,#d0102b,#7c3aed 55%,#2563eb);color:#fff;text-align:center;box-shadow:0 10px 34px color-mix(in srgb,#7c3aed 38%,transparent)}
-.logmajor span{display:block;font-family:var(--f-display);font-size:clamp(26px,6vw,44px);font-weight:800;line-height:1;letter-spacing:.1em;text-transform:uppercase;text-shadow:0 0 22px rgba(255,255,255,.45)}
+/* a major update: its list item has a blue edge and its page opens with a blue banner (--card text on --blue reads in both themes) */
+.logitem.major{border-color:color-mix(in srgb,var(--blue) 45%,var(--line));background:color-mix(in srgb,var(--blue) 6%,var(--card))}
+.logitem.major.on{border-color:var(--blue)}
+.logitem.major .lv{color:var(--card);background:var(--blue)}
+.lmaj{display:inline-block;margin-left:4px;padding:1px 6px;border-radius:4px;font-size:11px;font-weight:600;color:var(--card);background:var(--blue);vertical-align:1px;white-space:nowrap}
+.logmain.major{border-color:color-mix(in srgb,var(--blue) 40%,var(--line))}
+.logmajor{position:relative;overflow:hidden;margin:0;padding:20px 20px 16px;border-radius:14px;background:var(--blue);color:var(--card);text-align:center}
+.logmajor span{display:block;font-family:var(--f-display);font-size:clamp(28px,6vw,44px);font-weight:600;line-height:1.05;letter-spacing:-.02em}
 .logmajor small{display:block;margin-top:8px;font-size:12.5px;font-weight:600;opacity:.9}
-.logmajor::after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.32) 50%,transparent 65%);transform:translateX(-110%);pointer-events:none}
-@media (prefers-reduced-motion:no-preference){
-  :root:not([data-perf="low"]) .logitem.major{animation:majglow 2.6s ease-in-out infinite alternate}
-  :root:not([data-perf="low"]) .logmajor::after{animation:majshine 3.6s ease-in-out infinite}
-}
 /* the codename: a small "Version 4" over the big name, and why the version carries it under the banner */
-.logmajor em{display:block;margin-bottom:8px;font-style:normal;font-size:11.5px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.85}
+.logmajor em{display:block;margin-bottom:8px;font-style:normal;font-size:13px;font-weight:500;opacity:.85}
 .logwhy{margin:-6px 0 0;font-size:12.5px;line-height:1.45;color:var(--muted);text-align:center;text-wrap:balance}
-/* an update of a major version (4.1, 4.2 …): the same colours, quieter, no pulse and no shine */
-.logitem.sub{border-color:color-mix(in srgb,#7c3aed 30%,var(--line));background:color-mix(in srgb,#7c3aed 4%,var(--card));box-shadow:0 0 8px color-mix(in srgb,#7c3aed 12%,transparent)}
-.logitem.sub.on{border-color:color-mix(in srgb,#7c3aed 65%,var(--line))}
-.logitem.sub .lv{color:#fff;background:linear-gradient(135deg,#d0102b,#7c3aed);opacity:.8}
-.lmaj.sub{background:none;color:color-mix(in srgb,#7c3aed 70%,var(--ink));box-shadow:inset 0 0 0 1px color-mix(in srgb,#7c3aed 45%,transparent)}
-.logmain.sub{border-color:color-mix(in srgb,#7c3aed 28%,var(--line));box-shadow:0 0 24px color-mix(in srgb,#7c3aed 8%,transparent)}
-.logmajor.sub{padding:12px 16px 11px;opacity:.92;box-shadow:0 4px 16px color-mix(in srgb,#7c3aed 18%,transparent)}
-.logmajor.sub span{font-size:clamp(20px,4.6vw,26px);letter-spacing:.08em;text-shadow:none}
+/* an update of a major version (4.1, 4.2 …): the same blue, quieter */
+.logitem.sub{border-color:color-mix(in srgb,var(--blue) 25%,var(--line));background:color-mix(in srgb,var(--blue) 3%,var(--card))}
+.logitem.sub.on{border-color:color-mix(in srgb,var(--blue) 65%,var(--line))}
+.logitem.sub .lv{color:var(--card);background:var(--blue)}
+.lmaj.sub{background:none;color:var(--blue);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--blue) 45%,transparent)}
+.logmain.sub{border-color:color-mix(in srgb,var(--blue) 25%,var(--line))}
+.logmajor.sub{padding:12px 16px;opacity:.92}
+.logmajor.sub span{font-size:clamp(20px,4.6vw,26px)}
 .logmajor.sub small{margin-top:4px}
-.logmajor.sub::after{display:none}
-@keyframes majglow{from{box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 18%,transparent),0 0 6px color-mix(in srgb,var(--accent) 16%,transparent)}to{box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 42%,transparent),0 0 22px color-mix(in srgb,var(--accent) 42%,transparent)}}
-@keyframes majshine{0%{transform:translateX(-110%)}40%,100%{transform:translateX(110%)}}
-.logcat .tag{display:inline-block;font-family:var(--f-body);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;padding:3px 10px;border-radius:99px}
+.logcat .tag{display:inline-block;font-family:var(--f-body);font-size:12px;font-weight:600;padding:2px 8px;border-radius:6px}
 .logcat.n .tag{background:var(--ok-soft);color:var(--ok)}
 .logcat.i .tag{background:var(--blue-soft);color:var(--blue)}
 .logcat.f .tag{background:var(--warn-soft);color:var(--warn)}
@@ -260,9 +252,9 @@ body.inlog .mbox.sets{max-width:460px;grid-template-columns:1fr}
 .msrow{display:grid;gap:8px}
 .badges{display:flex;flex-wrap:wrap;gap:8px}
 .badge{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:5px 11px 5px 8px;border-radius:99px;border:1px dashed var(--line);color:var(--muted);cursor:help}
-.badge i{font-style:normal;filter:grayscale(1);opacity:.45}
+.badge i{font-style:normal;display:grid;opacity:.45}
 .badge.on{border-style:solid;border-color:color-mix(in srgb,var(--ok) 45%,var(--line));background:var(--ok-soft);color:var(--ink)}
-.badge.on i{filter:none;opacity:1}
+.badge.on i{opacity:1;color:var(--ok)}
 /* credits chart: thin bars, 2px gap between stacked parts, rounded top, recessive pace line */
 .cchart{margin:0;display:grid;gap:8px}
 .cchart figcaption{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:6px 14px}
@@ -323,7 +315,7 @@ table.sr-only{display:block}
 :root[data-perf="low"] .hico{transition:none}
 .histd{margin-top:0}
 .hlist{list-style:none;margin:0;padding:0;display:grid;gap:2px;max-height:420px;overflow:auto}
-.hday{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 0 2px}
+.hday{font-size:12px;font-weight:600;color:var(--muted);padding:8px 0 2px}
 .hday:first-child{padding-top:0}
 .hrow{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font-size:13px;padding:4px 0;border-bottom:1px dashed var(--line)}
 .hrow .code{font-size:12px;padding:1px 6px}
@@ -398,17 +390,12 @@ body.dragging,body.dragging *{cursor:grabbing!important}
 .secret.nope{border-color:var(--bad);box-shadow:0 0 0 4px var(--bad-soft)}
 .slider{position:relative;height:56px;padding:0;overflow:hidden;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;display:grid;place-items:center}
 .slider.drag{cursor:grabbing}
-/* the door wears the Major Update gradient: the knob, a fill revealed as it slides, the border and the shine on the text */
-.slider{border-color:color-mix(in srgb,#7c3aed 35%,var(--line))}
-.slider:focus:not(.nope){border-color:#7c3aed;box-shadow:0 0 0 4px color-mix(in srgb,#7c3aed 22%,transparent)}
-.slfill{position:absolute;inset:0;background:linear-gradient(110deg,#d0102b,#7c3aed 55%,#2563eb);clip-path:inset(0 calc(100% - var(--x,0px) - 56px) 0 0 round 12px);opacity:calc(.22 + var(--p,0) * .78)}
+/* the door is the app's blue, with --card on it: the knob and a fill revealed as it slides; focus as on the code field above */
+.slider:focus:not(.nope){border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+.slfill{position:absolute;inset:0;background:var(--blue);clip-path:inset(0 calc(100% - var(--x,0px) - 56px) 0 0 round 12px);opacity:calc(.22 + var(--p,0) * .78)}
 .sltxt{position:relative;padding-left:44px;font-size:15px;font-weight:600;color:var(--muted);opacity:calc(1 - var(--p,0) * 1.8)}
-.slknob{position:absolute;left:4px;top:4px;bottom:4px;width:48px;border-radius:9px;background:linear-gradient(135deg,#d0102b,#7c3aed 60%,#2563eb);color:#fff;display:grid;place-items:center;transform:translateX(var(--x,0px));box-shadow:0 2px 10px color-mix(in srgb,#7c3aed 45%,transparent)}
+.slknob{position:absolute;left:4px;top:4px;bottom:4px;width:48px;border-radius:9px;background:var(--blue);color:var(--card);display:grid;place-items:center;transform:translateX(var(--x,0px));box-shadow:0 1px 3px rgba(0,0,0,.25)}
 .slknob svg{width:22px;height:22px}
-@media (prefers-reduced-motion:no-preference){
-  .sltxt{background:linear-gradient(90deg,var(--muted) 0%,var(--muted) 38%,color-mix(in srgb,#7c3aed 75%,var(--ink)) 50%,var(--muted) 62%,var(--muted) 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:slshine 2.6s linear infinite}
-}
-@keyframes slshine{from{background-position:100% 0}to{background-position:-150% 0}}
 .gnote{margin:0;max-width:320px;text-align:center;font-size:13px;color:var(--muted)}
 @media (prefers-reduced-motion:no-preference){.secret.nope{animation:shake .4s}}
 @keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
@@ -487,7 +474,7 @@ body.inlog .setwrap{max-width:460px}
 /* summary */
 .summary{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;display:grid;gap:18px}
 .big{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
-.big .pct{font-family:var(--f-display);font-size:56px;font-weight:700;line-height:1;color:var(--ink)}
+.big .pct{font-family:var(--f-display);font-size:56px;font-weight:600;line-height:1;color:var(--ink)}
 .big .of{color:var(--muted)}
 /* progress bar: a slim track, a fill that fades out at its leading edge, a little student riding that edge and the goal waiting at the end */
 .track{padding-top:30px}
@@ -537,10 +524,12 @@ details.course{position:relative}
 .bar .reaper .rpr{transform-origin:12.5px 8px}
 .bar .reaper .rps{transform-origin:19px 11.8px}
 @media (prefers-reduced-motion:no-preference){
-  .bar .reaper,.bar .rider{transition:left .9s cubic-bezier(.2,.8,.2,1)}
-  .bar .reaper svg{animation:rbob .42s ease-in-out infinite alternate}
-  .bar .reaper .rpr{animation:robe .84s ease-in-out infinite alternate}
-  .bar .reaper .rps{animation:scythe .84s ease-in-out infinite alternate}
+  .bar .rider{transition:left .9s cubic-bezier(.2,.8,.2,1)}
+  .bar .reaper{transition:left 1.2s cubic-bezier(.25,.8,.25,1)}
+  /* an unhurried glide: one bob per step, two steps per robe swing, and the scythe trails the robe a little */
+  .bar .reaper svg{animation:rbob .7s cubic-bezier(.45,0,.55,1) infinite alternate}
+  .bar .reaper .rpr{animation:robe 1.4s cubic-bezier(.45,0,.55,1) infinite alternate}
+  .bar .reaper .rps{animation:scythe 1.4s cubic-bezier(.45,0,.55,1) -.25s infinite alternate}
   .bar:not(.met) .rider svg{animation:bob .19s ease-in-out infinite alternate}
   .bar:not(.met) .rider .rl,.bar:not(.met) .rider .ra{animation:stride .38s ease-in-out infinite alternate}
   .bar:not(.met) .rider .far{animation-direction:alternate-reverse}
@@ -548,8 +537,8 @@ details.course{position:relative}
   .bar.caught .rider .rl,.bar.caught .rider .ra{animation-duration:.28s}
 }
 @keyframes rbob{to{transform:translateY(-1.5px)}}
-@keyframes robe{from{transform:skewX(4deg)}to{transform:skewX(-4deg)}}
-@keyframes scythe{from{transform:rotate(-6deg)}to{transform:rotate(5deg)}}
+@keyframes robe{from{transform:skewX(3deg)}to{transform:skewX(-3deg)}}
+@keyframes scythe{from{transform:rotate(-5deg)}to{transform:rotate(4deg)}}
 @keyframes bob{to{transform:translateY(-1.5px)}}
 @keyframes stride{from{transform:rotate(var(--a))}to{transform:rotate(var(--b))}}
 /* the looping figures and the aura run on the GPU, and stop while the progress box is scrolled out of view */
@@ -566,7 +555,7 @@ details.course{position:relative}
 .scale span:first-child{transform:none}.scale span:last-child{transform:translateX(-100%)}
 .reqs{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
 .req{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:2px;min-width:0}
-.req .k{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.req .k{font-size:12px;color:var(--muted)}
 .req .v{font-family:var(--f-mono);font-size:18px;font-weight:500}
 .req .s{font-size:12px;color:var(--muted)}
 .avgoal{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:13px;color:var(--muted)}
@@ -595,7 +584,7 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   .picker::before{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;opacity:1}
   .picker::after{backdrop-filter:none;-webkit-backdrop-filter:none;background:linear-gradient(var(--paper),transparent);opacity:1}
 }
-.picker .lab{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.picker .lab{font-size:12px;color:var(--muted)}
 .picker .grp{display:flex;align-items:center;gap:8px}
 .picker .seg button{padding:6px 14px}
 
@@ -610,7 +599,10 @@ details.course[data-vs="planned"]{border-style:dashed;background:var(--card)}
 details.course[data-vs="enrolled"]{--tone:var(--blue);--tone-soft:var(--blue-soft)}
 details.course[data-vs="risk"]{--tone:var(--warn);--tone-soft:var(--warn-soft)}
 details.course[data-vs="credit"]{--tone:var(--ok);--tone-soft:var(--ok-soft)}
-details.course[data-vs="passed"]{--tone:var(--ok);--tone-soft:var(--ok-soft);background:color-mix(in srgb,var(--ok) 8%,var(--card))}
+/* passed: only the bar and the word "Passed" are green, the card itself stays neutral */
+details.course[data-vs="passed"]{--tone:var(--ok);--tone-soft:var(--ok-soft);background:var(--card);border-color:var(--line)}
+details.course[data-vs="passed"] .code{background:var(--paper);color:var(--muted)}
+details.course[data-vs="passed"] .next{color:var(--muted)}
 details.course[data-vs="failed"]{--tone:var(--bad);--tone-soft:var(--bad-soft);background:color-mix(in srgb,var(--bad) 9%,var(--card))}
 .course .code{background:var(--tone-soft);color:var(--tone)}
 details.course[data-vs="planned"] .code{background:var(--blue-soft);color:var(--blue)}
@@ -638,7 +630,7 @@ details.course.closing[open] .next{display:block}
 .pill.enrolled{background:var(--blue-soft);color:var(--blue);border-color:transparent}
 .pill.risk{background:var(--warn-soft);color:var(--warn);border-color:transparent}
 .pill.credit{background:var(--ok-soft);color:var(--ok);border-color:transparent}
-.pill.passed{background:var(--ok);color:var(--card);border-color:transparent}
+.pill.passed{background:none;color:var(--ok);border-color:transparent;padding:2px 0}
 .pill.failed{background:var(--bad);color:var(--card);border-color:transparent}
 .cbody{padding:0 14px 14px;display:grid;gap:12px;border-top:1px solid var(--line);padding-top:12px}
 .row{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center}
@@ -745,7 +737,7 @@ html.locked{overflow:hidden}
 a.btn{display:inline-block;text-decoration:none}
 /* exam terms: one row each — name, score, date, calendar link */
 .attempts{display:grid;gap:6px;margin-top:10px}
-.att.atth{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:-2px}
+.att.atth{font-size:12px;color:var(--muted);margin-bottom:-2px}
 .att.atth span:nth-child(2){text-align:right}
 .attempts.nodate .att{grid-template-columns:minmax(64px,1fr) 64px}
 .att{display:grid;grid-template-columns:minmax(64px,1fr) 64px minmax(0,184px) 28px;align-items:center;gap:8px}
@@ -759,7 +751,7 @@ a.btn{display:inline-block;text-decoration:none}
 .gcal svg{width:17px;height:17px}
 .next .due{font-weight:600}
 .next .due.soon{color:var(--bad)}
-.grade{font-family:var(--f-display);font-size:26px;font-weight:700;line-height:1}
+.grade{font-family:var(--f-display);font-size:26px;font-weight:600;line-height:1}
 .totline{display:flex;justify-content:space-between;align-items:center;gap:10px}
 /* what-if slider: a score readout, the slider, and grade letters under it where each grade starts */
 .whatif{display:grid;gap:4px;padding:10px 12px 6px;border-radius:10px;background:var(--paper);border:1px solid var(--line)}
@@ -767,7 +759,7 @@ a.btn{display:inline-block;text-decoration:none}
 .wiout{font-family:var(--f-mono);font-size:12.5px;font-weight:500;color:var(--ink)}
 .wiout{transition:color .2s}
 .wiout.g-A{color:var(--g-A)}.wiscale input[type=range].g-A{accent-color:var(--g-A)}.wiout.g-B{color:var(--g-B)}.wiscale input[type=range].g-B{accent-color:var(--g-B)}.wiout.g-C{color:var(--g-C)}.wiscale input[type=range].g-C{accent-color:var(--g-C)}.wiout.g-D{color:var(--g-D)}.wiscale input[type=range].g-D{accent-color:var(--g-D)}.wiout.g-E{color:var(--g-E)}.wiscale input[type=range].g-E{accent-color:var(--g-E)}.wiout.g-F{color:var(--g-F)}.wiscale input[type=range].g-F{accent-color:var(--g-F)}
-.witicks button{transition:color .2s}.witicks button.on{color:var(--gc);font-weight:700}.witicks button.on i{background:var(--gc);opacity:1}
+.witicks button{transition:color .2s}.witicks button.on{color:var(--gc);font-weight:600}.witicks button.on i{background:var(--gc);opacity:1}
 .witicks button:hover{color:var(--gc)}
 .wigone{margin:2px 0 0;font-size:11px;color:var(--muted)}
 .wiscale{position:relative;padding-bottom:16px}
@@ -792,7 +784,7 @@ a.btn{display:inline-block;text-decoration:none}
 .src a{color:var(--blue)}
 .addel{display:grid;gap:8px;background:transparent;margin-top:30px}
 /* centered pill that rolls the add-course panel down */
-.addel>summary.addbtn,.addt>summary.addbtn{justify-self:center;padding:8px 18px;border-radius:99px;border:1px solid var(--line);background:var(--card);color:var(--blue);font-size:13px;font-weight:600;transition:background-color .2s,border-color .2s,transform .15s}
+.addel>summary.addbtn,.addt>summary.addbtn{justify-self:center;padding:8px 16px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--blue);font-size:13px;font-weight:600;transition:background-color .2s,border-color .2s,transform .15s}
 .addel>summary.addbtn:hover,.addt>summary.addbtn:hover{border-color:var(--blue);background:var(--blue-soft)}
 .addel[open]>summary.addbtn,.addt[open]>summary.addbtn{border-color:var(--blue);background:var(--blue-soft)}
 .addel .addbody{display:grid;gap:10px;padding:14px;margin-top:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
@@ -859,7 +851,7 @@ a.btn{display:inline-block;text-decoration:none}
 :root[data-perf="balanced"] .summary.doom,:root[data-perf="low"] .summary.doom{box-shadow:0 0 0 1px var(--bad)}
 
 .failrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
-.failrow .k{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.failrow .k{font-size:12px;color:var(--muted)}
 .big3 .sb{width:30px;height:30px;font-size:17px}
 .addel>summary,.addt>summary{cursor:pointer;list-style:none}
 .addel>summary::-webkit-details-marker,.addt>summary::-webkit-details-marker{display:none}
@@ -880,7 +872,7 @@ a.btn{display:inline-block;text-decoration:none}
 .pvchip.warn{background:var(--warn-soft);border-color:transparent;color:var(--warn)}
 input.optq{width:100%;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13.5px}
 .optlist{list-style:none;margin:0;padding:0;display:grid;gap:12px;max-height:380px;overflow:auto;overscroll-behavior:contain}
-.optg h4{margin:0 0 6px;font-family:var(--f-body);font-size:11.5px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.optg h4{margin:0 0 6px;font-family:var(--f-body);font-size:13px;font-weight:600;color:var(--muted)}
 .optg ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}
 .optrow{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:9px;border:1px solid var(--line);background:var(--paper)}
 .optrow .code{flex:none;font-size:12px}
@@ -896,13 +888,14 @@ input.optq{width:100%;background:var(--paper);border:1px solid var(--line);borde
 .btn{border:1px solid var(--pri);background:var(--pri);color:var(--on-pri);border-radius:7px;padding:5px 12px;font-size:13px;font-weight:500;cursor:pointer}
 .foot{font-size:12px;color:var(--muted);display:grid;gap:6px;max-width:72ch;margin:0 auto;text-align:center;justify-items:center}
 .foot h3{font-family:var(--f-body);font-size:13px;color:var(--ink)}
-.grades{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
-.grades span{font-family:var(--f-mono);font-size:11px;border:1px solid var(--line);border-radius:5px;padding:1px 6px}
+.grades{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;align-items:flex-start}
+.grades .gm{font-family:var(--f-mono);font-size:11px;border:1px solid var(--line);border-radius:5px;padding:1px 6px}
 /* every mark has its own colour, from green A to red F; marks you already got are filled in, with how many */
 :root{--g-A:var(--ok);--g-B:color-mix(in srgb,var(--ok) 72%,var(--warn));--g-C:color-mix(in srgb,var(--ok) 40%,var(--warn));--g-D:var(--warn);--g-E:color-mix(in srgb,var(--warn) 55%,var(--bad));--g-F:var(--bad)}
 .grades .gm{color:var(--gc);border-color:color-mix(in srgb,var(--gc) 45%,var(--line));transition:background-color .3s,color .3s}
 .grades .gm.got{background:var(--gc);border-color:var(--gc);color:var(--card);font-weight:600}
-.grades .gm sup{font-size:9px;margin-left:3px;vertical-align:4px}
+.grades .gw{display:grid;justify-items:center;gap:2px}
+.grades .gn{font-family:var(--f-mono);font-size:11px;font-weight:600;color:var(--gc)}
 @media (prefers-reduced-motion:no-preference){.bar .done,.bar .prog{transition:width .7s cubic-bezier(.2,.8,.2,1),background-color .4s ease,border-color .4s ease}}
 </style>
 
@@ -914,7 +907,7 @@ input.optq{width:100%;background:var(--paper);border:1px solid var(--line);borde
   <form id="gate-form" novalidate>
     <div id="g-input" class="secret slider" role="slider" tabindex="0" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Slide to open"><span class="slfill" aria-hidden="true"></span><span class="sltxt" id="g-txt">Slide to open</span><span class="slknob" id="g-knob" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></div>
   </form>
-  <p class="madeby">Made by Filipko &amp; Claude ❤️</p>
+  <p class="madeby">Made by Filipko &amp; Claude</p>
 </div>
 <div class="wrap" id="app" hidden>
   <header class="top">
@@ -970,7 +963,7 @@ input.optq{width:100%;background:var(--paper);border:1px solid var(--line);borde
     <nav class="loglist" id="loglist" aria-label="Versions"></nav>
     <article class="logmain" id="logmain" aria-live="polite"></article>
   </div>
-  <footer class="foot"><p class="madeby">Made by Filipko &amp; Claude ❤️</p><p class="appver mono" id="lg-ver"></p><img id="logo2" class="logo" srcset="logo-en-1.webp 1x, logo-en-15.webp 1.5x, logo-en-2.webp 2x, logo-en.webp 3x" src="logo-en.webp" alt=""></footer>
+  <footer class="foot"><p class="madeby">Made by Filipko &amp; Claude</p><p class="appver mono" id="lg-ver"></p><img id="logo2" class="logo" srcset="logo-en-1.webp 1x, logo-en-15.webp 1.5x, logo-en-2.webp 2x, logo-en.webp 3x" src="logo-en.webp" alt=""></footer>
 </div>
 <!-- settings pop-up: stays in the page (hidden) so the language and theme buttons always exist -->
 <div class="modal" id="settings" hidden>
@@ -1060,10 +1053,10 @@ const EX=(max,min)=>({max,min});
 const COURSES=[
  // 1st year, winter
  {c:"IDM",id:302514,en:"Discrete Mathematics",sk:"Diskrétna matematika",cr:4,t:"Cr+Ex",k:"C",s:"1W",zeroMax:1,parts:[1,2,3,4,5].map(i=>P("Test "+i,"Písomka "+i,4)),exam:EX(80)},
- {c:"IEL",id:302517,en:"Electronics for Information Technology",sk:"Elektronika pre informačné technológie",cr:6,t:"Cr+Ex",k:"C",s:"1W",parts:[P("Labs (6 × 3 pts)","Laboratóriá (6 × 3 b)",18,9),P("Semester project","Semestrálny projekt",12,3),P("Mid-term test","Polsemestrálna písomka",15)],exam:EX(55,27)},
+ {c:"IEL",id:302517,en:"Electronics for Information Technology",sk:"Elektronika pre informačné technológie",cr:6,t:"Cr+Ex",k:"C",s:"1W",credit:12,parts:[P("Labs (6 × 3 pts)","Laboratóriá (6 × 3 b)",18,9),P("Semester project","Semestrálny projekt",12,3),P("Mid-term test","Polsemestrálna písomka",15)],exam:EX(55,27)},
  {c:"ILG",id:302528,en:"Linear Algebra",sk:"Lineárna algebra",cr:5,t:"Cr+Ex",k:"C",s:"1W",zeroMax:1,parts:[1,2,3,4,5].map(i=>P("Test "+i,"Písomka "+i,4)),exam:EX(80)},
  {c:"IUS",id:302578,en:"Introduction to Software Engineering",sk:"Úvod do softvérového inžinierstva",cr:5,t:"Cr+Ex",k:"C",s:"1W",credit:18,parts:[P("Exercises (4 × 3 pts)","Cvičenia (4 × 3 b)",12),P("Homework (ER diagram)","Domáca úloha (ER diagram)",12),P("Team project + defence","Tímový projekt + obhajoba",16)],exam:EX(60,30)},
- {c:"IZP",id:302589,en:"Introduction to Programming Systems",sk:"Základy programovania",cr:7,t:"Cr+Ex",k:"C",s:"1W",credit:25,parts:[P("Computer labs","Počítačové cvičenia",20,12),P("Project 1","Projekt 1",6,1),P("Project 2","Projekt 2",6,1),P("Mid-term test","Polsemestrálna písomka",12)],exam:EX(53,25)},
+ {c:"IZP",id:302589,en:"Introduction to Programming Systems",sk:"Základy programovania",cr:7,t:"Cr+Ex",k:"C",s:"1W",credit:25,parts:[P("Computer labs","Počítačové cvičenia",20,12),P("Project 1","Projekt 1",6,1),P("Project 2","Projekt 2",9,1),P("Mid-term test","Polsemestrálna písomka",12)],exam:EX(53,25)},
  // 1st year, summer
  {c:"IMA1",id:302530,en:"Mathematical Analysis 1",sk:"Matematická analýza 1",cr:4,t:"Cr+Ex",k:"C",s:"1S",parts:[P("Written tests","Písomky",20)],exam:EX(80)},
  {c:"INC",id:302539,en:"Digital Systems Design",sk:"Návrh číslicových systémov",cr:5,t:"Cr+Ex",k:"C",s:"1S",parts:[P("Mid-term test","Polsemestrálna písomka",25),P("Homework + lab evaluation","Domáce úlohy + laboratóriá",20)],exam:EX(55,25)},
@@ -1187,7 +1180,7 @@ const T={
   grpA:"English (PVA) · one course at B1 or higher",grpT:"Technical (PVT) · one of these",grpE:"Other electives",ownH:"Not on the list? Add your own",
   kind:{E:"optional",A:"English",T:"technical"},exTitle:"Exit the tracker?",exBody:"Your points are hidden until you open the tracker again. Your data stays saved.",exYes:"Yes, exit",exitBtn:"Exit",gateGo:"Slide to open",gateNote:"Unofficial student tool. Not made or run by VUT or FIT.",resetBtn:"Reset all data",cancel:"Cancel",
   r1Title:"Reset everything?",r1Body:"This deletes all your points, exam scores, course statuses, electives and failed-course marks.",r1Yes:"Yes, reset",
-  r2Title:"Are you absolutely sure?",r2Body:"All your data will be deleted for good. This cannot be undone.",r2Yes:"Delete everything",resetDone:"All data was reset.",minOkShort:"✓ Minimum reached. You can continue your studies.",minOkToast:"🎉 You reached the minimum credits!",logoAlt:"Brno University of Technology, Faculty of Information Technology",
+  r2Title:"Are you absolutely sure?",r2Body:"All your data will be deleted for good. This cannot be undone.",r2Yes:"Delete everything",resetDone:"All data was reset.",minOkShort:"✓ Minimum reached. You can continue your studies.",minOkToast:"You reached the minimum credits",logoAlt:"Brno University of Technology, Faculty of Information Technology",
   zeroLbl:"Tests with 0 points",failLbl:"Failed courses",fail3:"3 ✕: you cannot continue your studies.",
   zeroBad:(z,m)=>`<b>${z} zeros</b> (max ${m}) · no course credit`,
   
@@ -1256,7 +1249,7 @@ const T={
   grpA:"Angličtina (PVA) · jeden predmet na úrovni B1 alebo vyššej",grpT:"Technický (PVT) · jeden z nich",grpE:"Ostatné voliteľné",ownH:"Nie je v zozname? Pridaj vlastný",
   kind:{E:"voliteľný",A:"angličtina",T:"technický"},exTitle:"Odísť z trackera?",exBody:"Body sa skryjú, kým tracker znova neotvoríš. Tvoje údaje ostanú uložené.",exYes:"Áno, odísť",exitBtn:"Odísť",gateGo:"Potiahni a otvor",gateNote:"Neoficiálny študentský nástroj. Nevytvorilo ani neprevádzkuje VUT ani FIT.",resetBtn:"Vymazať všetky údaje",cancel:"Zrušiť",
   r1Title:"Vymazať všetko?",r1Body:"Vymažú sa všetky tvoje body, výsledky skúšok, stavy predmetov, voliteľné predmety aj značky neúspešných predmetov.",r1Yes:"Áno, vymazať",
-  r2Title:"Naozaj to chceš urobiť?",r2Body:"Všetky údaje sa natrvalo vymažú. Nedá sa to vrátiť späť.",r2Yes:"Vymazať všetko",resetDone:"Všetky údaje boli vymazané.",minOkShort:"✓ Minimum splnené. Môžeš pokračovať v štúdiu.",minOkToast:"🎉 Máš minimum kreditov!",logoAlt:"Vysoké učení technické v Brně, Fakulta informačních technologií",
+  r2Title:"Naozaj to chceš urobiť?",r2Body:"Všetky údaje sa natrvalo vymažú. Nedá sa to vrátiť späť.",r2Yes:"Vymazať všetko",resetDone:"Všetky údaje boli vymazané.",minOkShort:"✓ Minimum splnené. Môžeš pokračovať v štúdiu.",minOkToast:"Máš minimum kreditov",logoAlt:"Vysoké učení technické v Brně, Fakulta informačních technologií",
   zeroLbl:"Písomky za 0 bodov",failLbl:"Neúspešné predmety",fail3:"3 ✕: v štúdiu nemôžeš pokračovať.",
   zeroBad:(z,m)=>`<b>${z} nuly</b> (max ${m}) · bez zápočtu`,
   
@@ -1310,7 +1303,7 @@ Object.assign(T.en,{
   welWin:{summary:"Your credits and the minimum you need",courses:"Your courses, semester by semester",dates:"Exam terms and deadlines ahead",upnext:"What to do next in each course",plan:"Credits per semester, year and whole study",ms:"Badges for what you've reached",hist:"Every change you made"},bkSave:"Download",bkLoad:"Load file",bkNoDl:"Downloading isn't available in this view.",
   bkBad:"That file isn't a backup of this tracker.",bkQTitle:"Load this backup?",bkQBody:d=>`Everything you have now is replaced with the backup from ${d}.`,bkYes:"Yes, load it",bkDone:"Backup loaded.",bkSaved:"Backup saved.",bkFail:"The backup could not be saved.",
   bbProg:"Progress",bbCourses:"Courses",bbSet:"Settings",
-  msT:"Milestones",msToast:n=>`🏆 Milestone: ${n}!`,
+  msT:"Milestones",msToast:n=>`Milestone: ${n}`,
   ms:{pass1:"First course passed",firstA:"First A",clean:"Clean semester",half:"Halfway · 90 credits",all:"All 180 credits"},
   msD:{pass1:"Pass any course",firstA:"Get an A in any course",clean:"Pass every course of a semester without a failed exam term",half:"Pass 90 credits",all:"Pass 180 credits"},
   ccT:"Credits per semester",ccPass:"Passed",ccProg:"In progress",ccPace:"30 a semester",ccFail:"Failed",goT:"Game over",goBand:"3 failed courses. This is your final data; exit or start over to begin a new study.",goOverT:"Start over?",goExitT:"Leave and start over?",
@@ -1374,7 +1367,7 @@ Object.assign(T.sk,{
   welWin:{summary:"Tvoje kredity a minimum, ktoré potrebuješ",courses:"Tvoje predmety po semestroch",dates:"Nadchádzajúce skúšky a odovzdania",upnext:"Čo ďalej v každom predmete",plan:"Kredity za semester, ročník a celé štúdium",ms:"Odznaky za to, čo si dosiahol",hist:"Každá zmena, ktorú si urobil"},bkSave:"Stiahnuť",bkLoad:"Nahrať súbor",bkNoDl:"Sťahovanie tu nie je dostupné.",
   bkBad:"Tento súbor nie je záloha tohto trackera.",bkQTitle:"Nahrať túto zálohu?",bkQBody:d=>`Všetko, čo máš teraz, sa nahradí zálohou z ${d}.`,bkYes:"Áno, nahrať",bkDone:"Záloha nahraná.",bkSaved:"Záloha uložená.",bkFail:"Zálohu sa nepodarilo uložiť.",
   bbProg:"Postup",bbCourses:"Predmety",bbSet:"Nastavenia",
-  msT:"Míľniky",msToast:n=>`🏆 Míľnik: ${n}!`,
+  msT:"Míľniky",msToast:n=>`Míľnik: ${n}`,
   ms:{pass1:"Prvý absolvovaný predmet",firstA:"Prvé A",clean:"Čistý semester",half:"Polovica · 90 kreditov",all:"Všetkých 180 kreditov"},
   msD:{pass1:"Absolvuj ľubovoľný predmet",firstA:"Získaj A z ľubovoľného predmetu",clean:"Absolvuj všetky predmety semestra bez neúspešného termínu skúšky",half:"Získaj 90 kreditov",all:"Získaj 180 kreditov"},
   ccT:"Kredity za semester",ccPass:"Získané",ccProg:"Prebieha",ccPace:"30 za semester",ccFail:"Neúspešné",goT:"Koniec hry",goBand:"3 neúspešné predmety. Toto sú tvoje konečné údaje; odíď alebo začni odznova a začneš nové štúdium.",goOverT:"Začať odznova?",goExitT:"Odísť a začať odznova?",
@@ -1439,7 +1432,7 @@ const TYPE={en:{"Cr+Ex":"Course credit + exam","Ex":"Exam","Cr":"Course credit",
 /* ---------- App version: the newest entry of the version log (data auto-saves do not count) ---------- */
 // like an app release: small fixes go into the current version, a new feature set gets the next number (3.5 → 3.6),
 // a big change starts a new major (3.x → 4.0)
-const APP_VER="4.5",APP_DATE="2026-11-04";
+const APP_VER="4.6",APP_DATE="2026-11-10";
 // every major version is named after a Brno landmark, the way macOS versions are named after places in California:
 // its x.0 opens with the name in big letters, and the updates after it (x.1, x.2 …) wear the same colours, quieter
 const CODENAMES={4:{n:"Orloj",why:["Named after the astronomical clock on Brno's Freedom Square, because version 4 is all about time: exam dates, deadlines and countdowns.","Pomenovaná podľa orloja na náměstí Svobody v Brne, lebo verzia 4 je celá o čase: termíny skúšok, odovzdania a odpočty."]}};
@@ -1449,6 +1442,19 @@ const codeOf=e=>CODENAMES[parseInt(e.v,10)];
    v = version; major = a major update (glows in the list and opens with its codename); n / i / f = new / improved /
    fixed, each item [English, Slovak] */
 const CHANGELOG=[
+ {v:"4.6",d:"2026-11-10",t:["Smoother setup & calmer look","Plynulejší sprievodca a pokojnejší vzhľad"],
+  i:[["Grade scale: how many courses you finished with a mark shows under its box, in the same colour, instead of squeezed inside it","Stupnica známok: počet predmetov s danou známkou je pod jej rámčekom, v tej istej farbe, namiesto natlačenia dovnútra"],
+     ["Setup: the year and semester switches slide like the others, and the windows behind grow or shrink smoothly to the new semester instead of jumping","Sprievodca: prepínače ročníka a semestra sa posúvajú ako ostatné a okná za ním sa plynulo zväčšia alebo zmenšia namiesto skoku"],
+     ["Windows that change places in the layout glide to their new spot instead of jumping","Okná, ktoré si v rozložení vymenia miesto, sa plynulo presunú namiesto skoku"],
+     ["The reaper on the progress bar walks more smoothly: a calmer bob, a softer robe swing, and the scythe trailing a little behind","Smrtka na lište postupu kráča plynulejšie: pokojnejšie pohupovanie, jemnejšie vlnenie habitu a kosa sa mierne oneskoruje"],
+     ["Calmer look: the entry slider and the version 4 banner are plain blue, readable in light and dark mode, instead of a red, violet and blue gradient, without the glow and the looping shine","Pokojnejší vzhľad: posuvník pri vstupe a banner verzie 4 sú v čistej modrej, čitateľnej vo svetlom aj tmavom režime, namiesto červeno-fialovo-modrého prechodu, bez žiary a opakovaného lesku"],
+     ["Passed courses: only the bar and the word Passed are green, the card itself stays neutral, so a finished semester is no longer a wall of green","Absolvované predmety: zelená je len lišta a slovo Absolvované, samotná karta zostáva neutrálna, takže hotový semester už nie je zelená stena"],
+     ["Labels like Compulsory courses, Year and Failed courses are written normally instead of in spaced-out capitals, and headings are a little less bold","Popisy ako Povinné predmety, Ročník a Neúspešné predmety sú písané normálne namiesto riedkych veľkých písmen a nadpisy sú o niečo menej tučné"],
+     ["Milestones have small line icons instead of emoji, schedule clashes a warning icon, and pop-up messages are plain text","Míľniky majú malé čiarové ikony namiesto emoji, kolízie v rozvrhu ikonu varovania a vyskakovacie správy sú obyčajný text"],
+     ["The History and Add an optional course buttons have normal corners, like the other buttons","Tlačidlá História a Pridať voliteľný predmet majú bežné rohy ako ostatné tlačidlá"]],
+  f:[["Going from year 3 to year 2 (or back from any later choice), the marker slides the right way instead of from the first option","Pri prechode z 3. na 2. ročník (alebo späť na skoršiu voľbu) sa značka posúva správnym smerom, nie od prvej možnosti"],
+     ["IEL: course credit needs at least 12 points","IEL: zápočet potrebuje aspoň 12 bodov"],
+     ["IZP: Project 2 is worth 9 points, not 6","IZP: Projekt 2 má 9 bodov, nie 6"]]},
  {v:"4.5",d:"2026-11-04",t:["Scholarship & thesis","Štipendium a bakalárka"],
   n:[["Merit scholarship in Credits: for each semester, whether you have the 20 graded credits and every course passed, with your average. FIT pays the best 5% of the year, so there is no fixed cut-off","Prospechové štipendium v Kreditoch: za každý semester, či máš 20 kreditov s hodnotením a všetko urobené, s priemerom. FIT ho dáva 5 % najlepších v ročníku, pevná hranica teda nie je"],
      ["Thesis and state exam in Year 3: what is done (compulsory courses, PVA, PVT, thesis, 180 credits) and the dates for the thesis topic, state exam registration, thesis submission and the state exam, with a countdown","Bakalárka a štátnica v 3. ročníku: čo máš splnené (povinné predmety, PVA, PVT, bakalárka, 180 kreditov) a termíny výberu témy, prihlasovania na štátnicu, odovzdania bakalárky a štátnice s odpočtom"],
@@ -1701,7 +1707,7 @@ function grade(p){return p>=90?"A":p>=80?"B":p>=70?"C":p>=60?"D":p>=50?"E":"F"}
 const GRANGE={A:"90–100",B:"80–89",C:"70–79",D:"60–69",E:"50–59",F:"&lt;50"};
 function gradeChips(){
   const n={};for(const d of allCourses()){const g=gradeOf(d);if(g)n[g]=(n[g]||0)+1}
-  return Object.keys(GRANGE).map(g=>`<span class="gm${n[g]?" got":""}" style="--gc:var(--g-${g})"${n[g]?` title="${L().gotN(n[g])}"`:""}>${g} ${GRANGE[g]}${n[g]?`<sup>×${n[g]}</sup>`:""}</span>`).join("");
+  return Object.keys(GRANGE).map(g=>`<span class="gw" style="--gc:var(--g-${g})"${n[g]?` title="${L().gotN(n[g])}"`:""}><span class="gm${n[g]?" got":""}">${g} ${GRANGE[g]}</span>${n[g]?`<span class="gn">×${n[g]}</span>`:""}</span>`).join("");
 }
 // BUT weighted average (Studijní a zkušební řád čl. 14–15): Σ credits × grade value ÷ Σ credits, over courses that end
 // with an exam or a graded course credit; A 1, B 1.5, C 2, D 2.5, E 3, F 4. Course-credit-only courses have no grade.
@@ -2509,7 +2515,7 @@ function render(){
   document.getElementById("sems").innerHTML=h;
   alignRows();syncPulses();requestAnimationFrame(syncPulses);
   renderHistory();
-  document.getElementById("foot-txt").innerHTML=`<h3>${t.gradesH}</h3><div class="grades">${gradeChips()}</div><p class="madeby">Made by Filipko &amp; Claude ❤️</p>${userCount?`<p class="users" id="users">${t.usersL(userCount)}</p>`:""}<p class="appver mono" title="${t.verTip}">${t.verLbl(APP_VER,new Date(APP_DATE+"T12:00:00").toLocaleDateString(S.lang==="sk"?"sk-SK":"en-GB",{day:"numeric",month:"short",year:"numeric"}))}</p>`;
+  document.getElementById("foot-txt").innerHTML=`<h3>${t.gradesH}</h3><div class="grades">${gradeChips()}</div><p class="madeby">Made by Filipko &amp; Claude</p>${userCount?`<p class="users" id="users">${t.usersL(userCount)}</p>`:""}<p class="appver mono" title="${t.verTip}">${t.verLbl(APP_VER,new Date(APP_DATE+"T12:00:00").toLocaleDateString(S.lang==="sk"?"sk-SK":"en-GB",{day:"numeric",month:"short",year:"numeric"}))}</p>`;
   animateChanges();
 }
 
@@ -2526,7 +2532,13 @@ function syncSegs(){
     // nothing chosen (a layout that matches no preset): the marker fades out where it was
     el.classList.toggle("none",on<0);if(on<0)return;
     // a hidden switch (Settings closed) jumps: a slide started under display:none can leave the marker stuck when it shows
-    if(prev!=null&&prev!==idx&&!still&&el.offsetParent){el.style.setProperty("--pos",prev);getComputedStyle(th).transform;el.style.setProperty("--pos",idx)}
+    // the slide is an explicit animation from the previous choice: a redrawn switch has a brand-new marker, and a CSS
+    // transition on it would start from the first option (3 → 2 slid in from 1). A slide still running continues from
+    // where the marker is now
+    if(prev!=null&&prev!==idx&&!still&&el.offsetParent){const w=th.offsetWidth,run=th.getAnimations();
+      const from=run.length?new DOMMatrix(getComputedStyle(th).transform).m41:prev*w;run.forEach(a=>a.cancel());
+      el.style.setProperty("--pos",idx);
+      th.animate([{transform:`translateX(${from}px)`},{transform:`translateX(${idx*w}px)`}],{duration:320,easing:"cubic-bezier(.3,.7,.25,1.15)"})}
     else el.style.setProperty("--pos",idx);
     segPrev[key]=idx;
   });
@@ -2877,7 +2889,7 @@ async function saveFile(filename,data,type){
 matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>applyTheme());
 /* ---------- Welcome: one window for first-time visitors; its pages slide (the old one out to the side, behind the
    window's edge, the new one in from the other side) while the window itself stays ---------- */
-let welStep=0,welBusy=false,welOld=false;
+let welStep=0,welBusy=false,welOld=false,welPage=0;
 function welPane(i){
   const t=L(),W=t.wel[i],c=cur(),l=lay();let x="";
   const seg=(attr,items,on)=>`<div class="seg slide" data-key="${attr}" role="group">${items.map(([v,txt])=>`<button type="button" ${attr}="${v}" aria-pressed="${v===on}">${txt}</button>`).join("")}</div>`;
@@ -2915,7 +2927,17 @@ function openWelcome(){
     if(b.dataset.wcode)return openTransfer(false);
     if(b.dataset.wl){S.lang=b.dataset.wl;rerender();changed();return welRefresh()}
     if(b.dataset.wt){try{localStorage.setItem("fit-theme",b.dataset.wt)}catch(e){}applyTheme();return welRefresh()}
-    if(b.dataset.wy||b.dataset.wh){const c=cur();S.current=(b.dataset.wy||c[0])+(b.dataset.wh||c[1]);render();changed();return welRefresh()}
+    // the switch is flipped in place so its marker slides; the page behind redraws once it has slid (a redraw during the
+    // slide would freeze it). Each window then grows or shrinks from its old height while its new content fades in, so
+    // the windows below glide (year 1's Progress is taller than year 2's, for one) instead of jumping
+    if(b.dataset.wy||b.dataset.wh){const c=cur();S.current=(b.dataset.wy||c[0])+(b.dataset.wh||c[1]);
+      b.parentNode.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));syncSegs();
+      clearTimeout(welPage);welPage=setTimeout(()=>{
+        const h0=new Map(winsShown().map(w=>[w,w.offsetHeight]));render();changed();if(noMotion())return;
+        // measured a frame later (still before it is painted): render's own frame work can still change a window's height
+        requestAnimationFrame(()=>winsShown().forEach(w=>{const h=w.offsetHeight;w.getAnimations().forEach(a=>a.cancel());w.style.overflow="hidden";
+          w.animate([{boxSizing:"border-box",height:(h0.get(w)??h)+"px",opacity:.35},{boxSizing:"border-box",height:h+"px",opacity:1}],{duration:420,easing:"cubic-bezier(.2,.8,.2,1)"}).onfinish=()=>w.style.overflow=""}))
+      },noMotion()?0:330);return}
     if(b.dataset.wwin){const l=lay();l.off[b.dataset.wwin]=!l.off[b.dataset.wwin];S.layout={order:l.order,off:l.off};applyLayoutAnim();changed();b.setAttribute("aria-checked",String(!l.off[b.dataset.wwin]));presetSync();return}
     // a preset flips the switches below it in place, so their knobs slide
     if(b.dataset.wlp){setPreset(b.dataset.wlp);m.querySelectorAll("[data-wwin]").forEach(s=>s.setAttribute("aria-checked",String(!lay().off[s.dataset.wwin])));return}
@@ -3436,7 +3458,8 @@ function milestones(){
   const clean=SLOTS.some(sl=>{const ds=list.filter(d=>cs(d.c).taken===sl);return ds.length>=2&&ds.every(d=>{const r=cs(d.c);return r.status==="passed"&&r.enroll===1&&calc(d).fails===0})});
   return {pass1:list.some(d=>cs(d.c).status==="passed"),firstA:list.some(d=>gradeOf(d)==="A"),clean,half:st.passed>=90,all:st.passed>=180};
 }
-const MS_ICON={pass1:"🎓",firstA:"⭐",clean:"✨",half:"⛰️",all:"🏁"};
+// line icons (lucide): graduation cap, star, double check, mountain, flag
+const MS_ICON=Object.fromEntries(Object.entries({pass1:'<path d="M22 10 12 5 2 10l10 5 10-5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/>',firstA:'<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.2-6.2 3.2L7 14.2 2 9.3l6.9-1z"/>',clean:'<path d="M18 6 7 17l-5-5"/><path d="m22 10-7.5 7.5L13 16"/>',half:'<path d="m8 3 4 8 5-5 5 15H2z"/>',all:'<path d="M4 22V4c4-2 8 2 16 0v10c-8 2-12-2-16 0"/>'}).map(([k,d])=>[k,`<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`]));
 let msReady=false;
 function checkMilestones(){
   const got=milestones(),t=L(),fresh=[];S.ms=S.ms||{};
@@ -3535,7 +3558,10 @@ function applyLayout(){
   const L0=lay(),wrap=document.getElementById("app"),foot=document.getElementById("foot");
   // windows are only moved when the order really differs, so a box you are typing in keeps its focus
   const now=[...wrap.querySelectorAll(":scope>.win")].map(w=>w.dataset.win).join();
-  if(now!==L0.order.join())L0.order.forEach(id=>wrap.insertBefore(winEl(id),foot));
+  // windows that change places glide there (FLIP) instead of jumping
+  if(now!==L0.order.join()){const top=new Map(noMotion()?[]:winsShown().map(w=>[w,w.getBoundingClientRect().top]));
+    L0.order.forEach(id=>wrap.insertBefore(winEl(id),foot));
+    top.forEach((y,w)=>{const dy=y-w.getBoundingClientRect().top;if(Math.abs(dy)>.5)w.animate([{transform:`translateY(${dy}px)`},{transform:"none"}],{duration:420,easing:"cubic-bezier(.2,.8,.2,1)"})})}
   L0.order.forEach(id=>winEl(id).classList.toggle("off",!WIN_FIXED.includes(id)&&!!L0.off[id]));
 }
 function winBar(id){
@@ -3790,7 +3816,7 @@ function renderDates(){
   box.parentElement.classList.toggle("empty",!!S.noDates);if(S.noDates){box.innerHTML="";return}
   const list=allDates(),shown=datesAll?list:list.slice(0,6),cl=clashes(list);
   box.innerHTML=`<div class="dhead"><h2 class="uptitle">${t.datesT}</h2>${list.length?`<button type="button" class="btn plain icsb" data-ics="1">${SVG_CAL}<span>${t.icsBtn}</span></button>`:""}</div>`
-    +(cl.out.length?`<ul class="clashes" role="status" aria-label="${t.clashT}">${cl.out.map(x=>`<li>⚠ ${esc(x)}</li>`).join("")}</ul>`:"")
+    +(cl.out.length?`<ul class="clashes" role="status" aria-label="${t.clashT}">${cl.out.map(x=>`<li><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-2px;margin-right:6px"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>${esc(x)}</li>`).join("")}</ul>`:"")
     +(list.length?`<ol class="uplist">${shown.map(x=>`<li><button type="button" class="upitem${x.n<=3?" hot":""}${cl.hit.has(cl.key(x))?" clash":""}" data-goto="${x.d.c}"><span class="dday">${fmtDay(x.iso)}${x.m!=null?` · ${hhmm(x.m)}`:""}</span><span class="code">${esc(x.d.c)}</span><span class="uptext">${esc(x.what)}</span><span class="updue${x.n<=3?" soon":""}">${cdText(x.iso,x.m)}</span></button></li>`).join("")}</ol>`
       +(list.length>6?`<button type="button" class="linkbtn upmore" data-datesmore="1">${datesAll?t.upLess:t.upMore(list.length)}</button>`:""):`<p class="emptyopt">${t.datesEmpty}</p>`)
     +planHtml(list);
