@@ -6,7 +6,7 @@
 
 ### ▶ Open it: **[hulko.xyz](https://hulko.xyz)**
 
-Also at [fit-study-index.pages.dev](https://fit-study-index.pages.dev).
+The hosted site is paused for now. Until it is back, [run it yourself](#run-it-yourself).
 
 On a phone you can add it to your home screen: it then opens like an app and works offline.
 
@@ -43,11 +43,15 @@ Wrong points, a rule that doesn't match, or a bug: [open an issue](../../issues/
 
 ## Versions
 
-Every version is its own commit and tag, from `v1.0` to the newest. See the [tags](../../tags) or the [commit history](../../commits/main).
+Every version is its own commit and tag, from `v1.0.0` to the newest, numbered major.minor.patch. See the [tags](../../tags) or the [commit history](../../commits/main).
 
 ## Credits
 
 Made by Filipko & Claude ❤️. Rules are based on the BUT Study and Examination Rules and the FIT BIT study plan.
+
+## License
+
+The code is open source under the [MIT License](LICENSE). The faculty logo files (`logo-*.webp`) belong to Brno University of Technology / FIT and are not covered by it.
 
 ---
 
@@ -59,7 +63,7 @@ Made by Filipko & Claude ❤️. Rules are based on the BUT Study and Examinatio
 
 ### ▶ Otvoriť: **[hulko.xyz](https://hulko.xyz)**
 
-Tiež na [fit-study-index.pages.dev](https://fit-study-index.pages.dev).
+Stránka je teraz pozastavená. Kým sa vráti, [spusti si ho sám](#spustenie-u-seba).
 
 Na mobile si ho môžeš pridať na plochu: potom sa otvára ako aplikácia a funguje aj offline.
 
@@ -96,8 +100,12 @@ Nesprávne body, pravidlo, ktoré nesedí, alebo chyba: [otvor issue](../../issu
 
 ## Verzie
 
-Každá verzia je samostatný commit a tag, od `v1.0` po najnovšiu. Pozri [tagy](../../tags) alebo [históriu commitov](../../commits/main).
+Každá verzia je samostatný commit a tag, od `v1.0.0` po najnovšiu, číslované hlavná.vedľajšia.oprava. Pozri [tagy](../../tags) alebo [históriu commitov](../../commits/main).
 
 ## Autori
 
 Made by Filipko & Claude ❤️. Pravidlá vychádzajú zo Studijního a zkušebního řádu VUT a študijného plánu BIT na FIT.
+
+## Licencia
+
+Kód je open source pod [licenciou MIT](LICENSE). Súbory s logom fakulty (`logo-*.webp`) patria VUT v Brne / FIT a licencia sa na ne nevzťahuje.

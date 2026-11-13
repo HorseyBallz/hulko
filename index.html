@@ -63,6 +63,7 @@ button,select,input{font:inherit;color:inherit}
    the needle in the theme colour; the glass is cut where the needle crosses it. The name beside it; the faculty logo
    sits on the intro screen and in the footers */
 .hmark{display:flex;align-items:center;gap:12px;flex:none}
+a.hmark{color:inherit;text-decoration:none;border-radius:8px}
 .hlogo{width:52px;height:52px;flex:none;color:var(--ink);fill:currentColor}
 .hlogo .n,.tri .n{fill:var(--accent)}
 .brand .hmark h1,.gbrand .hmark h1{font-family:var(--f-display);font-size:34px;font-weight:700;letter-spacing:-.025em;line-height:1}
@@ -914,7 +915,7 @@ input.optq{width:100%;background:var(--paper);border:1px solid var(--line);borde
     <div class="brand">
       <div style="display:grid;gap:10px;min-width:0">
         <div class="logorow">
-          <div class="hmark"><svg class="hlogo" data-hm aria-hidden="true"></svg><h1 id="t-title">Hulko</h1></div>
+          <a class="hmark" href="#" data-home><svg class="hlogo" data-hm aria-hidden="true"></svg><h1 id="t-title">Hulko</h1></a>
         </div>
         <p class="subline"><span id="t-sub">Study index · Bachelor's in Information Technology · BIT</span></p>
       </div>
@@ -951,7 +952,7 @@ input.optq{width:100%;background:var(--paper);border:1px solid var(--line);borde
 <div class="wrap logpage" id="logview" hidden>
   <header class="top">
     <div class="brand"><div style="display:grid;gap:10px;min-width:0">
-      <div class="logorow"><div class="hmark"><svg class="hlogo" data-hm aria-hidden="true"></svg><h1>Hulko</h1></div></div>
+      <div class="logorow"><a class="hmark" href="#" data-home><svg class="hlogo" data-hm aria-hidden="true"></svg><h1>Hulko</h1></a></div>
       <h2 id="lg-title">Version history</h2><p id="lg-desc"></p></div></div>
     <div class="tools">
       <span class="chip saved uptodate" id="lg-up"><span class="dot"></span><span id="lg-uptxt"></span></span>
@@ -1432,7 +1433,7 @@ const TYPE={en:{"Cr+Ex":"Course credit + exam","Ex":"Exam","Cr":"Course credit",
 /* ---------- App version: the newest entry of the version log (data auto-saves do not count) ---------- */
 // like an app release: small fixes go into the current version, a new feature set gets the next number (3.5 → 3.6),
 // a big change starts a new major (3.x → 4.0)
-const APP_VER="4.6",APP_DATE="2026-11-10";
+const APP_VER="4.6.1",APP_DATE="2026-11-13";
 // every major version is named after a Brno landmark, the way macOS versions are named after places in California:
 // its x.0 opens with the name in big letters, and the updates after it (x.1, x.2 …) wear the same colours, quieter
 const CODENAMES={4:{n:"Orloj",why:["Named after the astronomical clock on Brno's Freedom Square, because version 4 is all about time: exam dates, deadlines and countdowns.","Pomenovaná podľa orloja na náměstí Svobody v Brne, lebo verzia 4 je celá o čase: termíny skúšok, odovzdania a odpočty."]}};
@@ -1442,7 +1443,12 @@ const codeOf=e=>CODENAMES[parseInt(e.v,10)];
    v = version; major = a major update (glows in the list and opens with its codename); n / i / f = new / improved /
    fixed, each item [English, Slovak] */
 const CHANGELOG=[
- {v:"4.6",d:"2026-11-10",t:["Smoother setup & calmer look","Plynulejší sprievodca a pokojnejší vzhľad"],
+ {v:"4.6.1",d:"2026-11-13",t:["Security fix & clickable logo","Bezpečnostná oprava a klikateľné logo"],
+  i:[["Version numbers have three parts (major.minor.patch); the earlier versions are renumbered the same way, so small updates are now patches of the version they polished","Čísla verzií majú tri časti (hlavná.vedľajšia.oprava); staršie verzie sú prečíslované rovnako, takže malé aktualizácie sú teraz opravami verzie, ktorú dolaďovali"],
+     ["Hulko is open source under the MIT licence","Hulko je open source pod licenciou MIT"]],
+  f:[["Security: a backup, transfer code or synced copy made by someone else could run its own code in the tracker through a made-up course code. Everything loaded from outside is now checked first, and a code you add yourself can only have letters, digits, - and _","Bezpečnosť: záloha, prenosový kód alebo synchronizovaná kópia od niekoho iného mohla cez vymyslený kód predmetu spustiť v trackeri vlastný kód. Všetko načítané zvonka sa teraz najprv skontroluje a vlastný kód predmetu môže mať len písmená, číslice, - a _"],
+     ["The Hulko logo in the header takes you back: out of the version history, and to the top of the page","Logo Hulko v hlavičke ťa vráti späť: z histórie verzií a na začiatok stránky"]]},
+ {v:"4.6.0",d:"2026-11-10",t:["Smoother setup & calmer look","Plynulejší sprievodca a pokojnejší vzhľad"],
   i:[["Grade scale: how many courses you finished with a mark shows under its box, in the same colour, instead of squeezed inside it","Stupnica známok: počet predmetov s danou známkou je pod jej rámčekom, v tej istej farbe, namiesto natlačenia dovnútra"],
      ["Setup: the year and semester switches slide like the others, and the windows behind grow or shrink smoothly to the new semester instead of jumping","Sprievodca: prepínače ročníka a semestra sa posúvajú ako ostatné a okná za ním sa plynulo zväčšia alebo zmenšia namiesto skoku"],
      ["Windows that change places in the layout glide to their new spot instead of jumping","Okná, ktoré si v rozložení vymenia miesto, sa plynulo presunú namiesto skoku"],
@@ -1455,13 +1461,13 @@ const CHANGELOG=[
   f:[["Going from year 3 to year 2 (or back from any later choice), the marker slides the right way instead of from the first option","Pri prechode z 3. na 2. ročník (alebo späť na skoršiu voľbu) sa značka posúva správnym smerom, nie od prvej možnosti"],
      ["IEL: course credit needs at least 12 points","IEL: zápočet potrebuje aspoň 12 bodov"],
      ["IZP: Project 2 is worth 9 points, not 6","IZP: Projekt 2 má 9 bodov, nie 6"]]},
- {v:"4.5",d:"2026-11-04",t:["Scholarship & thesis","Štipendium a bakalárka"],
+ {v:"4.5.0",d:"2026-11-04",t:["Scholarship & thesis","Štipendium a bakalárka"],
   n:[["Merit scholarship in Credits: for each semester, whether you have the 20 graded credits and every course passed, with your average. FIT pays the best 5% of the year, so there is no fixed cut-off","Prospechové štipendium v Kreditoch: za každý semester, či máš 20 kreditov s hodnotením a všetko urobené, s priemerom. FIT ho dáva 5 % najlepších v ročníku, pevná hranica teda nie je"],
      ["Thesis and state exam in Year 3: what is done (compulsory courses, PVA, PVT, thesis, 180 credits) and the dates for the thesis topic, state exam registration, thesis submission and the state exam, with a countdown","Bakalárka a štátnica v 3. ročníku: čo máš splnené (povinné predmety, PVA, PVT, bakalárka, 180 kreditov) a termíny výberu témy, prihlasovania na štátnicu, odovzdania bakalárky a štátnice s odpočtom"],
      ["Beta site: Hulko now has its own beta site where new versions are tested before they reach everyone. It isn't open yet; later a limited number of testers will get access to try upcoming versions early","Beta stránka: Hulko má teraz vlastnú beta stránku, kde sa nové verzie testujú skôr, než prídu ku všetkým. Zatiaľ nie je otvorená; neskôr k nej dostane prístup obmedzený počet testerov, ktorí si budúce verzie vyskúšajú vopred"]],
   i:[["Optional courses: the year's credits against the 65 limit next to PVA and PVT, and courses that would go over 65 are marked","Voliteľné predmety: kredity ročníka voči limitu 65 pri PVA a PVT a predmety, ktoré by limit prekročili, sú označené"],
      ["Notes: links and e-mail addresses in a course's notes can be clicked","Poznámky: odkazy a e-mailové adresy v poznámkach predmetu sa dajú kliknúť"]]},
- {v:"4.4",d:"2026-11-01",t:["Exam plan","Plán skúšok"],
+ {v:"4.4.0",d:"2026-11-01",t:["Exam plan","Plán skúšok"],
   n:[["Exam plan: in a course card, tap Regular, 1st resit or 2nd resit to pick the term you plan to take. The Dates window shows your exam period as a timeline with the prep days before each exam","Plán skúšok: v karte predmetu ťukni na Riadny, 1. opravný alebo 2. opravný a vyber termín, na ktorý pôjdeš. Okno Dátumy ukáže skúškové obdobie ako časovú os s dňami na prípravu pred každou skúškou"],
      ["Studis registration date: a Registration opens row under the exam terms; it is in Dates and in Add all to calendar, with reminders","Dátum prihlasovania v Studise: riadok Prihlasovanie od pod termínmi skúšky; je v Dátumoch aj v Pridať všetko do kalendára, s pripomienkami"],
      ["Am I safe?: under the credits verdict, how many credits you can still lose and which courses you could fail and still reach the minimum","Som v bezpečí?: pod hodnotením kreditov, koľko kreditov môžeš ešte stratiť a ktoré predmety by si mohol neurobiť a minimum aj tak splniť"],
@@ -1469,7 +1475,7 @@ const CHANGELOG=[
   i:[["Clash warnings only compare the terms you plan to take, so alternative terms no longer clash","Kolízie porovnávajú len termíny, na ktoré pôjdeš, takže náhradné termíny sa už neprekrývajú"]],
   f:[["Settings: the selected layout preset keeps its coloured marker when Settings open","Nastavenia: vybraná predvoľba rozloženia má pri otvorení Nastavení svoju farebnú značku"],
      ["Settings reopened right after closing them no longer vanish","Nastavenia otvorené hneď po zatvorení už nezmiznú"]]},
- {v:"4.3",d:"2026-10-31",t:["Sync & reminders","Synchronizácia a pripomienky"],
+ {v:"4.3.0",d:"2026-10-31",t:["Sync & reminders","Synchronizácia a pripomienky"],
   n:[["Cloud sync, off unless you turn it on (Settings → Your data): every change reaches your other devices on its own. Your data is encrypted on the device with a code only your devices have; moving it by code or QR code still works without the cloud","Synchronizácia v cloude, vypnutá, kým ju nezapneš (Nastavenia → Tvoje údaje): každá zmena sa sama dostane na ostatné zariadenia. Údaje sa šifrujú v zariadení kódom, ktorý majú len tvoje zariadenia; presun kódom alebo QR kódom funguje aj bez cloudu"],
      ["Calendar reminders: Add all to calendar now rings a day and an hour before each exam and deadline (a date without a time: 9:00 the day before and 7:00 that morning)","Pripomienky v kalendári: Pridať všetko do kalendára teraz zazvoní deň a hodinu pred každou skúškou a odovzdaním (dátum bez času: o 9:00 deň predtým a o 7:00 v ten deň)"],
      ["What grade do I need: tap a grade under the what-if slider to see the exam points it needs; grades out of reach are named","Akú známku potrebujem: ťukni na známku pod posuvníkom „čo ak“ a uvidíš, koľko bodov zo skúšky potrebuje; nedosiahnuteľné známky sú vypísané"],
@@ -1484,14 +1490,14 @@ const CHANGELOG=[
      ["Switching a window off in the setup, or picking a preset that hides it, folds it away and the windows below glide up; switching it on grows it back while they slide down","Vypnutie okna v sprievodcovi alebo predvoľba, ktorá ho skryje, ho plynulo zbalí a okná pod ním sa posunú hore; zapnutie ho zasa rozbalí a okná pod ním sa posunú dole"],
      ["The Hulko mark spins a few times when you point at it","Znak Hulko sa niekoľkokrát roztočí, keď naň ukážeš"],
      ["Setup guide: “I've used Hulko before” rolls its options open like a course card","Sprievodca: „Hulko som už používal(a)“ rozbalí možnosti plynulo, ako kartu predmetu"]]},
- {v:"4.2",d:"2026-10-30",t:["Colours, search & clashes","Farby, hľadanie a kolízie"],
+ {v:"4.2.0",d:"2026-10-30",t:["Colours, search & clashes","Farby, hľadanie a kolízie"],
   n:[["Colour themes: red, yellow, blue, green, orange and purple next to the original look, in Settings and in the setup. They work in light and dark","Farebné vzhľady: červená, žltá, modrá, zelená, oranžová a fialová popri pôvodnom vzhľade, v Nastaveniach aj v sprievodcovi. Fungujú vo svetlom aj tmavom režime"],
      ["Setup asks if you are new or have used Hulko before; returning users can load a backup file or enter a code right away","Sprievodca sa pýta, či si nový alebo si Hulko už používal(a); kto sa vracia, môže hneď nahrať zálohu alebo zadať kód"],
      ["Send code: the phone's share sheet (AirDrop, Messages…) sends your data link when there is no second screen to scan","Poslať kód: ponuka zdieľania v mobile (AirDrop, správy…) pošle odkaz na tvoje údaje, keď nie je druhá obrazovka na skenovanie"],
      ["Exam clash warnings in Dates: two exams on the same or back-to-back days, and, with a timetable imported, an exam during a class","Upozornenia na kolízie skúšok v Dátumoch: dve skúšky v ten istý alebo dva dni po sebe a, s importovaným rozvrhom, skúška počas hodiny"],
      ["Search: press / (or Ctrl / ⌘ K, or the magnifier) to find a course; [ and ] change the semester","Hľadanie: stlač / (alebo Ctrl / ⌘ K, alebo lupu) a nájdeš predmet; [ a ] menia semester"]],
   i:[["Version history shows the Hulko mark and name beside the faculty logo, like the main page","História verzií ukazuje znak a názov Hulko vedľa loga fakulty, ako hlavná stránka"]]},
- {v:"4.1",d:"2026-10-29",t:["Presets & polish","Predvoľby a doladenie"],
+ {v:"4.1.0",d:"2026-10-29",t:["Presets & polish","Predvoľby a doladenie"],
   n:[["New name and logo: Hulko, like the site’s address hulko.xyz, with its own mark first (also the browser tab icon) and the faculty logo beside it. The line below says it is a study index","Nový názov a logo: Hulko, ako adresa stránky hulko.xyz, s vlastným znakom na začiatku (aj ako ikona na karte prehliadača) a logom fakulty vedľa neho. Riadok pod nimi hovorí, že ide o študijný index"],
      ["Layout presets in Settings and in the setup: Minimal, Standard and Everything","Predvoľby rozloženia v Nastaveniach aj v sprievodcovi: Minimálne, Štandardné a Všetko"],
      ["Install as an app in Settings → About: the browser's own Install where there is one, step by step for iPhone, iPad and Safari on a Mac","Nainštalovať ako aplikáciu v Nastavenia → O aplikácii: tlačidlo prehliadača, kde ho má, a návod krok za krokom pre iPhone, iPad a Safari na Macu"],
@@ -1511,7 +1517,7 @@ const CHANGELOG=[
      ["Settings no longer stay slightly smaller after being closed once","Nastavenia už po prvom zatvorení neostanú o trochu menšie"],
      ["A backup made just after midnight is named with the right day","Záloha urobená tesne po polnoci má v názve správny deň"],
      ["Setup on a small phone: a page taller than the screen scrolls, and every page starts at its top","Sprievodca na malom telefóne: stránka vyššia ako obrazovka sa dá posúvať a každá začína hore"]]},
- {v:"4.0",d:"2026-10-28",major:1,t:["Dates, Credits & setup","Dátumy, Kredity a sprievodca"],
+ {v:"4.0.0",d:"2026-10-28",major:1,t:["Dates, Credits & setup","Dátumy, Kredity a sprievodca"],
   n:[["Dates window: every exam term and deadline ahead in one list","Okno Dátumy: všetky nadchádzajúce termíny skúšok a odovzdaní v jednom zozname"],
      ["Add all to calendar: one .ics file with every date","Pridať všetko do kalendára: jeden .ics súbor so všetkými dátumami"],
      ["Deadlines on points rows (projects, tests), shown in Up next and on the card","Termíny odovzdania pri riadkoch s bodmi (projekty, písomky), aj v Čo ďalej a na karte"],
@@ -1557,19 +1563,19 @@ const CHANGELOG=[
      ["The student and the reaper on the progress bar move smoothly: the student runs with swinging legs and arms (faster while the reaper leads), the reaper walks with a swinging robe and scythe, instead of a slow twitch","Študent a smrtka na lište postupu sa hýbu plynulo: študent beží so švihajúcimi nohami a rukami (rýchlejšie, keď smrtka vedie), smrtka kráča s vlajúcim plášťom a kosou, namiesto pomalého trhania"],
      ["Settings opened from the Version history fit their content instead of a wide, half-empty box","Nastavenia otvorené z Histórie verzií sú úzke podľa obsahu, nie široké a poloprázdne"],
      ["The 1st-year summer semester counts toward the usual 30 credits a year (15 + 15); the half-of-registered-credits exception is only mentioned","Letný semester 1. ročníka sa počíta do bežných 30 kreditov za rok (15 + 15); výnimka s polovicou zapísaných kreditov je len spomenutá"]]},
- {v:"3.5",d:"2026-10-27",t:["Points from Studis","Body zo Studisu"],
+ {v:"3.4.0",d:"2026-10-27",t:["Points from Studis","Body zo Studisu"],
   n:[["Paste points from Studis: copy the “Dílčí hodnocení” table of a course and the tracker fills in the matching rows, after a preview","Vloženie bodov zo Studisu: skopíruj tabuľku „Dílčí hodnocení“ predmetu a tracker po náhľade doplní zodpovedajúce riadky"],
      ["Exam terms from Studis go into the right attempt, with their dates","Termíny skúšky zo Studisu idú do správneho pokusu aj s dátumom"]],
   i:[["New users start without optional courses: ISM is no longer added for you","Noví používatelia začínajú bez voliteľných predmetov: ISM sa už nepridáva automaticky"],
      ["IZP projects are worth 6 points each","Projekty z IZP majú po 6 bodov"],
      ["Cleaner header: one short line under the logo and a small “Unofficial” tag (hover for details)","Čistejšia hlavička: jeden krátky riadok pod logom a malý štítok „Neoficiálne“ (podrobnosti po prejdení myšou)"]]},
- {v:"3.4",d:"2026-10-26",t:["Failed courses, calmer","Neúspešné predmety, pokojnejšie"],
+ {v:"3.3.1",d:"2026-10-26",t:["Failed courses, calmer","Neúspešné predmety, pokojnejšie"],
   n:[["A failed course folds into a short panel with two choices: retake next year, or undo a misclick","Neúspešný predmet sa zbalí do krátkeho panelu s dvoma voľbami: opakovať budúci rok alebo vrátiť omyl"],
      ["Undo puts the course back exactly as it was before the change that failed it","Vrátenie obnoví predmet presne do stavu pred zmenou, ktorá ho zhodila"]],
   i:[["The ✕ marks pop in first, then the card changes to the panel","Najprv vyskočia ✕, potom sa karta zmení na panel"],
      ["The year / semester bar turns to frosted glass while it sticks to the top","Lišta ročníka a semestra sa pri prilepení hore zmení na matné sklo"],
      ["Settings are grouped: Appearance, Courses & layout, Your data, About","Nastavenia sú v skupinách: Zobrazenie, Predmety a rozloženie, Tvoje údaje, O aplikácii"]]},
- {v:"3.3",d:"2026-10-26",t:["Clearer plan and chart","Prehľadnejší plán a graf"],
+ {v:"3.3.0",d:"2026-10-26",t:["Clearer plan and chart","Prehľadnejší plán a graf"],
   n:[["Grade scale in colour: each mark has its own colour and the marks you got are filled in with a count","Farebná stupnica: každá známka má svoju farbu a tie, ktoré si dostal, sú vyplnené aj s počtom"],
      ["The grade on a finished course wears its mark's colour","Známka pri ukončenom predmete má farbu svojej známky"],
      ["Failed credits in red in the year plan and the credits chart: credits you can no longer earn that semester","Neúspešné kredity načerveno v pláne ročníka aj v grafe kreditov: kredity, ktoré už v tom semestri nezískaš"],
@@ -1582,15 +1588,15 @@ const CHANGELOG=[
   f:[["The chart's tooltip no longer runs off the page on a narrow window","Popis v grafe už na úzkom okne nevybieha mimo stránky"],
      ["More room between the exam ✕ boxes and the exam rows, with Points / Date headings","Viac miesta medzi políčkami ✕ a riadkami skúšky, s nadpismi Body / Dátum"],
      ["Grade marks on the what-if slider no longer overlap at the exam minimum","Známky na posuvníku „čo ak“ sa pri minime skúšky už neprekrývajú"]]},
- {v:"3.2",d:"2026-10-26",t:["Version history","História verzií"],
+ {v:"3.2.0",d:"2026-10-26",t:["Version history","História verzií"],
   n:[["This page: every version of the tracker and what changed in it","Táto stránka: každá verzia trackera a čo sa v nej zmenilo"],
      ["Version number at the bottom of the tracker","Číslo verzie na spodku trackera"]]},
- {v:"3.1",d:"2026-10-26",t:["Your own layout","Vlastné rozloženie"],
+ {v:"3.1.0",d:"2026-10-26",t:["Your own layout","Vlastné rozloženie"],
   n:[["Edit layout in Settings: drag the windows into any order","Upraviť rozloženie v Nastaveniach: okná presunieš v ľubovoľnom poradí"],
      ["Switch Up next, Year plan, Credits chart, Milestones and History on or off","Okná Čo ďalej, Plán ročníka, Graf kreditov, Míľniky a História sa dajú zapnúť a vypnúť"],
      ["Animations when the editor opens and closes and when a window folds away","Animácie pri otvorení a zatvorení editora a pri skladaní okna"]],
   i:[["Exit is now a button next to the gear","Odísť je teraz tlačidlo vedľa ozubeného kolieska"],["Reset all data moved into Settings","Vymazanie všetkých údajov sa presunulo do Nastavení"]]},
- {v:"3.0",d:"2026-10-26",t:["Big feature update","Veľká aktualizácia funkcií"],
+ {v:"3.0.0",d:"2026-10-26",t:["Big feature update","Veľká aktualizácia funkcií"],
   n:[["What-if slider: try an exam score and see the grade","Posuvník „čo ak“: skús body zo skúšky a uvidíš známku"],
      ["Weighted average by the BUT formula","Vážený priemer podľa vzorca VUT"],
      ["Notes on every course and explanations on the ✕ / ✓ boxes","Poznámky ku každému predmetu a vysvetlivky pri políčkach ✕ / ✓"],
@@ -1600,53 +1606,53 @@ const CHANGELOG=[
      ["Year plan check (30–65 credits a year) and a history of changes","Kontrola plánu ročníka (30–65 kreditov) a história zmien"],
      ["Backup to a file, phone bottom bar and swipe between semesters","Záloha do súboru, spodná lišta na mobile a prechod medzi semestrami potiahnutím"],
      ["Milestones and a credits-per-semester chart","Míľniky a graf kreditov za semester"]]},
- {v:"2.3",d:"2026-10-26",t:["Danger levels","Úrovne nebezpečenstva"],
+ {v:"2.1.2",d:"2026-10-26",t:["Danger levels","Úrovne nebezpečenstva"],
   n:[["The ✕ boxes get redder and pulse more as failures add up","Políčka ✕ sú červenšie a pulzujú viac, keď pribúdajú neúspechy"],
      ["At 3 failed courses the whole Progress box glows red","Pri 3 neúspešných predmetoch celé okno Postup žiari načerveno"]],
   i:[["All pulses run in sync","Všetky pulzy bežia naraz"],["Calmer pulse around the progress bar","Pokojnejší pulz okolo lišty postupu"]]},
- {v:"2.2",d:"2026-10-26",t:["Cleaner course cards","Prehľadnejšie karty predmetov"],
+ {v:"2.1.1",d:"2026-10-26",t:["Cleaner course cards","Prehľadnejšie karty predmetov"],
   n:[["A failed course is locked: fields greyed out, exam boxes ✕","Neúspešný predmet sa zamkne: polia sú sivé, políčka skúšky ✕"]],
   i:[["Shorter, clearer messages on the cards","Kratšie a jasnejšie správy na kartách"],["Status picker and Retake button share one size","Výber stavu a tlačidlo Opakovať majú rovnakú veľkosť"],
      ["Add a test or item: a compact button that rolls down","Pridať písomku: kompaktné tlačidlo s rozbaľovaním"],["Exit and auto-exit use the same shrink animation","Odchod aj automatický odchod majú rovnakú animáciu"]],
   f:[["A course no longer fails while you are still typing a score","Predmet už nezlyhá, kým ešte píšeš body"],["The status picker no longer looks bigger after a change","Výber stavu už po zmene nevyzerá väčší"]]},
- {v:"2.1",d:"2026-10-26",t:["Settings and smarter rules","Nastavenia a presnejšie pravidlá"],
+ {v:"2.1.0",d:"2026-10-26",t:["Settings and smarter rules","Nastavenia a presnejšie pravidlá"],
   n:[["Settings with language, theme and Full / Balanced / Low performance","Nastavenia s jazykom, vzhľadom a výkonom Plné / Vyvážené / Nízke"],["Undo for Retake next year","Možnosť vrátiť Opakovať budúci rok"]],
   i:[["A course fails on its own once the course credit is out of reach","Predmet zlyhá sám, keď zápočet už nie je dosiahnuteľný"],
      ["A failed optional course needs no retake (BUT rules)","Neúspešný voliteľný predmet netreba opakovať (pravidlá VUT)"],
      ["Faster typing: only the changed card is redrawn","Rýchlejšie písanie: prekreslí sa len zmenená karta"],["The reaper and the student no longer overlap","Smrtka a študent sa už neprekrývajú"]]},
- {v:"2.0",d:"2026-10-26",t:["Card layout","Rozloženie kariet"],
+ {v:"2.0.0",d:"2026-10-26",t:["Card layout","Rozloženie kariet"],
   i:[["Cards sit in columns, so an open card leaves no gaps","Karty sú v stĺpcoch, otvorená karta nenechá medzery"],["Rows of cards line up","Riadky kariet sú zarovnané"],["Cards roll down smoothly when opened","Karty sa pri otvorení plynulo rozbalia"]]},
- {v:"1.9",d:"2026-10-24",t:["Polish","Doladenie"],
+ {v:"1.7.1",d:"2026-10-24",t:["Polish","Doladenie"],
   i:[["Centered add-course button with a roll-down panel","Vycentrované tlačidlo na pridanie predmetu s rozbaľovacím panelom"],["More space above the grade scale","Viac miesta nad stupnicou známok"]],
   f:[["Auto-exit now works after the tab was in the background","Automatický odchod funguje aj po čase na pozadí"]]},
- {v:"1.8",d:"2026-10-24",t:["The deadline reaper","Smrtka termínov"],
+ {v:"1.7.0",d:"2026-10-24",t:["The deadline reaper","Smrtka termínov"],
   n:[["Next-step line on every closed card","Riadok s ďalším krokom na každej zatvorenej karte"],["New progress bar with a running student and a goal flag","Nová lišta postupu s bežiacim študentom a cieľom"],
      ["A reaper that walks with the semester and a red aura when it leads","Smrtka, ktorá kráča so semestrom, a červená žiara, keď vedie"],["Fail and pass animations","Animácie pri neúspechu a úspechu"]],
   i:[["The student moves by the credits your points are on track for","Študent sa posúva podľa kreditov, na ktoré smerujú tvoje body"]]},
- {v:"1.7",d:"2026-10-24",t:["Optional courses","Voliteľné predmety"],
+ {v:"1.6.0",d:"2026-10-24",t:["Optional courses","Voliteľné predmety"],
   n:[["Optional courses in their own section, picked from the FIT study plan","Voliteľné predmety vo vlastnej časti, vyberané zo študijného plánu FIT"],["Each card shows its status in colour and a points bar","Každá karta ukazuje stav farbou a lištu bodov"]],
   i:[["Optional courses can be removed","Voliteľné predmety sa dajú odstrániť"]]},
- {v:"1.6",d:"2026-10-24",t:["Secret word and auto-exit","Tajné slovo a automatický odchod"],
+ {v:"1.5.0",d:"2026-10-24",t:["Secret word and auto-exit","Tajné slovo a automatický odchod"],
   n:[["Secret word screen with ✕ / ✓ marks and EN / SK","Obrazovka s tajným slovom, značkami ✕ / ✓ a EN / SK"],["Exit with a confirmation","Odchod s potvrdením"],
      ["Auto-exit after 15 minutes without activity","Automatický odchod po 15 minútach nečinnosti"],["Saving indicator: orange ring, green dot","Indikátor ukladania: oranžový krúžok, zelená bodka"]],
   i:[["Transitions between the screens","Prechody medzi obrazovkami"]],
   f:[["The page no longer jumps when a card closes","Stránka už neskáče pri zatváraní karty"]]},
- {v:"1.5",d:"2026-10-23",t:["Reset all data","Vymazanie údajov"],
+ {v:"1.4.0",d:"2026-10-23",t:["Reset all data","Vymazanie údajov"],
   n:[["Reset all data with two warnings","Vymazanie všetkých údajov s dvoma upozorneniami"],["A cancelled warning shatters and falls away","Zrušené upozornenie sa rozbije a spadne"]],
   i:[["Footer credits Filipko & Claude","Pätička uvádza Filipka a Clauda"]]},
- {v:"1.4",d:"2026-10-23",t:["Automatic credits and animations","Automatické kredity a animácie"],
+ {v:"1.3.0",d:"2026-10-23",t:["Automatic credits and animations","Automatické kredity a animácie"],
   n:[["The bar turns green with confetti at the minimum","Lišta zozelenie a padnú konfety pri minime"],["Sliding toggles and rolling course cards","Posuvné prepínače a rozbaľovacie karty"]],
   i:[["Credits count automatically from your points","Kredity sa počítajú automaticky z bodov"],["Bigger Progress title, less clutter","Väčší nadpis Postup, menej neporiadku"]]},
- {v:"1.3",d:"2026-10-23",t:["Faculty look","Vzhľad fakulty"],
+ {v:"1.2.1",d:"2026-10-23",t:["Faculty look","Vzhľad fakulty"],
   n:[["Faculty logos in English and Slovak","Logá fakulty v angličtine a slovenčine"],["Unofficial notice and “Made by Filipko” footer","Upozornenie o neoficiálnosti a pätička „Made by Filipko“"]],
   i:[["Title beside the logo, centered footer","Nadpis vedľa loga, vycentrovaná pätička"]]},
- {v:"1.2",d:"2026-10-23",t:["Course credit and failures","Zápočet a neúspechy"],
+ {v:"1.2.0",d:"2026-10-23",t:["Course credit and failures","Zápočet a neúspechy"],
   n:[["Failed-course counter: 3 ✕ ends the studies","Počítadlo neúspechov: 3 ✕ ukončia štúdium"],["IDM and ILG: five tests, one 0 allowed, with ✕ boxes","IDM a ILG: päť písomiek, jedna 0 povolená, s políčkami ✕"],
      ["Exam term boxes and automatic fail on a second 0","Políčka termínov skúšky a automatický neúspech pri druhej 0"]],
   i:[["Semester bar matches light and dark mode","Lišta semestrov ladí so svetlým aj tmavým režimom"],["Less text on screen","Menej textu na obrazovke"]]},
- {v:"1.1",d:"2026-10-23",t:["Semesters and themes","Semestre a vzhľad"],
+ {v:"1.1.0",d:"2026-10-23",t:["Semesters and themes","Semestre a vzhľad"],
   n:[["Year and semester picker","Výber ročníka a semestra"],["Light and dark mode","Svetlý a tmavý režim"],["Semester minimum or whole study view","Pohľad na minimum semestra alebo celé štúdium"]]},
- {v:"1.0",d:"2026-10-23",t:["First version","Prvá verzia"],
+ {v:"1.0.0",d:"2026-10-23",t:["First version","Prvá verzia"],
   n:[["Tracker for the BIT courses: points, course credit, exams and retakes","Tracker pre predmety BIT: body, zápočty, skúšky a opakovanie"],["Progress towards 180 credits, in English and Slovak","Postup k 180 kreditom, po anglicky aj po slovensky"]]}
 ];
 
@@ -1671,8 +1677,59 @@ function allCourses(){
       exam:e.t==="Cr+Ex"||e.t==="Ex"?EX(100):null,custom:!e.id,free:!rich.parts,opt:true})}
   return list;
 }
+/* Everything from outside (this device's copy, a backup file, a transfer code, cloud sync) passes clean() before it
+   becomes S: a value that is printed into the page or used as a key must have the shape the tracker itself writes.
+   What doesn't is dropped; an optional course's code is cut down to letters, digits, - and _ so its points survive */
+const CODE=/^[\p{L}\p{N}][\p{L}\p{N}_-]{0,11}$/u,isObj=o=>!!o&&typeof o==="object"&&!Array.isArray(o);
+// a "__proto__" key in the data would hand its fields to the record unchecked
+const plain=s=>JSON.parse(s,(k,v)=>k==="__proto__"?undefined:v);
+// one course record, or a part of one (r.prev, r.unfail): only the fields that are there are checked
+function cleanRec(r){
+  if(!isObj(r))return null;
+  const date=v=>typeof v==="string"&&dtOk(v),val=v=>typeof v==="string"||typeof v==="number";
+  if("status" in r&&!["planned","enrolled","credit","passed","failed"].includes(r.status))delete r.status;
+  if("taken" in r&&!SLOTS.includes(r.taken))delete r.taken;
+  if("enroll" in r)r.enroll=r.enroll===2?2:1;
+  for(const k of ["pts","maxOv","due"])if(k in r&&!isObj(r[k]))delete r[k];
+  for(const k in r.due||{})if(!date(r.due[k]))delete r.due[k];
+  if("extra" in r)r.extra=Array.isArray(r.extra)?r.extra.filter(x=>isObj(x)&&/^\w{1,24}$/.test(x.id)&&typeof x.n==="string"):[];
+  for(const k of ["exam","examDate"])if(k in r)r[k]=[0,1,2].map(i=>{const v=(Array.isArray(r[k])?r[k]:[])[i];return (k==="exam"?val(v):date(v))?v:""});
+  if("reg" in r&&!date(r.reg))delete r.reg;
+  if("plan" in r&&![0,1,2,3].includes(r.plan))delete r.plan;
+  if("note" in r&&typeof r.note!=="string")delete r.note;
+  if("credit" in r&&!val(r.credit))r.credit=null;
+  if("unfail" in r){try{const u=cleanRec(plain(r.unfail));if(u)r.unfail=JSON.stringify(u);else delete r.unfail}catch(e){delete r.unfail}}
+  if("prev" in r&&!cleanRec(r.prev))delete r.prev;
+  return r;
+}
+function clean(json){
+  if(!isObj(json))return {};
+  const st=plain(JSON.stringify(json)),ren={},seen=new Set();
+  if(st.lang!=="sk")st.lang="en";
+  if(!SLOTS.includes(st.current))delete st.current;
+  for(const k of ["view","crView"])if(k in st&&!["sem","year","all"].includes(st[k]))delete st[k];
+  for(const k of ["open","order","layout","ms"])if(k in st&&!isObj(st[k]))delete st[k];
+  for(const k in st.order||{})if(!Array.isArray(st.order[k]))delete st.order[k];
+  if(st.layout){if(!Array.isArray(st.layout.order))delete st.layout.order;if(!isObj(st.layout.off))delete st.layout.off}
+  if("log" in st)st.log=Array.isArray(st.log)?st.log.filter(isObj).slice(-300):[];
+  if("tt" in st){if(isObj(st.tt)&&Array.isArray(st.tt.ev))st.tt.ev=st.tt.ev.filter(e=>isObj(e)&&typeof e.c==="string"&&typeof e.d==="string"&&dtOk(e.d)&&typeof e.s==="number");else delete st.tt}
+  if("avgGoal" in st&&typeof st.avgGoal!=="number")delete st.avgGoal;
+  st.electives=(Array.isArray(st.electives)?st.electives:[]).filter(e=>{
+    if(!isObj(e)||typeof e.c!=="string")return false;
+    const c=e.c.replace(/[^\p{L}\p{N}_-]/gu,"").slice(0,12);
+    if(!CODE.test(c)||c in {}||seen.has(c))return false;
+    seen.add(c);if(c!==e.c)ren[e.c]=c;e.c=c;
+    if(!SLOTS.includes(e.s))e.s="1W";e.cr=num(e.cr)||0;if(!TYPE.en[e.t])e.t="Cr";if(e.g&&!["A","T","E"].includes(e.g))e.g="E";if(!Number.isInteger(e.id))delete e.id;
+    return true});
+  const old=isObj(st.courses)?st.courses:{};st.courses={};
+  for(const [k,r] of Object.entries(old)){const c=Object.hasOwn(ren,k)?ren[k]:k;
+    if(!CODE.test(c)||c in {}||!cleanRec(r))continue;
+    const def=COURSES.find(x=>x.c===c)||st.electives.find(e=>e.c===c)||{};
+    st.courses[c]=Object.assign({status:"planned",pts:{},extra:[],maxOv:{},exam:["","",""],enroll:1,taken:def.s||"1W",credit:null},r)}
+  return st;
+}
 function load(json){
-  S=Object.assign(defaults(),json||{});
+  S=Object.assign(defaults(),clean(json));
 }
 function localSave(){try{localStorage.setItem(LS,JSON.stringify({at:Date.now(),s:S}))}catch(e){}}
 function localLoad(){try{const r=JSON.parse(localStorage.getItem(LS)||"null");return r}catch(e){return null}}
@@ -3700,7 +3757,7 @@ function renderLog(anim){
   const m=document.getElementById("logmain"),cn=codeOf(e),kd=kind(e);
   const cnt=key=>(e[key]||[]).length,sum=t.logMajSub(cnt("n")+cnt("i")+cnt("f"),cnt("n"),cnt("i"),cnt("f"));
   m.classList.toggle("major",kd==="major");m.classList.toggle("sub",kd==="sub");
-  const head=kd==="major"?`<p class="logmajor">${cn?`<em>${t.logFam(parseInt(e.v,10))}</em>`:""}<span>${cn?cn.n:t.logMajor}</span>${e.v==="4.0"?`<small>${sum}</small>`:""}</p>${cn?`<p class="logwhy">${esc(cn.why[k])}</p>`:""}`
+  const head=kd==="major"?`<p class="logmajor">${cn?`<em>${t.logFam(parseInt(e.v,10))}</em>`:""}<span>${cn?cn.n:t.logMajor}</span>${e.v==="4.0.0"?`<small>${sum}</small>`:""}</p>${cn?`<p class="logwhy">${esc(cn.why[k])}</p>`:""}`
     :kd==="sub"?`<p class="logmajor sub"><span>${cn.n}</span><small>${t.logUpd(e.v)}</small></p>`:"";
   m.innerHTML=`${head}<p class="logkicker mono">${logDate(e.d)}</p><h2 class="logtitle"><span class="mono">${e.v}</span> ${esc(e.t[k])}</h2>${sec("n","n")}${sec("i","i")}${sec("f","f")}`;
   if(anim&&!noMotion())m.animate([{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:260,easing:"cubic-bezier(.2,.8,.2,1)"});
@@ -4160,6 +4217,10 @@ document.addEventListener("toggle",e=>{
   if(d.open)requestAnimationFrame(syncPulses);
 },true);
 document.addEventListener("click",e=>{
+  // the Hulko mark in the header goes back to the start: out of the version history, and to the top of the page
+  if(e.target.closest("[data-home]")){e.preventDefault();
+    if(document.getElementById("logview").hidden)scrollTo({top:0,behavior:noMotion()?"instant":"smooth"});else{logBackY=0;closeLog()}
+    return}
   if(Date.now()-dragEnded<400&&e.target.closest("details.course>summary")){e.preventDefault();return}
   const sm=e.target.closest("details.course > summary, details.addel > summary, details.addt > summary");
   if(sm){const d=sm.parentElement;
@@ -4252,7 +4313,7 @@ document.addEventListener("click",e=>{
     if(addOptional(v,s)){const r=cs(v);r.status=s===cur()?"enrolled":"planned";S.open=S.open||{};S.open[v]=1;logIt({c:v,f:"addc"})}glide();changed();return}
   if(b.dataset.addel){const s=b.dataset.addel,g=id=>document.getElementById(id);
     const c=g("el-c-"+s).value.trim().toUpperCase(),n=g("el-n-"+s).value.trim(),cr=parseInt(g("el-cr-"+s).value,10),t=g("el-t-"+s).value;
-    if(!c||allCourses().some(x=>x.c===c))return g("el-c-"+s).focus(); if(!(cr>0))return g("el-cr-"+s).focus();
+    if(!CODE.test(c)||c in {}||allCourses().some(x=>x.c===c))return g("el-c-"+s).focus(); if(!(cr>0))return g("el-cr-"+s).focus();
     S.electives.push({c,en:n||c,sk:n||c,cr,t,s,g:"E"});logIt({c,f:"addc"});const r=cs(c);r.taken=s;r.status=s===cur()?"enrolled":"planned";S.open=S.open||{};S.open[c]=1;rerender();changed();return}
   if(b.dataset.unfail){const c=b.dataset.unfail,r=cs(c);
     // back to how the course was before the change that failed it; without that record (older data) only the status goes back,

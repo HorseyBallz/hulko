@@ -40,10 +40,13 @@ export async function onRequest({ request, env }) {
   if (!Number.isInteger(rev) || rev < 0 || typeof data !== "string" || !data || data.length > MAX) return json({ error: "bad body" }, 400);
   // rev is the revision this device last saw: 0 makes a new row, anything else must still be the newest
   const res = await query(db, () => rev === 0
-    ? db.prepare("INSERT OR IGNORE INTO sync (id, rev, data, at) VALUES (?, 1, ?, ?)").bind(id, data, Date.now()).run()
+    // shortcut: no new row while 100 rows were written in the last hour, site-wide (same reason as the cap in users.js);
+    // existing rows still save. Counts every written row, not only new ones, so updating a row can't hide it from the cap
+    ? db.prepare("INSERT OR IGNORE INTO sync (id, rev, data, at) SELECT ?1, 1, ?2, ?3 WHERE (SELECT COUNT(*) FROM sync WHERE at > ?3 - 3600000) < 100").bind(id, data, Date.now()).run()
     : db.prepare("UPDATE sync SET rev = rev + 1, data = ?, at = ? WHERE id = ? AND rev = ?").bind(data, Date.now(), id, rev).run());
   if (!res.meta.changes) {
     const r = await row();
+    if (!r && rev === 0) return json({ error: "busy" }, 429);
     return json({ error: "conflict", rev: r ? r.rev : 0 }, 409);
   }
   return json({ rev: rev + 1 });

@@ -22,7 +22,9 @@ export async function onRequest({ request, env }) {
     let id = null;
     try { ({ id } = await request.json()); } catch (e) {}
     if (typeof id !== "string" || !ID.test(id)) return json({ error: "bad id" }, 400);
-    await query(db, () => db.prepare("INSERT OR IGNORE INTO users (id, first) VALUES (?, ?)").bind(id.toLowerCase(), Date.now()).run());
+    // shortcut: at most 300 new ids an hour site-wide, past that the id is just not added (pages.dev can't take a
+    // Cloudflare rate-limit rule and no address is kept to limit per visitor); use a rule once the app has its own domain
+    await query(db, () => db.prepare("INSERT OR IGNORE INTO users (id, first) SELECT ?1, ?2 WHERE (SELECT COUNT(*) FROM users WHERE first > ?2 - 3600000) < 300").bind(id.toLowerCase(), Date.now()).run());
   } else if (request.method !== "GET") {
     return json({ error: "method" }, 405);
   }
