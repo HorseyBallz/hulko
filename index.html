@@ -32,11 +32,11 @@
   --accent:#ff4d64; --accent-soft:#3a1820; --blue:#7fb0ef; --blue-soft:#1b2a3d;
   --ok:#5fd394; --ok-soft:#163023; --warn:#f0b956; --warn-soft:#33270f; --bad:#ff7a82; --bad-soft:#3a1a1d; --save:#ffa04d; color-scheme:dark}
 /* credits chart colours, checked for colour-blind separation and contrast on the card in both themes */
-:root{--c-pass:#1d7a4a;--c-prog:#1f4f8f}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-pass:#3aa870;--c-prog:#5a90dc}}
-:root[data-theme="dark"]{--c-pass:#3aa870;--c-prog:#5a90dc}
-:root[data-mode="light"]{--c-pass:#1d7a4a;--c-prog:#1f4f8f}
-:root[data-mode="dark"]{--c-pass:#3aa870;--c-prog:#5a90dc}
+:root{--c-pass:#1d7a4a;--c-prog:#1f4f8f;--c-org:#d9650b;--c-yel:#d4a000}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--c-pass:#3aa870;--c-prog:#5a90dc;--c-org:#ff9a3d;--c-yel:#f5d040}}
+:root[data-theme="dark"]{--c-pass:#3aa870;--c-prog:#5a90dc;--c-org:#ff9a3d;--c-yel:#f5d040}
+:root[data-mode="light"]{--c-pass:#1d7a4a;--c-prog:#1f4f8f;--c-org:#d9650b;--c-yel:#d4a000}
+:root[data-mode="dark"]{--c-pass:#3aa870;--c-prog:#5a90dc;--c-org:#ff9a3d;--c-yel:#f5d040}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 .sumhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
@@ -478,6 +478,8 @@ body.inlog .setwrap{max-width:460px}
 .big .pct{font-family:var(--f-display);font-size:56px;font-weight:600;line-height:1;color:var(--ink)}
 .big .of{color:var(--muted)}
 /* progress bar: a slim track, a fill that fades out at its leading edge, a little student riding that edge and the goal waiting at the end */
+/* the fill's colour (set by reaperBits) is a registered colour, so it can glide from one to the next */
+@property --fill{syntax:"<color>";inherits:true;initial-value:#d0102b}
 .track{padding-top:30px}
 .bar{--fill:var(--accent);position:relative;height:14px;border-radius:99px;background:color-mix(in srgb,var(--ink) 9%,transparent)}
 .bar .done{position:absolute;inset:0 auto 0 0;border-radius:99px 0 0 99px;background:linear-gradient(90deg,var(--fill) 0,var(--fill) max(0px,calc(100% - 48px)),color-mix(in srgb,var(--fill) 0%,transparent) 100%)}
@@ -525,6 +527,7 @@ details.course{position:relative}
 .bar .reaper .rpr{transform-origin:12.5px 8px}
 .bar .reaper .rps{transform-origin:19px 11.8px}
 @media (prefers-reduced-motion:no-preference){
+  .bar{transition:--fill 1.2s ease}
   .bar .rider{transition:left .9s cubic-bezier(.2,.8,.2,1)}
   .bar .reaper{transition:left 1.2s cubic-bezier(.25,.8,.25,1)}
   /* an unhurried glide: one bob per step, two steps per robe swing, and the scythe trails the robe a little */
@@ -1433,7 +1436,7 @@ const TYPE={en:{"Cr+Ex":"Course credit + exam","Ex":"Exam","Cr":"Course credit",
 /* ---------- App version: the newest entry of the version log (data auto-saves do not count) ---------- */
 // like an app release: small fixes go into the current version, a new feature set gets the next number (3.5 → 3.6),
 // a big change starts a new major (3.x → 4.0)
-const APP_VER="4.6.1",APP_DATE="2026-11-13";
+const APP_VER="4.7.0",APP_DATE="2026-11-15";
 // every major version is named after a Brno landmark, the way macOS versions are named after places in California:
 // its x.0 opens with the name in big letters, and the updates after it (x.1, x.2 …) wear the same colours, quieter
 const CODENAMES={4:{n:"Orloj",why:["Named after the astronomical clock on Brno's Freedom Square, because version 4 is all about time: exam dates, deadlines and countdowns.","Pomenovaná podľa orloja na náměstí Svobody v Brne, lebo verzia 4 je celá o čase: termíny skúšok, odovzdania a odpočty."]}};
@@ -1443,6 +1446,13 @@ const codeOf=e=>CODENAMES[parseInt(e.v,10)];
    v = version; major = a major update (glows in the list and opens with its codename); n / i / f = new / improved /
    fixed, each item [English, Slovak] */
 const CHANGELOG=[
+ {v:"4.7.0",d:"2026-11-15",t:["Race colours & smoother switching","Farby pretekov a plynulejšie prepínanie"],
+  n:[["The progress bar shows the race against the reaper in colour: red while it is far ahead, orange as you close in, yellow when you are level, then from yellow to green as you get closer to the minimum. The colour shifts gradually with your passed credits, or with the credits you are on track for while nothing is passed yet","Lišta postupu ukazuje preteky so smrtkou farbou: červená, kým je ďaleko vpredu, oranžová, keď ju doťahuješ, žltá, keď ste vyrovnaní, a potom zo žltej do zelenej, ako sa blížiš k minimu. Farba sa mení postupne so získanými kreditmi, kým nemáš žiadne, s kreditmi, na ktoré smeruješ"],
+     ["Share progress in the Semester minimum view makes a semester card: your credits against the minimum on a neutral bar without the race colours, the averages and the courses with their grades","Zdieľať postup v pohľade Minimum za semester vytvorí kartu semestra: kredity voči minimu na neutrálnej lište bez farieb pretekov, priemery a predmety so známkami"]],
+  i:[["Credits: switching between Semester, Year and Whole study, and going to another year with the arrows, is animated. The window grows or shrinks smoothly and the bars grow into place","Kredity: prepínanie medzi Semestrom, Ročníkom a Celým štúdiom aj prechod na iný ročník šípkami je animované. Okno sa plynulo zväčší alebo zmenší a stĺpce narastú na miesto"],
+     ["Progress: switching between Semester minimum and Whole study is animated both ways, and the bar moves on from where it was","Postup: prepínanie medzi Minimom za semester a Celým štúdiom je animované oboma smermi a lišta sa presunie z miesta, kde bola"]],
+  f:[["Progress: the student on the bar stands at your passed credits and reaches the flag only once the minimum is met. Before, courses still in progress could carry it to the finish at 10 / 15","Postup: študent na lište stojí pri získaných kreditoch a do cieľa dobehne až po splnení minima. Predtým ho rozbehnuté predmety mohli dostať do cieľa už pri 10 / 15"],
+     ["Courses: switching the year no longer makes the page jump. The courses stay in place, and if you were further down the list, the page scrolls smoothly up to the start of the new one","Predmety: prepnutie ročníka už nerobí skok stránky. Predmety zostanú na mieste a ak si bol nižšie v zozname, stránka sa plynulo posunie na začiatok nového"]]},
  {v:"4.6.1",d:"2026-11-13",t:["Security fix & clickable logo","Bezpečnostná oprava a klikateľné logo"],
   i:[["Version numbers have three parts (major.minor.patch); the earlier versions are renumbered the same way, so small updates are now patches of the version they polished","Čísla verzií majú tri časti (hlavná.vedľajšia.oprava); staršie verzie sú prečíslované rovnako, takže malé aktualizácie sú teraz opravami verzie, ktorú dolaďovali"],
      ["Hulko is open source under the MIT licence","Hulko je open source pod licenciou MIT"]],
@@ -1867,34 +1877,43 @@ function reaperBits(view,slot,studentPct,met,track,target){
   const danger=!met&&now>w.a&&now<w.b&&tp>studentPct?Math.min(1,(tp-studentPct)/25):0;
   // a calm breath rather than a flash: the glow only dips to about 65% of its peak, and one cycle takes 4.4 s to 3.2 s
   const hi=.3+.5*danger;
-  const aura=danger?` danger" style="--hi:${hi.toFixed(2)};--lo:${(hi*.65).toFixed(2)};--spd:${(4.4-1.2*danger).toFixed(2)}s`:"";
   let cap;
   const tr=t.dlTrack(fmt(Math.min(track,target)),target);
   if(view==="all")cap=(caught?t.dlCaught:t.dlStudy(Math.round(tp)))+" · "+tr;
   else if(now<w.a)cap=t.dlBefore(Math.ceil((w.a-now)/day));
   else if(now>=w.b)cap=t.dlOver;
   else cap=(caught?t.dlCaught:danger?t.dlClose:t.dlLeft(Math.ceil((w.b-now)/day)))+" · "+tr;
+  // the student stands at the passed credits (the callers fall back to the credits on track for while nothing is passed),
+  // and stays short of the flag until the minimum is really met
   // keep the two figures from standing on each other: when they are close, the one in front keeps a 28px lead
   // (in the first half of the bar), or the one behind waits 28px back (in the second half, so nobody runs off the end)
-  const G=28,sp=met?100:studentPct,lead=Math.max(sp,tp),back=Math.min(sp,tp);
-  let rL=tp+"%",sL=sp+"%";
+  const G=28,sp=met?100:studentPct,at=Math.min(met?100:90,sp),lead=Math.max(at,tp),back=Math.min(at,tp);
+  let rL=tp+"%",sL=at+"%";
   const fwd=`max(${lead}%, calc(${back}% + ${G}px))`,bwd=`min(${back}%, calc(${lead}% - ${G}px))`;
-  if(sp>=tp){if(lead<50)sL=fwd;else rL=bwd}else{if(lead<50)rL=fwd;else sL=bwd}
+  if(at>=tp){if(lead<50)sL=fwd;else rL=bwd}else{if(lead<50)rL=fwd;else sL=bwd}
+  // the fill's colour tells how the race stands: red → orange → yellow while the reaper leads (25 points behind is full red,
+  // level is yellow), then yellow → green as the student, now ahead, closes in on the minimum
+  const heat=tp>sp?2-2*Math.min(1,(tp-sp)/25):2+(tp<100?(sp-tp)/(100-tp):1);
+  const C=["var(--bad)","var(--c-org)","var(--c-yel)","var(--ok)"],i=Math.min(2,Math.floor(heat));
+  const fill=`color-mix(in oklch,${C[i]} ${Math.round((1+i-heat)*100)}%,${C[i+1]})`;
+  // goes into the bar's class attribute: closes it and adds the style with the fill (and the aura's strength)
+  const aura=`${danger?" danger":""}" style="--fill:${fill}${danger?`;--hi:${hi.toFixed(2)};--lo:${(hi*.65).toFixed(2)};--spd:${(4.4-1.2*danger).toFixed(2)}s`:""}`;
   // outside the semester (not started yet, or already over) the reaper only waits, faded and still
   const idle=now<w.a||now>=w.b;
   return {caught,aura,sLeft:sL,html:`<span class="reaper${idle?" idle":""}" aria-hidden="true" style="left:${rL}">${SVG_REAPER}</span>`,cap:`<p class="dlcap${caught?" caught":""}"><span class="dl">Dead<b>line</b></span> · ${cap}</p>`};
 }
-let metPrev=null,barPrev={};
-// grow the bar from its last width (or from 0 on first view) to the new one
-function animateBars(key){
+let metPrev=null,barPrev=null;
+// the bar glides from the one shown before (before a change, in the other view or another semester; from 0 on first
+// view) to the new one: its widths, both figures and the fill's colour
+function animateBars(){
   const bar=document.querySelector("#summary .bar");if(!bar)return;
   const done=bar.querySelector(".done"),prog=bar.querySelector(".prog"),rp=bar.querySelector(".reaper"),rd=bar.querySelector(".rider");
-  const to={d:done.style.width,p:prog.style.width,r:rp?rp.style.left:"",s:rd?rd.style.left:""},from=barPrev[key]||{d:"0%",p:"0%",r:"0%",s:"0%"};
-  barPrev[key]=to;
-  if(noMotion()||(from.d===to.d&&from.p===to.p&&from.r===to.r&&from.s===to.s))return;
-  done.style.width=from.d;prog.style.width=from.p;if(rp)rp.style.left=from.r;if(rd)rd.style.left=from.s;
-  getComputedStyle(done).width;getComputedStyle(prog).width;if(rp)getComputedStyle(rp).left;if(rd)getComputedStyle(rd).left;
-  done.style.width=to.d;prog.style.width=to.p;if(rp)rp.style.left=to.r;if(rd)rd.style.left=to.s;
+  const to={d:done.style.width,p:prog.style.width,r:rp?rp.style.left:"",s:rd?rd.style.left:"",f:bar.style.getPropertyValue("--fill")},from=barPrev||{d:"0%",p:"0%",r:"0%",s:"0%",f:to.f};
+  barPrev=to;
+  if(noMotion()||(from.d===to.d&&from.p===to.p&&from.r===to.r&&from.s===to.s&&from.f===to.f))return;
+  done.style.width=from.d;prog.style.width=from.p;if(rp)rp.style.left=from.r;if(rd)rd.style.left=from.s;bar.style.setProperty("--fill",from.f);
+  getComputedStyle(done).width;getComputedStyle(prog).width;if(rp)getComputedStyle(rp).left;if(rd)getComputedStyle(rd).left;getComputedStyle(bar).getPropertyValue("--fill");
+  done.style.width=to.d;prog.style.width=to.p;if(rp)rp.style.left=to.r;if(rd)rd.style.left=to.s;bar.style.setProperty("--fill",to.f);
 }
 function celebrate(msg){
   const toast=document.createElement("div");toast.className="toast";toast.textContent=msg;document.body.append(toast);
@@ -1991,17 +2010,17 @@ function renderSummary(){
     // the average of the open semester, and from the 2nd semester on also of the whole year
     const av=avgOf(inWin),avS=isFirst?null:avgOf(inWin.filter(d=>cs(d.c).taken===c));
     h+=`<div class="big${met?" met":""}"><span class="pct mono">${val} / ${target}</span><span class="of">${isFirst?t.minFirst:t.minYear(c[0])}</span>${avS?`<span class="avg" title="${t.avgTip}">Ø <b class="mono">${avgFmt(avS.v)}</b> ${t.avgSem}</span>`:""}${av?`<span class="avg" title="${t.avgTip}">Ø <b class="mono">${avgFmt(av.v)}</b> ${isFirst?t.avgSem:t.avgYear}</span>`:""}</div>
-    ${(()=>{const R=reaperBits("sem",c,tS,met,track,target);return `<div class="track"><div class="bar${met?" met":""}${R.caught?" caught":""}${R.aura}" role="img" aria-label="${val} / ${target}"><div class="prog" style="width:${tS}%"></div>${GOAL_FLAG}${R.html}<div class="done" style="width:${pS}%"></div>${rider(met,R.sLeft)}</div>${R.cap}</div>`})()}    ${isFirst?"":`<p class="note">${c==="1S"?t.note1S:t.noteY}</p>`}${met?`<p class="metmsg">${t.minOkShort}</p>`:""}`;
+    ${(()=>{const R=reaperBits("sem",c,pS||tS,met,track,target);return `<div class="track"><div class="bar${met?" met":""}${R.caught?" caught":""}${R.aura}" role="img" aria-label="${val} / ${target}"><div class="prog" style="width:${tS}%"></div>${GOAL_FLAG}${R.html}<div class="done" style="width:${pS}%"></div>${rider(met,R.sLeft)}</div>${R.cap}</div>`})()}    ${isFirst?"":`<p class="note">${c==="1S"?t.note1S:t.noteY}</p>`}${met?`<p class="metmsg">${t.minOkShort}</p>`:""}`;
     // redrawn on its own (a fail, an undo) too, so the switch must get its sliding marker back right away
     document.getElementById("summary").innerHTML=h;queueMicrotask(syncSegs);
     // celebrate only when the minimum is crossed while looking at the same semester, not on load
     if(metPrev&&metPrev.key===c&&!metPrev.met&&met)celebrate(t.minOkToast);
     metPrev={key:c,met};
-    animateBars("sem:"+c);
+    animateBars();
     return;
   }
   const trackAll=onTrack(st.list),tA=Math.max(pct,Math.min(100,trackAll/180*100));
-  const RA=reaperBits("all","",tA,st.passed>=180,trackAll,180);
+  const RA=reaperBits("all","",pct||tA,st.passed>=180,trackAll,180);
   h+=`<div class="big"><span class="pct mono">${fmt(pct)}%</span><span class="of">${t.done} · <b class="mono">${st.passed}</b> ${t.of}</span><span class="of">· <b class="mono">${st.prog}</b> ${t.credits} ${t.inprog}</span></div>
   <div class="track"><div class="bar${st.passed>=180?" met":""}${RA.caught?" caught":""}${RA.aura}" role="img" aria-label="${st.passed} / 180"><div class="prog" style="width:${tA}%"></div>${GOAL_CAP}${RA.html}<div class="done" style="width:${pct}%"></div>${rider(st.passed>=180,RA.sLeft)}${[60,120].map(x=>`<div class="tick" style="left:${x/180*100}%"></div>`).join("")}</div>
   <div class="scale mono"><span style="left:0">0</span><span style="left:33.33%">60 · ${t.yearN(1)}</span><span style="left:66.67%">120 · ${t.yearN(2)}</span><span style="left:100%">180</span></div>${RA.cap}</div>
@@ -2017,7 +2036,7 @@ function renderSummary(){
   h+=req(optP>=34?"ok":"",t.rOpt,`${optP} / 34`,t.rOptS(optPl));
   h+=`</div><div class="avgoal"><label for="avg-goal">${t.goalL}</label><input type="text" inputmode="decimal" id="avg-goal" value="${S.avgGoal!=null?esc(avgFmt(S.avgGoal)):""}" placeholder="1.5" aria-describedby="avg-goal-r"><span id="avg-goal-r">${goalText()}</span></div>`;
   document.getElementById("summary").innerHTML=h;queueMicrotask(syncSegs);
-  animateBars("all");
+  animateBars();
 }
 // average goal: what average the courses still ahead need for the whole study to end at or below the goal
 // (only the courses in the tracker count: compulsory ones and the optional ones you added)
@@ -2432,7 +2451,7 @@ function creditsHtml(){
   const max=Math.max(30,...rows.map(x=>x.p+x.g+x.n+x.f)),pc=x=>x/max*100,anyF=F>0;
   const ys=slotsShown(),i=ys.indexOf(c),step=v==="sem"?1:2;
   h+=`<div class="crnav"><button type="button" class="crstep" data-crstep="-1" aria-label="${t.crPrev}"${i-step<0?" disabled":""}>‹</button><b>${v==="sem"?slotName(c):t.yearN(y)}</b><button type="button" class="crstep" data-crstep="1" aria-label="${t.crNext}"${i+step>=ys.length?" disabled":""}>›</button></div>`;
-  h+=rows.map(x=>`<div class="prow"><span class="plbl">${t.semCap[x.sl[1]]}</span><div class="ptrack" role="img" aria-label="${slotName(x.sl)}: ${x.p} ${t.ccPass}, ${x.g} ${t.ccProg}, ${x.n} ${t.planPlan}${x.f?`, ${x.f} ${t.ccFail}`:""}">
+  h+=rows.map(x=>`<div class="prow"><span class="plbl">${t.semCap[x.sl[1]]}</span><div class="ptrack" data-sl="${x.sl}" role="img" aria-label="${slotName(x.sl)}: ${x.p} ${t.ccPass}, ${x.g} ${t.ccProg}, ${x.n} ${t.planPlan}${x.f?`, ${x.f} ${t.ccFail}`:""}">
       ${x.p?`<b class="pseg pass" style="width:${pc(x.p)}%"></b>`:""}${x.g?`<b class="pseg prog" style="width:${pc(x.g)}%"></b>`:""}${x.n?`<b class="pseg pln" style="width:${pc(x.n)}%"></b>`:""}${x.f?`<b class="pseg fail" style="width:${pc(x.f)}%" title="${t.planLost(x.f)}"></b>`:""}</div>
       <span class="pval mono"><b>${x.p}</b> ${t.crPassed}${x.f?`<span class="pf">✕ ${x.f}</span>`:""}</span></div>`).join("");
   h+=`<div class="plegend"><span><i class="sw pass"></i>${t.ccPass}</span><span><i class="sw prog"></i>${t.ccProg}</span><span><i class="sw pln"></i>${t.planPlan}</span>${anyF?`<span><i class="sw fail"></i>${t.ccFail}</span>`:""}</div>`;
@@ -2989,12 +3008,7 @@ function openWelcome(){
     // the windows below glide (year 1's Progress is taller than year 2's, for one) instead of jumping
     if(b.dataset.wy||b.dataset.wh){const c=cur();S.current=(b.dataset.wy||c[0])+(b.dataset.wh||c[1]);
       b.parentNode.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));syncSegs();
-      clearTimeout(welPage);welPage=setTimeout(()=>{
-        const h0=new Map(winsShown().map(w=>[w,w.offsetHeight]));render();changed();if(noMotion())return;
-        // measured a frame later (still before it is painted): render's own frame work can still change a window's height
-        requestAnimationFrame(()=>winsShown().forEach(w=>{const h=w.offsetHeight;w.getAnimations().forEach(a=>a.cancel());w.style.overflow="hidden";
-          w.animate([{boxSizing:"border-box",height:(h0.get(w)??h)+"px",opacity:.35},{boxSizing:"border-box",height:h+"px",opacity:1}],{duration:420,easing:"cubic-bezier(.2,.8,.2,1)"}).onfinish=()=>w.style.overflow=""}))
-      },noMotion()?0:330);return}
+      clearTimeout(welPage);welPage=setTimeout(()=>glideWins(winsShown(),()=>{render();changed()}),noMotion()?0:330);return}
     if(b.dataset.wwin){const l=lay();l.off[b.dataset.wwin]=!l.off[b.dataset.wwin];S.layout={order:l.order,off:l.off};applyLayoutAnim();changed();b.setAttribute("aria-checked",String(!l.off[b.dataset.wwin]));presetSync();return}
     // a preset flips the switches below it in place, so their knobs slide
     if(b.dataset.wlp){setPreset(b.dataset.wlp);m.querySelectorAll("[data-wwin]").forEach(s=>s.setAttribute("aria-checked",String(!lay().off[s.dataset.wwin])));return}
@@ -3757,7 +3771,7 @@ function renderLog(anim){
   const m=document.getElementById("logmain"),cn=codeOf(e),kd=kind(e);
   const cnt=key=>(e[key]||[]).length,sum=t.logMajSub(cnt("n")+cnt("i")+cnt("f"),cnt("n"),cnt("i"),cnt("f"));
   m.classList.toggle("major",kd==="major");m.classList.toggle("sub",kd==="sub");
-  const head=kd==="major"?`<p class="logmajor">${cn?`<em>${t.logFam(parseInt(e.v,10))}</em>`:""}<span>${cn?cn.n:t.logMajor}</span>${e.v==="4.0.0"?`<small>${sum}</small>`:""}</p>${cn?`<p class="logwhy">${esc(cn.why[k])}</p>`:""}`
+  const head=kd==="major"?`<p class="logmajor">${cn?`<em>${t.logFam(parseInt(e.v,10))}</em>`:""}<span>${cn?cn.n:t.logMajor}</span>${e.v==="4.0"?`<small>${sum}</small>`:""}</p>${cn?`<p class="logwhy">${esc(cn.why[k])}</p>`:""}`
     :kd==="sub"?`<p class="logmajor sub"><span>${cn.n}</span><small>${t.logUpd(e.v)}</small></p>`:"";
   m.innerHTML=`${head}<p class="logkicker mono">${logDate(e.d)}</p><h2 class="logtitle"><span class="mono">${e.v}</span> ${esc(e.t[k])}</h2>${sec("n","n")}${sec("i","i")}${sec("f","f")}`;
   if(anim&&!noMotion())m.animate([{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:260,easing:"cubic-bezier(.2,.8,.2,1)"});
@@ -3914,17 +3928,39 @@ async function shareCard(){
   const img=new Image();img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
   try{await img.decode();x.drawImage(img,96,96,120,120)}catch(e){}
   x.fillStyle=ink;x.textBaseline="middle";x.font=`700 76px ${fd}`;x.fillText("Hulko",240,158);
-  x.fillStyle=mut;x.font=`400 32px ${fb}`;x.fillText(t.cardSub,96,300);
-  const pct=Math.min(100,st.passed/180*100),pp=Math.min(100-pct,st.prog/180*100);
-  x.fillStyle=ink;x.font=`700 200px ${fd}`;x.fillText(Math.round(pct)+" %",90,480);
-  x.fillStyle=mut;x.font=`500 40px ${fb}`;x.fillText(t.cardOf(st.passed),96,620);
-  const bx=96,by=700,bw=W-192,bh=44,round=(w,c,a)=>{x.globalAlpha=a;x.fillStyle=c;x.beginPath();x.roundRect(bx,by,w,bh,bh/2);x.fill();x.globalAlpha=1};
-  round(bw,ink,.09);
-  if(pp)round(bw*(pct+pp)/100,acc,.3);
-  if(pct)round(Math.max(bh,bw*pct/100),acc,1);
-  x.fillStyle=mut;x.font=`500 28px ${fb}`;
-  [[0,"0"],[60,"60 · "+t.yearN(1)],[120,"120 · "+t.yearN(2)],[180,"180"]].forEach(([c,l],i)=>{x.textAlign=i===0?"left":i===3?"right":"center";x.fillText(l,bx+bw*c/180,by+bh+44)});
-  x.textAlign="left";if(st.prog){x.fillStyle=mut;x.fillText(t.cardProg(st.prog),96,860)}
+  const bx=96,bw=W-192,bh=44;let by=700;const round=(w,c,a)=>{x.globalAlpha=a;x.fillStyle=c;x.beginPath();x.roundRect(bx,by,w,bh,bh/2);x.fill();x.globalAlpha=1};
+  if((S.view||"sem")==="sem"){
+    // shared from the semester minimum: that minimum as the Progress window shows it (the 1st semester alone, later the
+    // whole year), with its averages and its courses
+    const c=cur(),y=c[0],isFirst=c==="1W",target=isFirst?15:yearTarget(y),val=(isFirst?st.bySlot[c]:st.byYear[y])||0;
+    const inWin=st.list.filter(d=>{const r=cs(d.c);return isFirst?r.taken===c:r.taken[0]===y}),prog=inWin.filter(d=>["enrolled","credit"].includes(cs(d.c).status)).reduce((a,d)=>a+d.cr,0);
+    const pS=Math.min(100,val/target*100),tS=Math.max(pS,Math.min(100,onTrack(inWin)/target*100)),av=avgOf(inWin),avS=isFirst?null:avgOf(inWin.filter(d=>cs(d.c).taken===c));
+    x.fillStyle=mut;x.font=`400 32px ${fb}`;x.fillText((isFirst?slotName(c):t.yearN(y))+" · FIT VUT",96,300);
+    x.fillStyle=ink;x.font=`700 200px ${fd}`;x.fillText(`${val} / ${target}`,90,450);
+    x.fillStyle=mut;x.font=`500 30px ${fb}`;x.fillText(isFirst?t.minFirst:t.minYear(y),96,560);
+    const avs=[avS&&`Ø ${avgFmt(avS.v)} ${t.avgSem}`,av&&`Ø ${avgFmt(av.v)} ${isFirst?t.avgSem:t.avgYear}`].filter(Boolean).join(" · ");
+    if(avs)x.fillText(avs,96,608);
+    by=670;round(bw,ink,.09);if(tS>pS)round(bw*tS/100,ink,.3);if(pS)round(Math.max(bh,bw*pS/100),ink,1);
+    x.fillStyle=mut;x.font=`500 28px ${fb}`;x.fillText("0",bx,by+bh+44);x.textAlign="right";x.fillText(String(target),bx+bw,by+bh+44);x.textAlign="left";
+    if(prog)x.fillText(t.cardProg(prog),96,812);
+    // its courses as chips: the grade (or ✓) once passed, ✕ when failed; what doesn't fit in two rows is counted
+    x.font=`600 26px ${v("--f-mono")}`;let cx=bx,cy=870;
+    for(let k=0;k<inWin.length;k++){const d=inWin[k],r=cs(d.c),m=r.status==="passed"?gradeOf(d)||"✓":r.status==="failed"?"✕":"",s=m?d.c+" "+m:d.c,w=x.measureText(s).width+32;
+      if(cx+w>bx+bw){if(cy>870){x.fillStyle=mut;x.fillText("+"+(inWin.length-k),cx,cy);break}cx=bx;cy+=56}
+      x.globalAlpha=.08;x.fillStyle=ink;x.beginPath();x.roundRect(cx,cy-22,w,44,10);x.fill();x.globalAlpha=1;
+      x.fillStyle=r.status==="passed"?v("--ok"):r.status==="failed"?v("--bad"):mut;x.fillText(s,cx+16,cy);cx+=w+12}
+  }else{
+    x.fillStyle=mut;x.font=`400 32px ${fb}`;x.fillText(t.cardSub,96,300);
+    const pct=Math.min(100,st.passed/180*100),pp=Math.min(100-pct,st.prog/180*100);
+    x.fillStyle=ink;x.font=`700 200px ${fd}`;x.fillText(Math.round(pct)+" %",90,480);
+    x.fillStyle=mut;x.font=`500 40px ${fb}`;x.fillText(t.cardOf(st.passed),96,620);
+    round(bw,ink,.09);
+    if(pp)round(bw*(pct+pp)/100,acc,.3);
+    if(pct)round(Math.max(bh,bw*pct/100),acc,1);
+    x.fillStyle=mut;x.font=`500 28px ${fb}`;
+    [[0,"0"],[60,"60 · "+t.yearN(1)],[120,"120 · "+t.yearN(2)],[180,"180"]].forEach(([c,l],i)=>{x.textAlign=i===0?"left":i===3?"right":"center";x.fillText(l,bx+bw*c/180,by+bh+44)});
+    x.textAlign="left";if(st.prog){x.fillStyle=mut;x.fillText(t.cardProg(st.prog),96,860)}
+  }
   x.fillStyle=mut;x.font=`500 30px ${fb}`;x.textAlign="right";x.fillText("hulko.xyz",W-96,H-90);
   const blob=await new Promise(ok=>cv.toBlob(ok,"image/png"));if(!blob)return;
   const f=new File([blob],"hulko-progress.png",{type:"image/png"});
@@ -4078,10 +4114,14 @@ document.addEventListener("keydown",e=>{
 function slotsShown(){const y=["1","2","3"];if(allCourses().some(d=>cs(d.c).taken[0]==="4")||cur()[0]==="4")y.push("4");return SLOTS.filter(s=>y.includes(s[0]))}
 function goSlot(dir){const list=slotsShown(),n=list[list.indexOf(cur())+dir];if(n)toSlot(n)}
 // another semester (a swipe, or the year / semester bar): the courses slide out to one side and the new ones in from the
-// other, the bar stays where it is on the screen, and a shorter page glides up to its new end instead of jumping
+// other, in the same place on the screen whatever the windows above did (the bar can't be the anchor: stuck at the top it
+// never moves). Down in the list, the page then glides up to where the new semester starts, right under the bar; a
+// shorter page glides up to its new end instead of jumping
 function toSlot(n){
   const dir=Math.sign(SLOTS.indexOf(n)-SLOTS.indexOf(cur()));if(!dir)return;
-  const box=document.getElementById("sems"),go=()=>{stay("#picker",render);changed()};
+  const box=document.getElementById("sems"),pk=document.getElementById("picker"),go=()=>{
+    const into=box.getBoundingClientRect().top<pk.getBoundingClientRect().bottom;stay("#sems",render);changed();
+    if(into)requestAnimationFrame(()=>scrollTo({top:winEl("courses").getBoundingClientRect().top+scrollY-parseFloat(getComputedStyle(pk).top),behavior:noMotion()?"auto":"smooth"}))};
   // the bar answers at once (its marker slides), the courses follow when they have slid out
   S.current=n;renderPicker();syncSegs();
   if(noMotion())return go();
@@ -4107,8 +4147,28 @@ let refreshing=false;
 // is on the screen: whatever above it grew or shrank, the page scrolls by the same amount, so nothing jumps
 function stay(sel,fn){
   const el=document.querySelector(sel),y=el&&el.getBoundingClientRect().top,ease=roomBelow();fn();
+  // the redrawn switches get their markers now, not in a microtask after the measuring (a switch without one is taller)
+  syncSegs();
   const el2=document.querySelector(sel);if(el&&el2&&el2.offsetParent){const dy=el2.getBoundingClientRect().top-y;if(Math.abs(dy)>.5)scrollBy({top:dy,behavior:"instant"})}
   ease();
+}
+// windows redrawn with other content (another view, year or semester) grow or shrink from their old height while the new
+// content fades in, so the windows below glide instead of jumping. Only windows at or below the place stay() keeps:
+// one above it would move that place. Measured a frame later (still before it is painted): render's own frame work can
+// still change a window's height
+function glideWins(ws,fn){
+  const h0=new Map(ws.map(w=>[w,w.offsetHeight]));fn();if(noMotion())return;
+  requestAnimationFrame(()=>ws.forEach(w=>{if(!w.offsetParent)return;const h=w.offsetHeight;w.getAnimations().forEach(a=>a.cancel());w.style.overflow="hidden";
+    w.animate([{boxSizing:"border-box",height:h0.get(w)+"px",opacity:.35},{boxSizing:"border-box",height:h+"px",opacity:1}],{duration:420,easing:"cubic-bezier(.2,.8,.2,1)"}).onfinish=()=>w.style.overflow=""}));
+}
+// Credits switched to another view, year or semester: the window glides to its new height, each bar grows from the same
+// semester's bar before (or from nothing) and the chart's columns rise from the bottom
+function crMorph(fn){
+  const key=s=>s.closest(".ptrack").dataset.sl+s.className,was=new Map([...document.querySelectorAll("#planbox .pseg")].map(s=>[key(s),s.style.width]));
+  glideWins([winEl("plan")],fn);if(noMotion())return;
+  const ease={duration:520,easing:"cubic-bezier(.2,.8,.2,1)"};
+  document.querySelectorAll("#planbox .pseg").forEach(s=>s.animate([{width:was.get(key(s))||"0%"},{width:s.style.width}],ease));
+  document.querySelectorAll("#planbox .ccstack").forEach(s=>s.animate([{height:"0%"},{height:s.style.height}],ease));
 }
 // a redraw that makes the page shorter while you are near its end (a semester with fewer courses, say) would make the
 // browser jump to the new end in one go; instead the lost height stays as empty room under the page and then shrinks
@@ -4258,9 +4318,9 @@ document.addEventListener("click",e=>{
   if(b.dataset.histmore){histN+=50;renderHistory();return}
   if(b.dataset.histclear){S.log=[];renderHistory();changed();return}
   if(b.dataset.upmore){upAll=!upAll;renderUpNext();return}
-  if(b.dataset.crv){S.crView=b.dataset.crv;stay("#planbox",renderSide);changed();return}
+  if(b.dataset.crv){S.crView=b.dataset.crv;crMorph(()=>stay("#planbox",renderSide));changed();return}
   if(b.dataset.crstep){const d=+b.dataset.crstep,c=cur(),v=S.crView||"year",ys=slotsShown();
-    const i=ys.indexOf(c),j=v==="sem"?i+d:i+2*d;if(j<0||j>=ys.length)return;S.current=ys[j];stay("#planbox",render);changed();return}
+    const i=ys.indexOf(c),j=v==="sem"?i+d:i+2*d;if(j<0||j>=ys.length)return;S.current=ys[j];crMorph(()=>stay("#planbox",render));changed();return}
   if(b.dataset.datesmore){datesAll=!datesAll;renderDates();return}
   if(b.dataset.ics){exportIcs();return}
   if(b.dataset.plan){const [c,i]=b.dataset.plan.split("|"),r=cs(c);if(+i)r.plan=+i;else delete r.plan;rerender();changed();return}
@@ -4297,7 +4357,7 @@ document.addEventListener("click",e=>{
   if(b.id==="dt-sw"){S.noDates=!S.noDates;if(!S.noDates)delete S.noDates;b.setAttribute("aria-checked",String(!S.noDates));rerender();changed();return}
   if(b.dataset.acc){setAcc(b.dataset.acc);return}
   if(b.id==="th-light"||b.id==="th-dark"){try{localStorage.setItem("fit-theme",b.id.slice(3))}catch(e){}applyTheme();return}
-  if(b.dataset.view){S.view=b.dataset.view;stay("#summary",render);changed();return}
+  if(b.dataset.view){S.view=b.dataset.view;glideWins([winEl("summary")],()=>stay("#summary",render));changed();return}
   if(b.dataset.year||b.dataset.half){const c=cur();toSlot((b.dataset.year||c[0])+(b.dataset.half||c[1]));return}
   // retake keeps a copy of the first attempt, so "Undo" (toast now, or the button on the moved card later) can put it back
   if(b.dataset.retake){const c=b.dataset.retake,r=cs(c);r.prev={taken:r.taken,status:r.status,auto:r.auto,pts:r.pts,extra:r.extra,exam:r.exam,examDate:r.examDate,due:r.due,plan:r.plan,reg:r.reg};
