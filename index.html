@@ -305,10 +305,18 @@ table.sr-only{display:block}
 .sw.pln{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--muted) 55%,transparent) 0 2px,color-mix(in srgb,var(--muted) 20%,transparent) 2px 4px)}
 .credits .phead{align-items:center}
 .credits .phead .grouph{margin:0}
-.crnav{display:flex;align-items:center;gap:10px;font-size:13.5px}
-.crstep{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--paper);color:var(--ink);font-size:16px;line-height:1;cursor:pointer}
-.crstep:hover:not(:disabled){border-color:var(--blue)}
-.crstep:disabled{opacity:.35;cursor:default}
+/* Credits year / semester stepper: one capsule like the view switch above it; the dots show where you are (semesters in pairs per year) */
+.crnav{display:inline-flex;align-items:center;gap:2px;width:fit-content;padding:2px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+.crstep{width:32px;height:32px;display:grid;place-items:center;padding:0;border:0;border-radius:6px;background:none;color:var(--ink);cursor:pointer}
+.crstep svg{width:16px;height:16px}
+.crstep:hover:not(:disabled){background:color-mix(in srgb,var(--ink) 8%,transparent)}
+.crstep:disabled{color:var(--muted);opacity:.4;cursor:default}
+.crcur{display:grid;justify-items:center;gap:4px;min-width:7em;padding:0 8px;font-size:13.5px;line-height:1.15;text-align:center}
+.crcur b{font-weight:600;font-variant-numeric:tabular-nums}
+.crdots,.crdots span{display:flex;gap:4px}.crdots{gap:9px}
+.crdots i{width:6px;height:6px;border-radius:3px;background:color-mix(in srgb,var(--muted) 45%,transparent)}
+.crdots i.on{width:16px;background:var(--pri)}
+@media (prefers-reduced-motion:no-preference){.crstep{transition:background-color .2s}.crstep:active:not(:disabled){transform:scale(.92)}}
 /* history list */
 .hist{display:grid}
 .hico{width:15px;height:15px;vertical-align:-3px;margin-right:6px;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
@@ -870,6 +878,9 @@ a.btn{display:inline-block;text-decoration:none}
 .schm.ok{background:var(--ok-soft);color:var(--ok);border-color:transparent}
 .schm.bad{background:var(--bad-soft);color:var(--bad);border-color:transparent}
 .endl{margin:8px 0 4px;padding-left:18px;display:grid;gap:3px;font-size:13px}
+.schmore{font-size:13px;color:var(--muted)}
+.schmore summary{cursor:pointer;width:fit-content}
+.schmore ul{margin:6px 0 2px;padding-left:18px;display:grid;gap:3px}
 .notelinks:empty{display:none}
 .notelinks{display:flex;flex-wrap:wrap;gap:4px 10px;margin:0;font-size:12.5px}
 .notelinks a{color:var(--blue);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -1054,11 +1065,13 @@ const noFx=()=>perf!=="full";
 const SLOTS=["1W","1S","2W","2S","3W","3S","4W","4S"];
 const P=(en,sk,max,min)=>({en,sk,max,min});
 const EX=(max,min)=>({max,min});
+// examples solved at the board: bonus points on top of the 100 (ILG, IDM: at least 1 for course credit, so up to 103 in all)
+const BOARD=min=>({...P("Examples at the board (bonus)","Príklady pri tabuli (bonus)",3,min),bonus:1});
 const COURSES=[
  // 1st year, winter
- {c:"IDM",id:302514,en:"Discrete Mathematics",sk:"Diskrétna matematika",cr:4,t:"Cr+Ex",k:"C",s:"1W",zeroMax:1,parts:[1,2,3,4,5].map(i=>P("Test "+i,"Písomka "+i,4)),exam:EX(80)},
+ {c:"IDM",id:302514,en:"Discrete Mathematics",sk:"Diskrétna matematika",cr:4,t:"Cr+Ex",k:"C",s:"1W",zeroMax:1,credit:8,parts:[...[1,2,3,4,5].map(i=>P("Test "+i,"Písomka "+i,4)),BOARD(1)],exam:EX(80)},
  {c:"IEL",id:302517,en:"Electronics for Information Technology",sk:"Elektronika pre informačné technológie",cr:6,t:"Cr+Ex",k:"C",s:"1W",credit:12,parts:[P("Labs (6 × 3 pts)","Laboratóriá (6 × 3 b)",18,9),P("Semester project","Semestrálny projekt",12,3),P("Mid-term test","Polsemestrálna písomka",15)],exam:EX(55,27)},
- {c:"ILG",id:302528,en:"Linear Algebra",sk:"Lineárna algebra",cr:5,t:"Cr+Ex",k:"C",s:"1W",zeroMax:1,parts:[1,2,3,4,5].map(i=>P("Test "+i,"Písomka "+i,4)),exam:EX(80)},
+ {c:"ILG",id:302528,en:"Linear Algebra",sk:"Lineárna algebra",cr:5,t:"Cr+Ex",k:"C",s:"1W",zeroMax:1,credit:8,parts:[...[1,2,3,4,5].map(i=>P("Test "+i,"Písomka "+i,4)),BOARD(1)],exam:EX(80)},
  {c:"IUS",id:302578,en:"Introduction to Software Engineering",sk:"Úvod do softvérového inžinierstva",cr:5,t:"Cr+Ex",k:"C",s:"1W",credit:18,parts:[P("Exercises (4 × 3 pts)","Cvičenia (4 × 3 b)",12),P("Homework (ER diagram)","Domáca úloha (ER diagram)",12),P("Team project + defence","Tímový projekt + obhajoba",16)],exam:EX(60,30)},
  {c:"IZP",id:302589,en:"Introduction to Programming Systems",sk:"Základy programovania",cr:7,t:"Cr+Ex",k:"C",s:"1W",credit:25,parts:[P("Computer labs","Počítačové cvičenia",20,12),P("Project 1","Projekt 1",6,1),P("Project 2","Projekt 2",9,1),P("Mid-term test","Polsemestrálna písomka",12)],exam:EX(53,25)},
  // 1st year, summer
@@ -1113,7 +1126,7 @@ function pvState(g){
 const yearCr=y=>allCourses().filter(d=>cs(d.c).taken[0]===String(y)).reduce((a,d)=>a+d.cr,0);
 function yearTarget(){return 30}
 // optional courses that have a known point layout
-const RICH={ISM:{creditUnknown:true,parts:[P("Test 1","Písomka 1",10),P("Test 2","Písomka 2",10),{...P("Examples at the board (bonus)","Príklady pri tabuli (bonus)",3),bonus:1}]}};
+const RICH={ISM:{creditUnknown:true,parts:[P("Test 1","Písomka 1",10),P("Test 2","Písomka 2",10),BOARD()]}};
 function catFind(code,slot){
   for(const s of [slot,...SLOTS]){const x=(CAT[s]||[]).find(r=>r[0]===code);if(x)return x}
   return null;
@@ -1152,7 +1165,7 @@ const T={
   isApply:n=>n?`Fill in ${n} change${n>1?"s":""}`:"Nothing to change",isDone:(n,c)=>`${n} change${n>1?"s":""} from Studis in ${c}`,
   isNote:"Only rows with points are filled in. Each change goes to History.",
   min:"min",exam:"Exam",examAttempts:"Exam attempts",regular:"Regular",resit1:"1st resit",resit2:"2nd resit",
-  needCredit:(n,t)=>`<b>${n} more pts</b> for the course credit`,
+  needCredit:(n,t)=>`<b>${n} more pts</b> for the course credit`,needCrT:(n,t)=>`<b>${n} more pts from tests</b> for the course credit (${t})`,
   creditOk:t=>`<b>Course credit ✓</b>`,
   creditUnknown:"Credit threshold isn't listed.",
   creditSet:"Points needed",
@@ -1177,7 +1190,7 @@ const T={
   gradesH:"Grade scale",yearLbl:"Year",semLbl:"Semester",semCap:{W:"Winter",S:"Summer"},
   retake:"Retake next year",dlTrack:(n,t)=>`on track for ${n} of ${t} credits`,dlLeft:n=>`${n} day${n===1?"":"s"} left until the exam period ends`,dlBefore:n=>`the semester starts in ${n} day${n===1?"":"s"}`,
   dlOver:"this semester is over",dlCaught:"it is catching up with you, collect more points",dlClose:"it is just ahead of you, keep collecting points",dlStudy:p=>`${p}% of your bachelor's study time has passed`,
-  ns:{credit:n=>`${n} pts to the course credit`,part:(p,n)=>`${p}: ${n} more pts needed`,zeros:(l,z,m)=>`${l} test${l===1?"":"s"} left · ${z} of ${m} zero allowed used`,
+  ns:{credit:n=>`${n} pts to the course credit`,creditT:n=>`${n} pts from tests to the course credit`,part:(p,n)=>`${p}: ${n} more pts needed`,zeros:(l,z,m)=>`${l} test${l===1?"":"s"} left · ${z} of ${m} zero allowed used`,
     setThr:"Set the points needed for the course credit",exam:n=>`Exam: you need ${n} pts`,resits:(n,l)=>`Resit: you need ${n} pts · ${l} tries left`,
     lastTry:n=>`Last resit: you need ${n} pts`,toPass:n=>`${n} pts to pass`,waitCr:"Waiting for the course credit",done:g=>g?`Done · grade ${g}`:"Done",
     retake:"Failed · retake it next year",last:"Failed again · contact the study office",optFail:"Failed · optional course, no retake needed"},compH:"Compulsory courses",optH:"Optional courses",optEmpty:"No optional courses in this semester yet.",addOpt:"Add an optional course",
@@ -1221,7 +1234,7 @@ const T={
   isApply:n=>n?`Doplniť ${n} ${n===1?"zmenu":n<5?"zmeny":"zmien"}`:"Nie je čo meniť",isDone:(n,c)=>`${n} ${n===1?"zmena":n<5?"zmeny":"zmien"} zo Studisu v ${c}`,
   isNote:"Doplnia sa len riadky s bodmi. Každá zmena sa zapíše do Histórie.",
   min:"min",exam:"Skúška",examAttempts:"Termíny skúšky",regular:"Riadny",resit1:"1. opravný",resit2:"2. opravný",
-  needCredit:(n,t)=>`Na zápočet chýba <b>${n} b</b>`,
+  needCredit:(n,t)=>`Na zápočet chýba <b>${n} b</b>`,needCrT:(n,t)=>`Na zápočet chýba <b>${n} b z písomiek</b> (${t})`,
   creditOk:t=>`<b>Zápočet ✓</b>`,
   creditUnknown:"Hranica na zápočet nie je uvedená.",
   creditSet:"Potrebné body",
@@ -1246,7 +1259,7 @@ const T={
   gradesH:"Stupnica hodnotenia",yearLbl:"Ročník",semLbl:"Semester",semCap:{W:"Zimný",S:"Letný"},
   retake:"Opakovať budúci rok",dlTrack:(n,t)=>`na dobrej ceste k ${n} z ${t} kreditov`,dlLeft:n=>`do konca skúškového ${n===1?"zostáva 1 deň":n<5?`zostávajú ${n} dni`:`zostáva ${n} dní`}`,dlBefore:n=>`semester začína o ${n} ${n===1?"deň":n<5?"dni":"dní"}`,
   dlOver:"tento semester sa skončil",dlCaught:"dobieha ťa, zbieraj viac bodov",dlClose:"je tesne pred tebou, zbieraj body ďalej",dlStudy:p=>`prešlo ${p} % času tvojho bakalárskeho štúdia`,
-  ns:{credit:n=>`Do zápočtu chýba ${n} b`,part:(p,n)=>`${p}: ešte ${n} b`,zeros:(l,z,m)=>`${l===1?"Zostáva 1 písomka":l<5?`Zostávajú ${l} písomky`:`Zostáva ${l} písomiek`} · nuly ${z} z ${m}`,
+  ns:{credit:n=>`Do zápočtu chýba ${n} b`,creditT:n=>`Do zápočtu chýba ${n} b z písomiek`,part:(p,n)=>`${p}: ešte ${n} b`,zeros:(l,z,m)=>`${l===1?"Zostáva 1 písomka":l<5?`Zostávajú ${l} písomky`:`Zostáva ${l} písomiek`} · nuly ${z} z ${m}`,
     setThr:"Nastav body potrebné na zápočet",exam:n=>`Skúška: potrebuješ ${n} b`,resits:(n,l)=>`Opravný termín: potrebuješ ${n} b · zostávajú ${l} pokusy`,
     lastTry:n=>`Posledný termín: potrebuješ ${n} b`,toPass:n=>`Do splnenia chýba ${n} b`,waitCr:"Čaká sa na zápočet",done:g=>g?`Hotovo · známka ${g}`:"Hotovo",
     retake:"Neúspešné · zopakuj budúci rok",last:"Opäť neúspešné · kontaktuj študijné oddelenie",optFail:"Neúspešné · voliteľný predmet, opakovať netreba"},compH:"Povinné predmety",optH:"Voliteľné predmety",optEmpty:"V tomto semestri zatiaľ nemáš voliteľné predmety.",addOpt:"Pridať voliteľný predmet",
@@ -1315,7 +1328,7 @@ Object.assign(T.en,{
   welT:"Setup guide",welDesc:"Language, theme, year, layout and timetable, step by step.",welReplay:"Replay setup",goBody:"3 failed courses: under the BUT rules your studies end here. If one of them was a mistake, undo it.",goUndo:c=>`Undo the last fail (${c})`,goStay:"Look at my data",goReset:"Start over",crT:"Credits",crV:{sem:"Semester",year:"Year",all:"Whole study"},crPrev:"Previous",crNext:"Next",crPassed:"passed",
   crOver:"<b>3 failed courses:</b> under the BUT rules you can't continue your studies.",crSemNote:y=>`This semester counts toward year ${y}'s minimum of 30 credits.`,
   crMet:n=>`<b>Minimum reached:</b> ${n} credits passed.`,crCant:(n,m)=>`<b>${n} can't be reached:</b> only ${m} credits are still possible here.`,
-  crNeed:(n,m)=>`<b>${n} more credits</b> needed for the minimum · ${m} still open`,cr65:n=>`<b>${n} credits enrolled:</b> FIT allows at most 65 a year.`,
+  crNeed:(n,m)=>`<b>${n} more credits</b> needed for the minimum · ${m} still open`,cr65:n=>`<b>${n} credits enrolled:</b> FIT allows 65 a year; 70 to 80 only with good results, at most 80.`,
   crAll:(p,n)=>`${p} / 180 credits passed · ${n} in your plan`,ccTip:(s,p,g,f)=>`${s}: ${p} passed · ${g} in progress`+(f?` · ${f} failed`:""),semAb:{W:"W",S:"S"},
   winT:{summary:"Progress",upnext:"Up next",dates:"Dates",plan:"Credits",courses:"Courses",ms:"Milestones",hist:"History"},
   layT:"Layout",layDesc:"Move the windows around and hide the ones you don't need.",layEdit:"Edit layout",layBarT:"Editing layout",
@@ -1379,7 +1392,7 @@ Object.assign(T.sk,{
   welT:"Sprievodca nastavením",welDesc:"Jazyk, vzhľad, ročník, rozloženie a rozvrh, krok za krokom.",welReplay:"Spustiť znova",goBody:"3 neúspešné predmety: podľa pravidiel VUT sa tu tvoje štúdium končí. Ak bol niektorý omyl, vráť ho.",goUndo:c=>`Vrátiť posledný neúspech (${c})`,goStay:"Pozrieť moje údaje",goReset:"Začať odznova",crT:"Kredity",crV:{sem:"Semester",year:"Ročník",all:"Celé štúdium"},crPrev:"Predchádzajúci",crNext:"Ďalší",crPassed:"získaných",
   crOver:"<b>3 neúspešné predmety:</b> podľa pravidiel VUT v štúdiu nemôžeš pokračovať.",crSemNote:y=>`Tento semester sa počíta do minima 30 kreditov za ${y}. ročník.`,
   crMet:n=>`<b>Minimum splnené:</b> ${n} kreditov získaných.`,crCant:(n,m)=>`<b>${n} sa už nedá dosiahnuť:</b> zostáva možných len ${m} kreditov.`,
-  crNeed:(n,m)=>`<b>Ešte ${n} kreditov</b> do minima · ${m} ešte otvorených`,cr65:n=>`<b>${n} zapísaných kreditov:</b> FIT dovoľuje najviac 65 za rok.`,
+  crNeed:(n,m)=>`<b>Ešte ${n} kreditov</b> do minima · ${m} ešte otvorených`,cr65:n=>`<b>${n} zapísaných kreditov:</b> FIT dovoľuje 65 za rok; 70 až 80 len s dobrými výsledkami, najviac 80.`,
   crAll:(p,n)=>`${p} / 180 kreditov získaných · ${n} v pláne`,ccTip:(s,p,g,f)=>`${s}: ${p} získaných · ${g} prebieha`+(f?` · ${f} neúspešných`:""),semAb:{W:"Z",S:"L"},
   winT:{summary:"Postup",upnext:"Čo ďalej",dates:"Dátumy",plan:"Kredity",courses:"Predmety",ms:"Míľniky",hist:"História"},
   layT:"Rozloženie",layDesc:"Presúvaj okná a skry tie, ktoré nepotrebuješ.",layEdit:"Upraviť rozloženie",layBarT:"Úprava rozloženia",
@@ -1405,11 +1418,11 @@ Object.assign(T.en,{
   syncHave:"Sync code from another device",syncNew:"Start sync here",syncJoin:"Link with code",syncStop:"Turn off",syncDel:"Also delete the copy in the cloud (your other devices stop syncing too)",
   syncQr:"Scan with the other device's camera",syncFrom:"your synced devices",syncNone:"There is no synced data for this code.",syncFail:"Could not reach the cloud. Try again in a moment.",
   syncGone:"Cloud sync was turned off on another device. Your data stays here.",syncResetNote:"Cloud sync is on, so your other devices are reset too.",
-  schH:"Scholarship",schFail:"failed course",schCant:n=>`only ${n}/20 graded credits`,schNeed:n=>`${n}/20 graded credits so far`,schOk:"eligible",
-  schTip:"Merit scholarship: 20+ credits from graded courses in the semester and every course passed. FIT pays the best 5% of the year by average (the best 2% get more), so there is no fixed cut-off.",
+  schH:"Scholarship",schFail:"failed course",schOpen:n=>`${n} ${n===1?"course":"courses"} still open`,schLast:"2025/26:",schCant:n=>`only ${n}/20 graded credits`,schNeed:n=>`${n}/20 graded credits so far`,schOk:"eligible",
+  schTip:"Merit scholarship: 20+ credits from graded courses in the semester and every course passed. FIT pays the best 5% of the year by average; the best 2% get 3× as much, and it grows in later years. There is no fixed cut-off: the 2025/26 averages that were still paid are only a guide.",schMoreH:"Other scholarships and perks of good results",schMore:["<b>Accommodation:</b> 580 Kč a month if your permanent address is outside Brno-město and Brno-venkov","<b>Social:</b> 5,600 Kč a month (2026) if your family has at most 1.5× the subsistence minimum","<b>Extraordinary:</b> for a red diploma or the dean's thesis prize, work on the faculty's research projects, Erasmus+ stays, helping at faculty events (Gaudeamus, open days) and representing FIT in competitions","<b>Credit limit for a year:</b> 65 for everyone, 70 if you pass every enrolled course (one failed compulsory or PVA / PVT course allowed), 75 with that and an average up to 2.00, 80 up to 1.50","<b>Credit limit for the whole study:</b> 184 for everyone, 189 with at most two failed courses, 194 with none and an average up to 2.00","Good results also give you priority when registering for optional courses and waive the entrance exam for the FIT master's"],
   endH:"Thesis and state exam",endFrom:"Dates follow the FIT calendar for 2026/27, moved to your 3rd year (approximate).",
   endM:["Thesis topic selection","State exam registration","Thesis submission","State exam"],
-  endIn:n=>n<=1?"tomorrow":`in ${n} days`,endNow:"now",endPast:"done",
+  endNow:"now",endPast:"done",
   rdComp:(n,m)=>`Compulsory ${n}/${m}`,rdCr:n=>`Credits ${n}/180`,rdIBT:"Thesis (IBT)",
   y65:(y,n)=>`Year ${y}: ${n}/65 credits`,over65:"over 65",noteLinks:"Links in notes"
 });
@@ -1423,11 +1436,11 @@ Object.assign(T.sk,{
   syncHave:"Synchronizačný kód z iného zariadenia",syncNew:"Zapnúť tu",syncJoin:"Pripojiť kódom",syncStop:"Vypnúť",syncDel:"Vymazať aj kópiu v cloude (ostatné zariadenia sa tiež prestanú synchronizovať)",
   syncQr:"Naskenuj fotoaparátom druhého zariadenia",syncFrom:"tvojich synchronizovaných zariadení",syncNone:"Pre tento kód nie sú v cloude žiadne údaje.",syncFail:"Cloud nie je dostupný. Skús to o chvíľu.",
   syncGone:"Synchronizácia bola vypnutá na inom zariadení. Tvoje údaje tu ostávajú.",syncResetNote:"Synchronizácia je zapnutá, takže sa vymažú aj tvoje ostatné zariadenia.",
-  schH:"Štipendium",schFail:"neúspešný predmet",schCant:n=>`len ${n}/20 kreditov s hodnotením`,schNeed:n=>`zatiaľ ${n}/20 kreditov s hodnotením`,schOk:"máš nárok",
-  schTip:"Prospechové štipendium: 20+ kreditov z predmetov s hodnotením v semestri a všetko urobené. FIT ho dáva 5 % najlepších v ročníku podľa priemeru (2 % najlepších dostanú viac), pevná hranica teda nie je.",
+  schH:"Štipendium",schFail:"neúspešný predmet",schOpen:n=>n===1?"ešte 1 otvorený predmet":n<5?`ešte ${n} otvorené predmety`:`ešte ${n} otvorených predmetov`,schLast:"2025/26:",schCant:n=>`len ${n}/20 kreditov s hodnotením`,schNeed:n=>`zatiaľ ${n}/20 kreditov s hodnotením`,schOk:"máš nárok",
+  schTip:"Prospechové štipendium: 20+ kreditov z predmetov s hodnotením v semestri a všetko urobené. FIT ho dáva 5 % najlepších v ročníku podľa priemeru; 2 % najlepších dostanú 3× viac a vo vyšších ročníkoch je vyššie. Pevná hranica nie je: priemery, ktoré v 2025/26 ešte stačili, sú len orientačné.",schMoreH:"Ďalšie štipendiá a výhody dobrých výsledkov",schMore:["<b>Ubytovacie:</b> 580 Kč mesačne, ak máš trvalé bydlisko mimo Brno-mesto a Brno-vidiek","<b>Sociálne:</b> 5 600 Kč mesačne (2026), ak má tvoja rodina najviac 1,5-násobok životného minima","<b>Mimoriadne:</b> za červený diplom alebo cenu dekana za bakalárku, zapojenie do vedeckých projektov fakulty, výjazd cez Erasmus+, pomoc fakulte pri akciách (Gaudeamus, deň otvorených dverí) a reprezentáciu FIT v súťažiach","<b>Kreditový limit za rok:</b> 65 pre všetkých, 70, ak urobíš všetky zapísané predmety (jeden neúspešný povinný alebo PVA / PVT predmet sa pripúšťa), 75 navyše s priemerom do 2,00, 80 do 1,50","<b>Kreditový limit za celé štúdium:</b> 184 pre všetkých, 189 s najviac dvoma neúspešnými predmetmi, 194 bez neúspešného predmetu a s priemerom do 2,00","Dobré výsledky ti dajú aj prednosť pri registrácii voliteľných predmetov a odpustenie prijímačiek na magisterské štúdium na FIT"],
   endH:"Bakalárka a štátnica",endFrom:"Dátumy podľa kalendára FIT 2026/27, posunuté na tvoj 3. ročník (približne).",
   endM:["Výber témy bakalárky","Prihlasovanie na štátnicu","Odovzdanie bakalárky","Štátnica"],
-  endIn:n=>n<=1?"zajtra":`o ${n} dní`,endNow:"práve teraz",endPast:"hotovo",
+  endNow:"práve teraz",endPast:"hotovo",
   rdComp:(n,m)=>`Povinné ${n}/${m}`,rdCr:n=>`Kredity ${n}/180`,rdIBT:"Bakalárka (IBT)",
   y65:(y,n)=>`${y}. ročník: ${n}/65 kreditov`,over65:"nad 65",noteLinks:"Odkazy v poznámkach"
 });
@@ -1436,7 +1449,7 @@ const TYPE={en:{"Cr+Ex":"Course credit + exam","Ex":"Exam","Cr":"Course credit",
 /* ---------- App version: the newest entry of the version log (data auto-saves do not count) ---------- */
 // like an app release: small fixes go into the current version, a new feature set gets the next number (3.5 → 3.6),
 // a big change starts a new major (3.x → 4.0)
-const APP_VER="4.7.0",APP_DATE="2026-11-15";
+const APP_VER="4.8.0",APP_DATE="2026-11-19";
 // every major version is named after a Brno landmark, the way macOS versions are named after places in California:
 // its x.0 opens with the name in big letters, and the updates after it (x.1, x.2 …) wear the same colours, quieter
 const CODENAMES={4:{n:"Orloj",why:["Named after the astronomical clock on Brno's Freedom Square, because version 4 is all about time: exam dates, deadlines and countdowns.","Pomenovaná podľa orloja na náměstí Svobody v Brne, lebo verzia 4 je celá o čase: termíny skúšok, odovzdania a odpočty."]}};
@@ -1446,6 +1459,18 @@ const codeOf=e=>CODENAMES[parseInt(e.v,10)];
    v = version; major = a major update (glows in the list and opens with its codename); n / i / f = new / improved /
    fixed, each item [English, Slovak] */
 const CHANGELOG=[
+ {v:"4.8.0",d:"2026-11-19",t:["Board points & scholarship guide","Body pri tabuli a sprievodca štipendiom"],
+  n:[["ILG and IDM: a new row for examples solved at the board. Course credit needs at least 8 points from the tests, at most one test with 0 points and at least 1 board point. Board points are a bonus, up to 3, so you can end with up to 103 of 100. The card and the next step say how many points from tests you still need. ILG and IDM you already passed stay passed","ILG a IDM: nový riadok za príklady pri tabuli. Zápočet potrebuje aspoň 8 bodov z písomiek, najviac jednu písomku za 0 bodov a aspoň 1 bod pri tabuli. Body pri tabuli sú bonus, najviac 3, takže môžeš skončiť až so 103 zo 100. Karta aj ďalší krok ukážu, koľko bodov z písomiek ti ešte chýba. ILG a IDM, ktoré už máš urobené, zostanú urobené"],
+     ["ILG and IDM: course credit shows as soon as it is safe, for example with one test left and no zero yet, since even a 0 in it would keep it. With all 5 tests written and under 8 points from them, the course credit is lost and the course turns failed","ILG a IDM: zápočet sa ukáže hneď, keď je istý, napríklad keď zostáva jedna písomka a ešte nemáš nulu, lebo aj 0 v nej by ho nechala. Keď máš napísaných všetkých 5 písomiek a z nich menej ako 8 bodov, zápočet prepadol a predmet je neúspešný"],
+     ["Scholarship: under each semester, the averages that were still paid in 2025/26 and the amounts, for the best 5% and the best 2%; the one your average reaches is in bold. The tip on the line adds that the best 2% get 3× as much, and more in later years","Štipendium: pri každom semestri priemery, ktoré v 2025/26 ešte stačili, a sumy pre 5 % a 2 % najlepších; tá, na ktorú tvoj priemer dosiahne, je tučne. Tip na riadku dodáva, že 2 % najlepších dostanú 3× viac a vo vyšších ročníkoch je vyššie"],
+     ["Scholarship: other scholarships (accommodation, social, extraordinary) and what good results bring, such as a higher credit limit","Štipendium: ďalšie štipendiá (ubytovacie, sociálne, mimoriadne) a čo prinesú dobré výsledky, napríklad vyšší kreditový limit"]],
+  i:[["Credits: the year and semester arrows sit in one control like the view switch, with dots that show which year or semester you are on (the marker flows to the new one when you switch); using the keyboard, the arrow keeps focus after each step","Kredity: šípky pre ročník a semester sú v jednom ovládači ako prepínač pohľadu, s bodkami, ktoré ukazujú, na ktorom ročníku alebo semestri si (značka plynulo prejde na nový); pri klávesnici zostane šípka po každom kroku označená"],
+     ["Credits: more than 65 credits in a year is a warning, not an error, since good results allow up to 80; above 80 it stays an error","Kredity: viac ako 65 kreditov za rok je upozornenie, nie chyba, lebo dobré výsledky dovolia až 80; nad 80 zostáva chybou"]],
+  f:[["Scholarship: the ✓ only shows once every course of the semester is done, not as soon as you have 20 graded credits; until then it says how many courses are still open","Štipendium: ✓ sa ukáže až keď máš urobené všetky predmety semestra, nie hneď pri 20 kreditoch s hodnotením; dovtedy ukazuje, koľko predmetov je ešte otvorených"],
+     ["Scholarship: a course you failed and moved to next year still counts against that semester","Štipendium: predmet, ktorý si neurobil a presunul na budúci rok, sa v tom semestri stále počíta"],
+     ["Thesis and state exam: the dates move ahead to your own 3rd year in year 1 and 2, instead of always showing this year's. Your year comes from the setup guide and your courses, not from the year you look at in Credits","Bakalárka a štátnica: v 1. a 2. ročníku sa termíny posunú na tvoj 3. ročník namiesto tohtoročných. Tvoj ročník sa berie zo sprievodcu nastavením a z tvojich predmetov, nie z ročníka, ktorý si práve pozeráš v Kreditoch"],
+     ["Credits: the year and semester arrows sit in the middle of their buttons","Kredity: šípky ročníka a semestra sú v strede tlačidiel"],
+     ["Slovak: the thesis countdown says \"o 4 dni\", not \"o 4 dní\"","Slovenčina: odpočet pri bakalárke píše „o 4 dni“, nie „o 4 dní“"]]},
  {v:"4.7.0",d:"2026-11-15",t:["Race colours & smoother switching","Farby pretekov a plynulejšie prepínanie"],
   n:[["The progress bar shows the race against the reaper in colour: red while it is far ahead, orange as you close in, yellow when you are level, then from yellow to green as you get closer to the minimum. The colour shifts gradually with your passed credits, or with the credits you are on track for while nothing is passed yet","Lišta postupu ukazuje preteky so smrtkou farbou: červená, kým je ďaleko vpredu, oranžová, keď ju doťahuješ, žltá, keď ste vyrovnaní, a potom zo žltej do zelenej, ako sa blížiš k minimu. Farba sa mení postupne so získanými kreditmi, kým nemáš žiadne, s kreditmi, na ktoré smeruješ"],
      ["Share progress in the Semester minimum view makes a semester card: your credits against the minimum on a neutral bar without the race colours, the averages and the courses with their grades","Zdieľať postup v pohľade Minimum za semester vytvorí kartu semestra: kredity voči minimu na neutrálnej lište bez farieb pretekov, priemery a predmety so známkami"]],
@@ -1802,14 +1827,16 @@ function calc(d){
   const partFails=parts.filter(p=>p.min&& (num(p.val)||0)<p.min);
   const hasCreditStep=d.t==="Cr+Ex"||d.t==="Cr";
   let creditOk=hasCreditStep && (threshold==null?partFails.length===0&&!d.creditUnknown:semPts>=threshold&&partFails.length===0);
-  // zeroMax: course credit needs every test written and at most N of them with 0 points
-  let zeros=0,missing=0;
-  if(d.zeroMax!=null){const base=parts.filter(p=>!p.custom);zeros=base.filter(p=>num(p.val)===0).length;missing=base.filter(p=>num(p.val)==null).length;creditOk=zeros<=d.zeroMax&&missing===0}
+  // zeroMax (ILG, IDM): course credit needs the threshold from the tests alone (bonus rows are no tests), at most N tests
+  // with 0 points and the board minimum. It is given as soon as it can't be lost: a test not written yet counts as a zero
+  let zeros=0,missing=0,credPts=semPts;
+  if(d.zeroMax!=null){const base=parts.filter(p=>!p.custom&&!p.bonus);zeros=base.filter(p=>num(p.val)===0).length;missing=base.filter(p=>num(p.val)==null).length;
+    credPts=base.reduce((a,p)=>a+(num(p.val)||0),0);creditOk=zeros+missing<=d.zeroMax&&(threshold==null||credPts>=threshold)&&!partFails.length}
   // course credit out of reach: every regular part is filled in and even the full points of the parts still open
-  // (bonus or own extra parts) would not reach the threshold
+  // (bonus or own extra parts) would not reach the threshold; with zeroMax only the tests count, so once all are written
   const open=parts.filter(p=>num(p.val)==null);
-  const creditLost=hasCreditStep&&threshold!=null&&d.zeroMax==null&&parts.length>0&&!open.some(p=>!p.bonus&&!p.custom)
-    &&semPts+open.reduce((a,p)=>a+(num(p.max)||0),0)<threshold;
+  const creditLost=hasCreditStep&&threshold!=null&&parts.length>0&&(d.zeroMax!=null?!missing&&credPts<threshold
+    :!open.some(p=>!p.bonus&&!p.custom)&&semPts+open.reduce((a,p)=>a+(num(p.max)||0),0)<threshold);
   const tries=r.exam.map(num);
   const used=tries.filter(x=>x!=null).length;
   const lastExam=[...tries].reverse().find(x=>x!=null);
@@ -1824,7 +1851,7 @@ function calc(d){
   // one box per exam term: X = failed attempt, ✓ = passed
   const marks=tries.map(x=>x==null?"":(x>=exMin&&semPts+x>=50?"ok":"x"));
   const fails=marks.filter(m=>m==="x").length;
-  return {r,parts,semPts,anyPts,threshold,partFails,creditOk,creditLost,tries,used,lastExam,exMin,examOk,total,zeros,missing,passedPts,marks,fails};
+  return {r,parts,semPts,credPts,anyPts,threshold,partFails,creditOk,creditLost,tries,used,lastExam,exMin,examOk,total,zeros,missing,passedPts,marks,fails};
 }
 function stats(){
   const list=allCourses();let passed=0,prog=0,comp=0,elec=0;
@@ -2072,10 +2099,10 @@ function nextStep(d,k,r,vs){
   }
   const needsCredit=d.t==="Cr+Ex"||(d.t==="Cr"&&k.parts.length);
   if(needsCredit&&!k.creditOk){
-    if(d.zeroMax!=null)return t.zeros(k.missing,k.zeros,d.zeroMax);
     if(k.threshold==null&&d.creditUnknown)return t.setThr;
-    const miss=k.threshold!=null?k.threshold-k.semPts:0;
-    if(miss>0)return t.credit(fmt(miss));
+    const miss=k.threshold!=null?k.threshold-k.credPts:0;
+    if(miss>0)return d.zeroMax!=null?t.creditT(fmt(miss)):t.credit(fmt(miss));
+    if(d.zeroMax!=null&&k.zeros+k.missing>d.zeroMax)return t.zeros(k.missing,k.zeros,d.zeroMax);
     const pf=k.partFails[0];if(pf)return t.part(pf.n,fmt(pf.min-(num(pf.val)||0)));
   }
   if(d.exam){
@@ -2134,10 +2161,9 @@ function courseCard(d){
     const thr=k.threshold;
     if(d.zeroMax!=null){
       // one box per allowed zero + one more: a second ✕ means the course credit is lost
-      h+=`<div class="failrow"><span class="k">${t.zeroLbl}</span><span class="strikes" data-x="zero-${id}"${k.zeros?` data-heat="${k.zeros>d.zeroMax?3:k.zeros>=d.zeroMax?2:1}"`:""}>${(()=>{const zs=k.parts.filter(p=>!p.custom&&num(p.val)===0);return Array.from({length:d.zeroMax+1},(_,i)=>`<i class="sb ${i<k.zeros?"x":""}"${i<k.zeros&&zs[i]?tip(t.tipZero(zs[i].n)):""}>${i<k.zeros?"✕":""}</i>`).join("")})()}</span></div>`;
+      h+=`<div class="failrow"><span class="k">${t.zeroLbl}</span><span class="strikes" data-x="zero-${id}"${k.zeros?` data-heat="${k.zeros>d.zeroMax?3:k.zeros>=d.zeroMax?2:1}"`:""}>${(()=>{const zs=k.parts.filter(p=>!p.custom&&!p.bonus&&num(p.val)===0);return Array.from({length:d.zeroMax+1},(_,i)=>`<i class="sb ${i<k.zeros?"x":""}"${i<k.zeros&&zs[i]?tip(t.tipZero(zs[i].n)):""}>${i<k.zeros?"✕":""}</i>`).join("")})()}</span></div>`;
       h+= k.zeros>d.zeroMax?`<div class="verdict bad">${t.zeroBad(k.zeros,d.zeroMax)}</div>`
-        : k.missing?""
-        : `<div class="verdict ok">${t.zeroOk}</div>`;
+        : k.creditOk?`<div class="verdict ok">${t.zeroOk}</div>`:"";
     }
     else if(thr==null&&d.creditUnknown){
       h+=`<div class="verdict info">${t.creditUnknown}<label class="row" style="color:inherit">${t.creditSet} <input type="text" inputmode="decimal" id="cr-${id}" data-f="credit" data-c="${id}" value="${esc(r.credit==null?"":r.credit)}"${dis} style="width:60px"></label></div>`;
@@ -2145,8 +2171,10 @@ function courseCard(d){
     if(thr!=null&&d.zeroMax==null){
       const miss=Math.max(0,thr-k.semPts);
       h+= k.creditOk?`<div class="verdict ok">${t.creditOk(thr)}</div>`:`<div class="verdict warn">${miss>0?t.needCredit(fmt(miss),thr):""}${k.partFails.map(p=>`<span>${t.partMin(esc(p.n),p.min)}</span>`).join("")}</div>`;
-    } else if(k.partFails.length){
-      h+=`<div class="verdict warn">${k.partFails.map(p=>`<span>${t.partMin(esc(p.n),p.min)}</span>`).join("")}</div>`;
+    } else{
+      // here a threshold only comes with zeroMax (ILG, IDM): the points still missing from the tests
+      const miss=thr!=null&&k.zeros<=d.zeroMax?Math.max(0,thr-k.credPts):0;
+      if(miss||k.partFails.length)h+=`<div class="verdict warn">${miss?t.needCrT(fmt(miss),thr):""}${k.partFails.map(p=>`<span>${t.partMin(esc(p.n),p.min)}</span>`).join("")}</div>`;
     }
   }
   if(crOnly&&!k.parts.length) h+=`<div class="src">${t.crOnly}</div>`;
@@ -2438,6 +2466,7 @@ function slotSum(sl){
   const ds=allCourses().filter(d=>cs(d.c).taken===sl),s=f=>ds.filter(d=>f(cs(d.c).status)).reduce((a,d)=>a+d.cr,0);
   return {sl,p:s(x=>x==="passed"),g:s(x=>x==="enrolled"||x==="credit"),n:s(x=>x==="planned"),f:s(x=>x==="failed")};
 }
+const chev=d=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d<0?"M15.5 5 8.5 12l7 7":"M8.5 5l7 7-7 7"}"/></svg>`;
 function creditsHtml(){
   const t=L(),v=S.crView||"year",c=cur(),y=c[0];
   const seg=`<div class="seg slide" data-key="crview" role="group" aria-label="${t.crT}">${["sem","year","all"].map(k=>`<button type="button" data-crv="${k}" aria-pressed="${v===k}">${t.crV[k]}</button>`).join("")}</div>`;
@@ -2450,7 +2479,8 @@ function creditsHtml(){
   const P=rows.reduce((a,x)=>a+x.p,0),G=rows.reduce((a,x)=>a+x.g,0),N=rows.reduce((a,x)=>a+x.n,0),F=rows.reduce((a,x)=>a+x.f,0);
   const max=Math.max(30,...rows.map(x=>x.p+x.g+x.n+x.f)),pc=x=>x/max*100,anyF=F>0;
   const ys=slotsShown(),i=ys.indexOf(c),step=v==="sem"?1:2;
-  h+=`<div class="crnav"><button type="button" class="crstep" data-crstep="-1" aria-label="${t.crPrev}"${i-step<0?" disabled":""}>‹</button><b>${v==="sem"?slotName(c):t.yearN(y)}</b><button type="button" class="crstep" data-crstep="1" aria-label="${t.crNext}"${i+step>=ys.length?" disabled":""}>›</button></div>`;
+  const dots=[...new Set(ys.map(s=>s[0]))].map(yy=>`<span>${(v==="sem"?ys.filter(s=>s[0]===yy):[yy]).map(s=>`<i${s===(v==="sem"?c:y)?' class="on"':""}></i>`).join("")}</span>`).join("");
+  h+=`<div class="crnav" role="group" aria-label="${t.crT}"><button type="button" class="crstep" data-crstep="-1" aria-label="${t.crPrev}"${i-step<0?" disabled":""}>${chev(-1)}</button><span class="crcur"><b aria-live="polite">${v==="sem"?slotName(c):t.yearN(y)}</b><span class="crdots" aria-hidden="true">${dots}</span></span><button type="button" class="crstep" data-crstep="1" aria-label="${t.crNext}"${i+step>=ys.length?" disabled":""}>${chev(1)}</button></div>`;
   h+=rows.map(x=>`<div class="prow"><span class="plbl">${t.semCap[x.sl[1]]}</span><div class="ptrack" data-sl="${x.sl}" role="img" aria-label="${slotName(x.sl)}: ${x.p} ${t.ccPass}, ${x.g} ${t.ccProg}, ${x.n} ${t.planPlan}${x.f?`, ${x.f} ${t.ccFail}`:""}">
       ${x.p?`<b class="pseg pass" style="width:${pc(x.p)}%"></b>`:""}${x.g?`<b class="pseg prog" style="width:${pc(x.g)}%"></b>`:""}${x.n?`<b class="pseg pln" style="width:${pc(x.n)}%"></b>`:""}${x.f?`<b class="pseg fail" style="width:${pc(x.f)}%" title="${t.planLost(x.f)}"></b>`:""}</div>
       <span class="pval mono"><b>${x.p}</b> ${t.crPassed}${x.f?`<span class="pf">✕ ${x.f}</span>`:""}</span></div>`).join("");
@@ -2474,8 +2504,8 @@ function creditsHtml(){
   const ex=open.filter(d=>d.exam&&cs(d.c).status!=="planned").map(d=>3-planOf(calc(d),cs(d.c))).filter(n=>n>0);
   if(fl<3&&ex.length)h+=`<p class="pmut">${t.budget(ex.reduce((a,n)=>a+n,0),ex.length,3-fl)}</p>`;
   if(v==="year"&&fl<3){const e=yearCr(y);if(e>0&&e<60)h+=`<p class="pmut">${t.crHalf(e,Math.ceil(e/2))}</p>`}
-  if(v==="year"&&P+G+N+F>65)h+=`<div class="verdict bad">${t.cr65(P+G+N+F)}</div>`;
-  if(fl<3)h+=rows.map(x=>scholarLine(x.sl)).join("");
+  if(v==="year"&&P+G+N+F>65)h+=`<div class="verdict ${P+G+N+F>80?"bad":"warn"}">${t.cr65(P+G+N+F)}</div>`;
+  if(fl<3){const sc=rows.map(x=>scholarLine(x.sl)).join("");if(sc)h+=sc+schMore()}
   if(v==="year"&&y==="3")h+=endHtml();
   return h+`</div>`;
 }
@@ -2483,23 +2513,35 @@ function creditsHtml(){
 // semester's weighted average (cut, not rounded, after the 2nd decimal; the best 2% get more), with 20+ credits from graded
 // courses in the semester and every enrolled course passed, so there is no fixed average to aim at
 const avgCut=v=>Math.floor(v*100+1e-9)/100;
+// what it took in 2025/26 (IUS 2026/27, lecture 7, "Studijní koutek"): the worst average still paid and the amount in Kč,
+// best 5% then best 2%, per year and semester; the slide has no row for the 3rd year's summer
+const SCH25={"1W":[[1.35,8072],[1.11,24216]],"1S":[[1.34,7638],[1.15,22915]],"2W":[[1.60,8791],[1.30,26373]],"2S":[[1.54,8321],[1.30,24963]],"3W":[[1.39,8636],[1.19,25909]]};
 function scholarLine(sl){
   const t=L(),ds=allCourses().filter(d=>cs(d.c).taken===sl),a=avgOf(ds);if(!ds.length)return "";
-  const gr=ds.filter(d=>d.t!=="Cr"),sum=f=>gr.filter(d=>f(cs(d.c).status)).reduce((x,d)=>x+d.cr,0);
-  const gP=sum(x=>x==="passed"),gO=sum(x=>["enrolled","credit","planned"].includes(x));
-  // ✓ eligible, ✕ out for this semester, ○ still open
-  const [k,m]=ds.some(d=>cs(d.c).status==="failed")?["bad",t.schFail]:gP>=20?["ok",t.schOk]:gP+gO>=20?["",t.schNeed(gP)]:["bad",t.schCant(gP+gO)];
-  return `<p class="pmut sch" title="${t.schTip}"><i class="schm ${k}" aria-hidden="true">${k==="ok"?"✓":k==="bad"?"✕":"○"}</i><span><b>${t.schH} · ${t.semCap[sl[1]]}</b> · ${m}${a?` · ⌀ ${avgFmt(avgCut(a.v))}`:""}</span></p>`;
+  const gr=ds.filter(d=>d.t!=="Cr"),sum=f=>gr.filter(d=>f(cs(d.c).status)).reduce((x,d)=>x+d.cr,0),run=x=>["enrolled","credit","planned"].includes(x);
+  const gP=sum(x=>x==="passed"),gO=sum(run),open=ds.filter(d=>run(cs(d.c).status)).length;
+  // a course failed here and moved on to a retake still counts against this semester (same slot as unretake goes back to)
+  const failed=ds.some(d=>cs(d.c).status==="failed")||allCourses().some(d=>{const r=cs(d.c);return r.enroll===2&&(r.prev?r.prev.taken:SLOTS[SLOTS.indexOf(r.taken)-2])===sl});
+  // ✓ eligible (every course done), ✕ out for this semester, ○ still open
+  const [k,m]=failed?["bad",t.schFail]:gP+gO<20?["bad",t.schCant(gP+gO)]:open?["",gP<20?t.schNeed(gP):t.schOpen(open)]:["ok",t.schOk];
+  const av=a&&avgCut(a.v),lc=S.lang==="sk"?"sk-SK":"en-GB";
+  const ref=(SCH25[sl]||[]).map(([c,kc])=>{const x=`⌀ ≤ ${avgFmt(c)}: ${kc.toLocaleString(lc)} Kč`;return k!=="bad"&&av&&av<=c?`<b>${x}</b>`:x}).join(", ");
+  return `<p class="pmut sch" title="${t.schTip}"><i class="schm ${k}" aria-hidden="true">${k==="ok"?"✓":k==="bad"?"✕":"○"}</i><span><b>${t.schH} · ${t.semCap[sl[1]]}</b> · ${m}${a?` · ⌀ ${avgFmt(av)}`:""}${ref?`<br><small>${t.schLast} ${ref}</small>`:""}</span></p>`;
 }
+// other scholarships and what good results bring (IUS 2026/27, lecture 7, the two slides after the table above)
+function schMore(){const t=L();return `<details class="schmore"><summary>${t.schMoreH}</summary><ul>${t.schMore.map(x=>`<li>${x}</li>`).join("")}</ul></details>`}
 // 3BIT dates in the FIT calendar 2026/27 (fit.vut.cz/study/calendar/2026): thesis topic selection 23-30 Sep 2026, state
 // exam registration 2-14 Feb 2027, thesis submission 12 May 2027, state exam 14-18 Jun 2027; a student in year 1 or 2
-// now sees them moved ahead to their 3rd year (same weekdays, like calOf)
+// now sees them moved ahead to their 3rd year (same weekdays, like calOf). The section only shows with Year 3 picked in
+// Credits, which moves cur() there too. Your year: the one picked in setup (S.me) or the latest with a compulsory course
+// you have started, whichever is later (records are made at 1W before setup, and an optional course added to the year on
+// screen starts there as enrolled). shortcut: S.me is a year of 2026/27; when CAL0 / END0 move on, add the years since
 const END0=[["2026-09-23","2026-09-30"],["2027-02-02","2027-02-14"],["2027-05-12"],["2027-06-14","2027-06-18"]];
 function endHtml(){
-  const t=L(),sh=Math.max(0,3-+cur()[0])*364*864e5,now=Date.now(),day=864e5,st=stats(),cm=COURSES.filter(d=>d.k==="C").reduce((a,d)=>a+d.cr,0);
+  const t=L(),me=Math.max(S.me||0,...allCourses().filter(d=>d.k==="C").map(d=>S.courses[d.c]).filter(r=>r&&r.status!=="planned").map(r=>+r.taken[0]))||+cur()[0],sh=Math.max(0,3-me)*364*864e5,now=Date.now(),day=864e5,st=stats(),cm=COURSES.filter(d=>d.k==="C").reduce((a,d)=>a+d.cr,0);
   const f=ms=>new Date(ms).toLocaleDateString(S.lang==="sk"?"sk-SK":"en-GB",{day:"numeric",month:"short",year:"numeric"});
   const li=END0.map((r,i)=>{const a=Date.parse(r[0]+"T00:00:00")+sh,b=Date.parse(r[r.length-1]+"T00:00:00")+sh+day;
-    return `<li><b>${t.endM[i]}</b> · ${f(a)}${r[1]?` – ${f(b-day)}`:""} · <span class="mono">${now>=b?t.endPast:now>=a?t.endNow:t.endIn(Math.ceil((a-now)/day))}</span></li>`}).join("");
+    return `<li><b>${t.endM[i]}</b> · ${f(a)}${r[1]?` – ${f(b-day)}`:""} · <span class="mono">${now>=b?t.endPast:now>=a?t.endNow:t.dueIn(Math.ceil((a-now)/day))}</span></li>`}).join("");
   const chip=(ok,s)=>`<span class="pvchip${ok?" ok":""}">${ok?"✓ ":""}${s}</span>`;
   return `<h4 class="endh">${t.endH}</h4><div class="pvreq">${chip(st.comp>=cm,t.rdComp(st.comp,cm))}${chip(pvState("A").k==="ok",t.pvA)}${chip(pvState("T").k==="ok",t.pvT)}${chip(cs("IBT").status==="passed",t.rdIBT)}${chip(st.passed>=180,t.rdCr(st.passed))}</div>
     <ul class="endl">${li}</ul>${sh?`<p class="pmut">${t.endFrom}</p>`:""}`;
@@ -3006,7 +3048,7 @@ function openWelcome(){
     // the switch is flipped in place so its marker slides; the page behind redraws once it has slid (a redraw during the
     // slide would freeze it). Each window then grows or shrinks from its old height while its new content fades in, so
     // the windows below glide (year 1's Progress is taller than year 2's, for one) instead of jumping
-    if(b.dataset.wy||b.dataset.wh){const c=cur();S.current=(b.dataset.wy||c[0])+(b.dataset.wh||c[1]);
+    if(b.dataset.wy||b.dataset.wh){const c=cur();S.current=(b.dataset.wy||c[0])+(b.dataset.wh||c[1]);if(b.dataset.wy)S.me=+b.dataset.wy;
       b.parentNode.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",String(x===b)));syncSegs();
       clearTimeout(welPage);welPage=setTimeout(()=>glideWins(winsShown(),()=>{render();changed()}),noMotion()?0:330);return}
     if(b.dataset.wwin){const l=lay();l.off[b.dataset.wwin]=!l.off[b.dataset.wwin];S.layout={order:l.order,off:l.off};applyLayoutAnim();changed();b.setAttribute("aria-checked",String(!l.off[b.dataset.wwin]));presetSync();return}
@@ -3575,8 +3617,19 @@ document.addEventListener("focusin",e=>{const c=e.target.closest&&e.target.close
 document.addEventListener("focusout",e=>{const p=e.target.closest&&e.target.closest(".ccplot");if(p&&!p.contains(e.relatedTarget))ccHide(p)});
 
 /* ---------- Windows: the plan, chart and milestones each have their own window ---------- */
+// the pill under the Credits stepper flows from the year or semester shown before to the new one: the redraw makes new
+// dots, so the old one shrinks while the new one grows (same view only; switching views just glides the window)
+let dotPrev=null;
+function dotMorph(){
+  const ds=[...document.querySelectorAll("#planbox .crdots i")],i=ds.findIndex(d=>d.classList.contains("on")),v=S.crView||"year",p=dotPrev;
+  dotPrev=i<0?null:{v,i};
+  if(!p||p.v!==v||p.i===i||i<0||!ds[p.i]||noMotion()||!ds[i].offsetParent)return;
+  // read before animating: a computed style is live and would hand back the animated value
+  const look=d=>{const c=getComputedStyle(d);return {width:c.width,backgroundColor:c.backgroundColor}},on=look(ds[i]),off=look(ds[p.i]),ease={duration:480,easing:"cubic-bezier(.2,.8,.2,1)"};
+  ds[p.i].animate([on,off],ease);ds[i].animate([off,on],ease);
+}
 function renderSide(){
-  document.getElementById("planbox").innerHTML=creditsHtml();queueMicrotask(syncSegs);
+  document.getElementById("planbox").innerHTML=creditsHtml();dotMorph();queueMicrotask(syncSegs);
   document.getElementById("msbox").innerHTML=badgesHtml();
   const gr=document.querySelector("#foot .grades");if(gr)gr.innerHTML=gradeChips();
 }
@@ -4320,7 +4373,8 @@ document.addEventListener("click",e=>{
   if(b.dataset.upmore){upAll=!upAll;renderUpNext();return}
   if(b.dataset.crv){S.crView=b.dataset.crv;crMorph(()=>stay("#planbox",renderSide));changed();return}
   if(b.dataset.crstep){const d=+b.dataset.crstep,c=cur(),v=S.crView||"year",ys=slotsShown();
-    const i=ys.indexOf(c),j=v==="sem"?i+d:i+2*d;if(j<0||j>=ys.length)return;S.current=ys[j];crMorph(()=>stay("#planbox",render));changed();return}
+    const i=ys.indexOf(c),j=v==="sem"?i+d:i+2*d;if(j<0||j>=ys.length)return;const kb=document.activeElement===b;S.current=ys[j];crMorph(()=>stay("#planbox",render));changed();
+    if(kb){const nb=[...document.querySelectorAll("#planbox [data-crstep]")];(nb.find(x=>x.dataset.crstep===String(d)&&!x.disabled)||nb.find(x=>!x.disabled))?.focus({preventScroll:true})}return}
   if(b.dataset.datesmore){datesAll=!datesAll;renderDates();return}
   if(b.dataset.ics){exportIcs();return}
   if(b.dataset.plan){const [c,i]=b.dataset.plan.split("|"),r=cs(c);if(+i)r.plan=+i;else delete r.plan;rerender();changed();return}
@@ -4404,6 +4458,8 @@ function migrate(){
     r.extra=r.extra.filter(x=>{const m=/^(test|písomka)\s*([1-5])$/i.exec(x.n.trim());if(!m)return true;r.pts["p"+(m[2]-1)]=x.val;delete r.pts[x.id];return false});
   }
   S.idm5=1;
+  // ILG and IDM credit now needs a board point: a course already passed on its points keeps that status
+  if(!S.board1){for(const c of ["ILG","IDM"])if(S.courses[c]&&S.courses[c].status==="passed")delete S.courses[c].auto;S.board1=1}
   // Milestones became an opt-in window: switch it off once for everyone, after that it stays as the user sets it
   if(!S.msOpt){if(S.layout&&S.layout.off)delete S.layout.off.ms;S.msOpt=1}
   // Up next became opt-in once Dates arrived (both listed the same deadlines): off once for everyone, then as the user sets it
