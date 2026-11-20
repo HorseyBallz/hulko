@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hulko</title>
+<style>body{background:#f4f6f8}@media(prefers-color-scheme:dark){body{background:#0f151d}}</style>
+<script>
+// hulko.xyz moved to fit.hulko.xyz, which has its own browser storage. hulko.xyz forwards here (functions/_middleware.js); if this
+// browser has no tracker here yet, the data it saved on hulko.xyz is copied over via the hidden hulko.xyz/export, then the tracker opens.
+let to="/";try{const u=new URL(new URLSearchParams(location.search).get("to")||"/",location.origin);if(u.origin===location.origin)to=u.pathname+u.search}catch(e){}
+const go=()=>location.replace(to+location.hash);
+let has=true;try{has=localStorage.getItem("fit-index-state-v1")!==null}catch(e){}
+if(has)go();else{
+  addEventListener("message",e=>{
+    if(e.origin!=="https://hulko.xyz")return;
+    // never overwrites what this site already has
+    try{for(const[k,v]of Object.entries(e.data||{}))if(k.startsWith("fit-")&&typeof v==="string"&&localStorage.getItem(k)===null)localStorage.setItem(k,v)}catch(e){}
+    go();
+  });
+  setTimeout(go,5000);
+  addEventListener("DOMContentLoaded",()=>{const f=document.createElement("iframe");f.hidden=true;f.src="https://hulko.xyz/export";document.body.append(f)});
+}
+</script>
+<body></body></html>

@@ -4,7 +4,7 @@
 
 **Hulko** is a study index for **Bachelor in Information Technology (BIT)** students at the Faculty of Information Technology, Brno University of Technology (FIT VUT / BUT). Enter your points and it works out credits, grades and what you still need.
 
-### ▶ Open it: **[hulko.xyz](https://hulko.xyz)**
+### ▶ Open it: **[fit.hulko.xyz](https://fit.hulko.xyz)**
 
 The hosted site is paused for now. Until it is back, [run it yourself](#run-it-yourself).
 
@@ -61,7 +61,7 @@ The code is open source under the [MIT License](LICENSE). The faculty logo files
 
 **Hulko** je študijný index pre študentov **bakalárskeho programu Informačné technológie (BIT)** na Fakulte informačních technologií VUT v Brne. Zadáš body a on spočíta kredity, známky a čo ti ešte chýba.
 
-### ▶ Otvoriť: **[hulko.xyz](https://hulko.xyz)**
+### ▶ Otvoriť: **[fit.hulko.xyz](https://fit.hulko.xyz)**
 
 Stránka je teraz pozastavená. Kým sa vráti, [spusti si ho sám](#spustenie-u-seba).
 

@@ -1,0 +1,7 @@
+<!doctype html><meta charset="utf-8"><title>Hulko</title>
+<script>
+// Runs on hulko.xyz inside the hidden frame of fit.hulko.xyz/import: hands it this browser's saved Hulko data (fit-* keys).
+// postMessage's target origin means only a page on fit.hulko.xyz ever receives it.
+const d={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith("fit-"))d[k]=localStorage.getItem(k)}}catch(e){}
+parent.postMessage(d,"https://fit.hulko.xyz");
+</script>
